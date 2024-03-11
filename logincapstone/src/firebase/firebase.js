@@ -8,6 +8,7 @@ import {getFirestore,doc, setDoc,getDoc} from "firebase/firestore"; //firebase c
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// firebaseConfig 절대 수정 금지 
 const firebaseConfig = {
   apiKey: "AIzaSyBDYtOc-dIWJTJjYBg-dBnpmABqbdr2xMI",
   authDomain: "licenseweb-82277.firebaseapp.com",
