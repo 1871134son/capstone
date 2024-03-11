@@ -8,14 +8,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button'; //Button import
-import SignInPage from './SignIn.js'
-import SignUpPage from './SignUp.js';
+import SignInPage from './routes/SignIn.js'
+import SignUpPage from './routes/SignUp.js';
+import HomePage from './routes/Home.js';
+
 function App() {
   return (
     <div className="App">
 
        <NavigationBar></NavigationBar>
         <Routes>
+          <Route path="/" element={<HomePage></HomePage>}></Route>
           <Route path="/signin" element={<SignInPage></SignInPage>}></Route>
           <Route path="/signup" element={<SignUpPage></SignUpPage>}></Route>
         </Routes>
