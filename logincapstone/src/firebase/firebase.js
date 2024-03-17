@@ -45,28 +45,31 @@ async function signIn(email, password) {
   }
 
   async function getUserName() {
-    const user = auth.currentUser;
-    // 사용자가 로그인한 경우
-    if (user) {
-      // 'users' 컬렉션에서 현재 사용자의 uid와 일치하는 문서를 조회합니다.
-      const userRef = doc(db, "user", user.uid);
-      const docSnap = await getDoc(userRef);
-  
-      if (docSnap.exists()) {
-        // 문서에서 'name' 필드(사용자 이름)를 가져와 출력합니다.
-        console.log("User name:", docSnap.data().userName);
-        return docSnap.data().userName;
-      } else {
-        // 문서가 존재하지 않는 경우
-        console.log("No such document!");
-        return null;
-      }
-    } else {
-      // 사용자가 로그인하지 않은 경우
-      console.log("No user logged in");
-      return null;
-    }
-  }
+      
+        const user = auth.currentUser;
+        // 사용자가 로그인한 경우
+        if (user) {
+          // 'users' 컬렉션에서 현재 사용자의 uid와 일치하는 문서를 조회합니다.
+          const userRef = doc(db, "user", user.uid);
+          const docSnap = await getDoc(userRef);
+      
+          if (docSnap.exists()) {
+            // 문서에서 'name' 필드(사용자 이름)를 가져와 출력합니다.
+            console.log("User name:", docSnap.data().userName);
+            return docSnap.data().userName;
+          } else {
+            // 문서가 존재하지 않는 경우
+            console.log("유저 정보가 존재하지 않습니다.");
+            return null;
+          }
+        } else {
+          // 사용자가 로그인하지 않은 경우
+          console.log("No user logged in");
+          return null;
+        }
+      
+    
+  }//getUserName()
   
 
 async function signUp(email,password,userName,licenses){
