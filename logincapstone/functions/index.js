@@ -2,13 +2,13 @@
 const {logger} = require("firebase-functions");
 const {onRequest} = require("firebase-functions/v2/https");
 const {onDocumentCreated} = require("firebase-functions/v2/firestore");
-const {fetch} =require("node-fetch");
+// const fetch =require("node-fetch");
 // The Firebase Admin SDK to access Firestore.
+const axios = require("axios");
 const cors = require("cors");
 const corsHandler = cors({origin: true});
 const {initializeApp} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
-const {parseString} = require("xml2js");
 
 initializeApp();
 
@@ -28,25 +28,42 @@ exports.addmessage = onRequest((req, res) => {
 });
 
 // 공공데이터 포탈에서 자격증 종류들을 가져옵니다.
-exports.getLicenseList = onRequest((req, res)=>{
+exports.getExamSchedule = onRequest((req, res)=>{
   corsHandler(req, res, async ()=>{
-    const decode ="6PMqd5hBgTpaH/fWJRCMqwhHge5t9MGlec7L7PTtZT"+
-    "jRnNeehtmtlT1BHq3axWF6vV//mdLc8g5grpS4EtNPrg==";
+    console.log("Called 자격증시험일정");
+    const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
+    "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
     const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryListNationalQualifcationSVC/getList";
     const queryParams = "?" + encodeURIComponent("serviceKey") +
      "=" + encodeURIComponent(decode);
-
     try {
-      const response = await fetch(url + queryParams);
-      const xmlText = await response.text();
-      parseString.parseString(xmlText, (error, result) =>{
-        if (error) {
-          res.status(500).send("Error parsing XML");
-          return;
-        }
-        // XML을 JSON으로 변환, 결과 클라이언트에 전달.
-        res.json(result);
-      });
+      const response = await axios.get(url + queryParams, {
+        responseType: "text"});
+      const dataText = response.data;
+      console.log("가져온데이터: ", dataText);
+    } catch (error) {
+      console.error("Error fetching data", error);
+      res.status(500).send("Error fetching data");
+    }
+  });
+});
+
+exports.getLicenseList2 = onRequest((req, res)=>{
+  corsHandler(req, res, async ()=>{
+    console.log("Called getLicenseList2");
+    const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
+    "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
+    const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryListNationalQualifcationSVC/getList";
+    const queryParams = "?" + encodeURIComponent("serviceKey") +
+     "=" + encodeURIComponent(decode);
+    try {
+      const response = await axios.get(url + queryParams, {
+        responseType: "text"});
+      const xmlData = response.data;
+      console.log("response의 타입-->", typeof response);
+      console.log("XML데이터 타입은 --> ", typeof xmlData);
+      console.log("XML Data입니다: ", xmlData);
+      res.json({data: {xmlData}});
     } catch (error) {
       console.error("Error fetching data", error);
       res.status(500).send("Error fetching data");

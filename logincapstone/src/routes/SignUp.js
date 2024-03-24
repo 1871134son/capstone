@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {signUp} from "../firebase/firebase.js"
+import {getLicenseList, signUp} from "../firebase/firebase.js"
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import {fetchingLicenseList} from '../redux/store.js';
 function SignUpPage(){
     const[currentStep,setCurrentStep] = useState(1);
-
-
+   
 
 
     function handleContinue(){
@@ -72,7 +72,18 @@ function SignUpPage(){
       const [confirm,setConfirm] = useState('');
       const [licenses,setLicenses] = useState(['없음','없음','없음']);
       const navigate = useNavigate();
+      let dispatch = useDispatch();
+      const licenseList = useSelector((state)=> state.licenseList.licenseList)//redux store.js 에서 licenseList 를 가져와준다. 
 
+      useEffect(()=>{
+        dispatch(fetchingLicenseList());
+      },[dispatch]);
+
+      useEffect(() => {
+        // 상태 업데이트 후 licenseList가 업데이트되면 여기에서 확인할 수 있습니다.
+        console.log("업데이트된 licenseList -> ", licenseList);
+      }, [licenseList]); // licenseList가 변경될 때마다 이 useEffect가 호출됩니다.
+    
       const handleSubmit = (event) => {
         event.preventDefault();
         if(confirmCheck(password,confirm)){
@@ -141,19 +152,19 @@ function SignUpPage(){
                 {Array.from({ length: 3 }).map((_, index) => (
                 <Form.Group className="mb-3" controlId={`formGroupLicense${index + 1}`} style={{ textAlign: "left" }} key={index}>
                   <Form.Label style={{ fontWeight: "bold" }}>관심 있는 자격증{index + 1}</Form.Label>
-                  <Form.Select 
-                    aria-label="Default select example"
+                  <Form.Control 
+                    type = "text"
+                    list = "license_id"
                     value={licenses[index]} // 현재 상태에 따라 선택값을 설정
                     onChange={(e) => handleSelectChange(index, e.target.value)} // 변경 이벤트 핸들러
-                  >
-                    <option value="없음">없음</option>
-                    <option value="정보처리기사">정보처리기사</option>
-                    <option value="빅데이터분석기사">빅데이터분석기사</option>
-                    <option value="정보보안기사">정보보안기사</option>
-                    <option value="전기기사">전기기사</option>
-                    <option value="전기공사기사">전기공사기사</option>
-                    <option value="정보관리기술사">정보관리기술사</option>
-                  </Form.Select>
+                  />
+                 <datalist id="license_id">
+                    {licenseList &&
+                      licenseList.map((license, index) => (
+                        <option key={index} value={license}>{license}</option>
+                      ))
+                    }
+                  </datalist>                
                 </Form.Group>
               ))}
 

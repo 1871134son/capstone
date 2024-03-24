@@ -1,7 +1,8 @@
-import { getUserName,auth } from "../firebase/firebase";
+import { getUserName,auth,getLicenseList } from "../firebase/firebase";
 import { useState,useEffect } from 'react';
 import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
 import axios from "axios";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 
 function HomePage(){
@@ -83,17 +84,19 @@ function AddMessage(props) {
         }
       }//sendMessage
 
-      const getLicense = async()=>{ 
-        try{
-            const response = await fetch("https://getlicenselist-gpmqc3at3q-uc.a.run.app");
-            const data = await response.json(); //json 데이터 받기. 
-
-            console.log(data);//로그에 출력 하기
-        }
-        catch(error){
-            console.error("에러->",error);
-        }
+      
+      const getLicense = async()=>{  //이 형식대로 cloud function을 호출해야함. 
+        const functions = getFunctions();
+        const getLicenseList = functions.httpsCallable("getLicenseList");
+        console.log("호출합니다.1");
+        getLicenseList()
+        .then((result)=>{
+             // Read result of the Cloud Function.
+             const data = result.data;
+            console.log("Result of cf:"+data);
+        })
       }
+      
 
       const sendMessage2 = async (message) =>{
         if(!message){
@@ -128,9 +131,6 @@ function AddMessage(props) {
             sendMessage2(text)
         }}>Send Message</button>
         
-        <button onClick={()=>{
-            getLicense()
-        }}>getLicense</button>
       </div>
     );
   }//AddMessage()

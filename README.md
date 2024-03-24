@@ -97,8 +97,3 @@ npm install cors
 
 
 
-### xml을 text로 파싱(공공데이터가 xml이라)
-
-```
-npm install xml2js
-```
