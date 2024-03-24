@@ -26,8 +26,8 @@
 .schedule-calendar .text-today .text-current:hover {
   cursor: pointer;
   transition: 0.2s ease-in-out;
-  color: rgb(99, 22, 22);
-  transform: scale(1.03);
+  border-radius: 15px;
+  background-color: #F7D9AB;
 }
 
 .schedule-calendar .days {
@@ -37,12 +37,11 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  font-size: 1.5em; 
+  font-size: 1.3em; 
   margin-bottom: 2%;
-
 }
 
-.schedule-calendar .days .col {
+.schedule-calendar .days .col { /* sun, mon 등 주 함수 */
   width: 13%;
   height: 100%;
   display: flex;
@@ -51,7 +50,8 @@
   align-items: center;
   margin-right: 1%;
   margin-left: -5px;
-  border-radius: 4px;
+  border-radius: 15px;
+  background-color: #F7D9AB;
 }
 
 .schedule-calendar .calendar-list {
@@ -70,11 +70,14 @@
   margin-bottom: 5%;
 }
 
-.schedule-calendar .calendar-list .calendar__item .header { /* 월 함수*/
+.schedule-calendar .calendar-list .calendar__item .header {
   width: 100%;
   height: 10%;
-  text-align: center;
-  font-size: 1.8em;
+  text-align: center; /* Center align the text */
+  font-size: 1.7em;
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 .schedule-calendar .calendar-list .calendar__item .body { /*일자 함수*/
@@ -106,6 +109,15 @@
   z-index: 10000;
   justify-content: flex-start; /* 날짜를 위로 정렬합니다 */
   align-items: flex-start; /* 날짜를 왼쪽으로 정렬합니다 */
+  transition: background-color 0.3s;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col:hover {
+  background-color: lightgray;
+}
+
+.schedule-calendar .body .col.today {
+  background-color: lightgray; /* today background*/
 }
 
 .schedule-calendar .calendar-list .calendar__item .body .row .col span {
@@ -156,3 +168,16 @@
   font-weight: bold;
   color: black;
 }
+
+@font-face {
+  font-family: 'KCC-Hanbit';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/KCC-Hanbit.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.schedule-calendar .calendar-list .calendar__item .header, .schedule-calendar .days .col,
+.schedule-calendar .text-today .text-year {
+  font-family: 'KCC-Hanbit', sans-serif;
+}
+

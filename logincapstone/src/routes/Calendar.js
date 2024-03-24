@@ -36,9 +36,13 @@ const RenderCells = ({ currentMonth, selectedDate }) => {
     let day = startDate;
     let formattedDate = "";
 
+    const today = new Date(); // Get today's date
+
     while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
             formattedDate = format(day, "d");
+            const isToday = isSameDay(day, today); // Check if the current day is today
+
             days.push(
                 <div
                     className={`col cell ${
@@ -53,7 +57,7 @@ const RenderCells = ({ currentMonth, selectedDate }) => {
                             : format(day, "EEEE") === "Saturday"
                             ? "blue-text"
                             : ""
-                    }`}
+                    } ${isToday ? "today" : ""}`} // Add a class if it's today's date
                     key={uuid()}
                 >
                     <span
