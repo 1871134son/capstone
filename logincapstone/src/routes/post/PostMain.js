@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const PostMain = props => {
   return (
     <>
-      <h2 align="center">정보 게시판1</h2>
+      <h2 align="center">정보 게시판2</h2>
       <Link to="/write">
       <Button variant="info">글쓰기</Button>
       </Link>
