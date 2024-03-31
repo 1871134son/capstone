@@ -132,7 +132,7 @@ async function saveLicenseToFireStore(licenseList){ //자격증 리스트를 Fir
   }
 }//saveLicenseToFireStore END
 
-async function fetchLicenseList(){
+async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 배열을 반환
   const licenseList =[];
   try{
     const querySnapShot = await getDocs(collection(db,"license"));
@@ -148,5 +148,74 @@ async function fetchLicenseList(){
 }
 
 
+async function getExamScheduleList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
+  try{
+    const functions =getFunctions(app,"us-central1");
+    const getExamSchedule = httpsCallable(functions,"getExamSchedule");
+      console.log("getExamSchedule() 호출");
+      const result = await getExamSchedule()
+      .then((result)=>{
+           // Read result of the Cloud Function.
+           const jsonResult = result.data.dataText; // JSON형태임. 
+           const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+           console.log("firebase.js -> getExamSchedule() -> jsonData ", jsonData);          
+          })
+  }
+  catch(error){
+    const code = error.code;
+    const message = error.message;
+    const details = error.details;
+    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+    
+  }
+}//end getExamScheduleList
+
+
+async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .
+  try{
+    const functions =getFunctions(app,"us-central1");
+    const getExamFee = httpsCallable(functions,"getExamFee");
+      console.log("getExamFee() 호출");
+      const result = await getExamFee()
+      .then((result)=>{
+           // Read result of the Cloud Function.
+           const jsonResult = result.data.dataText; // JSON형태임. 
+           const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+           console.log("firebase.js -> getExamFeeList() -> jsonData ", jsonData);          
+          })
+  }
+  catch(error){
+    const code = error.code;
+    const message = error.message;
+    const details = error.details;
+    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+    
+  }
+}//end getExamFeeList
+
+
+
+async function getLicenseInfoList(){//자격증정보들을 가져옴
+  try{
+    const functions =getFunctions(app,"us-central1");
+    const getLicenseInfo = httpsCallable(functions,"getLicenseInfo");
+      console.log("getLicenseInfo() 호출");
+      const result = await getLicenseInfo()
+      .then((result)=>{
+           // Read result of the Cloud Function.
+           const jsonResult = result.data.dataText; // JSON형태임. 
+           const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+           console.log("firebase.js -> getLicenseInfo() -> jsonData ", jsonData);          
+          })
+  }
+  catch(error){
+    const code = error.code;
+    const message = error.message;
+    const details = error.details;
+    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+    
+  }
+}//end getExamFeeList
+
 //인증 객체 바깥에서도 사용 가능하게 export
-export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList};
+export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList};

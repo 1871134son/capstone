@@ -31,22 +31,75 @@ exports.addmessage = onRequest((req, res) => {
 exports.getExamSchedule = onRequest((req, res)=>{
   corsHandler(req, res, async ()=>{
     console.log("Called 자격증시험일정");
+    const jmcd = "1320";
     const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
     "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
-    const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryListNationalQualifcationSVC/getList";
-    const queryParams = "?" + encodeURIComponent("serviceKey") +
+    const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getJMList";
+    let queryParams = "?" + encodeURIComponent("serviceKey") +
      "=" + encodeURIComponent(decode);
+    queryParams += "&" + encodeURIComponent("jmCd") +
+    "=" + encodeURIComponent(jmcd);
     try {
       const response = await axios.get(url + queryParams, {
         responseType: "text"});
       const dataText = response.data;
       console.log("가져온데이터: ", dataText);
+      res.json({data: {dataText}});
     } catch (error) {
       console.error("Error fetching data", error);
       res.status(500).send("Error fetching data");
     }
   });
 });
+
+exports.getExamFee = onRequest((req, res)=>{
+  corsHandler(req, res, async ()=>{
+    console.log("Called 자격증 응시료");
+    const jmcd = "1320";
+    const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
+    "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
+    const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getFeeList";
+    let queryParams = "?" + encodeURIComponent("serviceKey") +
+     "=" + encodeURIComponent(decode);
+    queryParams += "&" + encodeURIComponent("jmCd") +
+    "=" + encodeURIComponent(jmcd);
+    try {
+      const response = await axios.get(url + queryParams, {
+        responseType: "text"});
+      const dataText = response.data;
+      console.log("가져온데이터: ", dataText);
+      res.json({data: {dataText}});
+    } catch (error) {
+      console.error("Error fetching data", error);
+      res.status(500).send("Error fetching data");
+    }
+  });
+});
+
+exports.getLicenseInfo = onRequest((req, res)=>{
+  corsHandler(req, res, async ()=>{
+    console.log("Called 자격증 정보 가져오기");
+    const jmcd = "1320";
+    const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
+    "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
+    const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryInformationTradeNTQSVC/getList";
+    let queryParams = "?" + encodeURIComponent("serviceKey") +
+     "=" + encodeURIComponent(decode);
+    queryParams += "&" + encodeURIComponent("jmCd") +
+    "=" + encodeURIComponent(jmcd);
+    try {
+      const response = await axios.get(url + queryParams, {
+        responseType: "text"});
+      const dataText = response.data;
+      console.log("가져온데이터: ", dataText);
+      res.json({data: {dataText}});
+    } catch (error) {
+      console.error("Error fetching data", error);
+      res.status(500).send("Error fetching data");
+    }
+  });
+});
+
 
 exports.getLicenseList2 = onRequest((req, res)=>{
   corsHandler(req, res, async ()=>{

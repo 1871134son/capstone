@@ -160,7 +160,7 @@ function SignUpPage(){
                   />
                  <datalist id="license_id">
                     {licenseList &&
-                      licenseList.map((license, index) => (
+                      licenseList.map((license, index) => ( //데이터 리스트에 자격증 정보를 삽입 
                         <option key={index} value={license}>{license}</option>
                       ))
                     }
