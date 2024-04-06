@@ -30,6 +30,9 @@ const db = getFirestore(app);
 //Navigate사용 
 
 
+//사용자 회원가입 시, license name, jmcd 값을 user collection의 codument에 필드 값을 추가해서 저장함. 
+//현재 사용자의 jmcd 값을 저장, 적합한 값이 있으면, 그만큼 함수를 호출, 그리
+
 async function signIn(email, password) {
     const auth = getAuth();
     try {
@@ -72,7 +75,7 @@ async function signIn(email, password) {
   }//getUserName()
   
 
-async function signUp(email,password,userName,licenses){
+async function signUp(email,password,userName,licenses,jmcds){
     try{
       const userCredential = await createUserWithEmailAndPassword(auth,email,password);
       const user = userCredential.user;
@@ -80,10 +83,9 @@ async function signUp(email,password,userName,licenses){
       /* DB 콜렉션에 유저 정보들 저장, uid로 document 생성 */
       await setDoc(doc(db,"user",user.uid),{
         userName: userName,
-        license0: licenses[0],
-        license1: licenses[1],
-        license2: licenses[2],
+        licenses: licenses,
         email : email,
+        jmcds : jmcds
       });
 
       console.log('User created successfully with email:', user.email);
@@ -106,7 +108,9 @@ async function getLicenseList(){//국가기술자격 목록에서 자격증 목�
              const jsonResult = result.data.xmlData; //xmlData--> JSON형태임. 
              const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
              const licneseNameValue = jsonData.response?.body?.items?.item.map(item => item.jmfldnm); //옵셔널 채이닝, 데이터가 아직 준비되지 않았을 때 안전한 처리를 함. 
-             saveLicenseToFireStore(licneseNameValue);
+             const licenseJmcdValue = jsonData.response?.body?.items?.item.map(item => String(item.jmcd)); //과목 코드 jmcd값을 추출
+             //이유는 모르겠는데, String() 안하면, 몇개는 정수로 몇개는 문자열로 저장됨. 
+             saveLicenseToFireStore(licneseNameValue, licenseJmcdValue);
             })
     }
     catch(error){
@@ -118,27 +122,31 @@ async function getLicenseList(){//국가기술자격 목록에서 자격증 목�
     }
 }//end getLicenseList()
 
-async function saveLicenseToFireStore(licenseList){ //자격증 리스트를 Firebase DB에 저장합니다. 
+async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //자격증 리스트를 Firebase DB에 저장합니다. 
   const licenseCollection = collection(db,"license"); //license collection reference
-  for(const license of licenseList){//licenseList 배열 만큼 반복
-      try{
-        const docRef = await addDoc(licenseCollection,{
-          name: license
-        });
-        console.log("Document written with ID: ", docRef.id);
-      }catch(error){
-        console.error("Error adding document LicenseList: ",error);
-      }
+  for(let i =0; i<licenseList.length; i++){
+    try{
+      const docRef = await addDoc(licenseCollection,{
+        name: licenseList[i],
+        jmcd: licenseJmcdValue[i]
+      });
+      console.log("firebase.js 133: Document written with ID", docRef.id);
+    }catch(error){
+      console.error("Error adding document LicenseList: ",error);
+
+    }
   }
 }//saveLicenseToFireStore END
 
 async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 배열을 반환
-  const licenseList =[];
+  const licenseList =[
+  
+  ];
   try{
     const querySnapShot = await getDocs(collection(db,"license"));
     querySnapShot.forEach((doc) => {
       let docData = doc.data();//문서의 데이터 객체 가져옴.
-      licenseList.push(docData.name);
+      licenseList.push(docData); //객체 배열에 저장 
     });
     console.log("fetchLicenseList 성공!:", licenseList);
   }catch(error){
@@ -148,30 +156,102 @@ async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 �
 }
 
 
-async function getExamScheduleList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
-  try{
-    const functions =getFunctions(app,"us-central1");
-    const getExamSchedule = httpsCallable(functions,"getExamSchedule");
-      console.log("getExamSchedule() 호출");
-      const result = await getExamSchedule()
-      .then((result)=>{
-           // Read result of the Cloud Function.
-           const jsonResult = result.data.dataText; // JSON형태임. 
-           const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
-           console.log("firebase.js -> getExamSchedule() -> jsonData ", jsonData);          
-          })
-  }
-  catch(error){
-    const code = error.code;
-    const message = error.message;
-    const details = error.details;
-    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
-    
-  }
+
+async function getExamScheduleList(){//jmcd 값을 인자로 넘겨주고 해당하는 시험의 값을 가져오고 리턴? addMessage 호출처럼, text 파라미터에 jmcd 값 삽입..?
+  const user = auth.currentUser;
+  if(user){//로그인 상태 
+    const userRef = doc(db,"user",user.uid); 
+    const docSnap = await getDoc(userRef);
+    if(docSnap.exists()){//해당하는 유저의 정보가 DB에 있을 떄 
+      const jmcds = docSnap.data().jmcds;
+      for(let i=0; i<jmcds.length; i++){ 
+        if(jmcds[i]=="empty"){//empty는 회원이 관심있는 자격증이 없는 경우므로 함수를 시행하지 않음. 
+        }
+        else{
+          try{
+            const functions =getFunctions(app,"us-central1");
+            const getExamSchedule = httpsCallable(functions,"getExamSchedule"); 
+              console.log("getExamSchedule() 호출");
+              const result = await getExamSchedule({jmcd:jmcds[i]}); //await 므로, then 안쓰고 바로 사용가능 
+                   // Read result of the Cloud Function. 
+              const jsonResult = result.data.dataText; // JSON형태임. 
+              const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+              console.log("firebase.js -> getExamSchedule() -> jsonData ", jsonData);          
+             
+              //가져온 JSON데이터에서 시험일정들을 추출함. 아래의 데이터들은 모두 배열, 보통 3회차까지 있으므로 거의 0,1,2번 인덱스는 1,2,3회차 시험에 대한 정보들.
+
+              /**필기시험종료일자*/
+              const docExamEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.docexamenddt));
+              /**필기시험시작일자*/
+              const docExamStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.docexamstartdt));
+
+             /**필기시험 합격(예정)자 발표일자*/
+              const docPassDt = jsonData.response?.body?.items?.item.map(item=>String(item.docpassdt));
+
+              /**필기시험원서접수 종료일자*/
+              const docRegEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.docregenddt));
+              /**필기시험원서접수 시작일자*/
+              const docReStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.docregstartdt));
+
+              /**응시자격서류제출 종료일자*/
+              const docSubmitEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.docsubmitenddt));
+              /**응시자격서류제출 시작일자*/
+              const docSubmitStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.docsubmitstartdt));
+
+              /**시험 회차정보 ex.2024년 정기 기사 1회 */
+              const nameOfExam = jsonData.response?.body?.items?.item.map(item=>String(item.implplannm));
+              
+              /**자격증 이름 */
+              const nameOfLicense = jsonData.response?.body?.items?.item.map(item=>String(item.jmfldnm));
+             
+              /**중직무분야 코드 ex.211 */
+              const mdobligfldCode = jsonData.response?.body?.items?.item.map(item=>String(item.mdobligfldcd));
+              /**중직무분야 이름 ex. 정보기술 */
+              const mdobloffldName = jsonData.response?.body?.items?.item.map(item=>String(item.mdobloffldnm));
+
+              /**대직무분야 코드 ex. 21 */
+              const obligfldCode = jsonData.response?.body?.items?.item.map(item=>String(item.obligfldcd));
+              /**대직무분야 이름 ex. 정보통신  */
+              const obligfldName = jsonData.response?.body?.items?.item.map(item=>String(item.obligfldnm));
+
+              /**실기시험 종료 일자 */
+              const pracExamEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracexamenddt));
+              //**실기시험 시작 일자 */
+              const pracExamStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracexamstartdt));
+
+              /**합격자발표 종료일자 */
+              const pracPassEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracpassenddt));
+              /**합격자발표 시작일자 */
+              const pracPassStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracpassstartdt));
+
+              /**실기시험원서접수 종료일자*/
+              const pracCreEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracregenddt));
+              /**실기시험원서접수 시작일자 */
+              const pracCreStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracregstartdt));
+
+
+          }
+          catch(error){
+            const code = error.code;
+            const message = error.message;
+            const details = error.details;
+            console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+            
+          }
+        }
+      }
+    }//if
+    else{ //DB에 정보 없을 때 
+      console.log("DB에 유저 정보가 없습니다! 운영팀에 문의주세요");
+    }//else
+  }//if user End 
+  else{//사용자 로그인 안한 상태 
+    console.log("사용자가 로그아웃 상태입니다. 로그인 해주세요");
+  }//else user End 
 }//end getExamScheduleList
 
 
-async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .
+async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd 값을 인자로 넘겨주고
   try{
     const functions =getFunctions(app,"us-central1");
     const getExamFee = httpsCallable(functions,"getExamFee");
@@ -195,7 +275,7 @@ async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .
 
 
 
-async function getLicenseInfoList(){//자격증정보들을 가져옴
+async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 가져오는게 아니라 jmcd 값을 인자로 넘겨주고, 그걸로 하기. 
   try{
     const functions =getFunctions(app,"us-central1");
     const getLicenseInfo = httpsCallable(functions,"getLicenseInfo");

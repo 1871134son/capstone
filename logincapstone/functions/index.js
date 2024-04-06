@@ -31,7 +31,8 @@ exports.addmessage = onRequest((req, res) => {
 exports.getExamSchedule = onRequest((req, res)=>{
   corsHandler(req, res, async ()=>{
     console.log("Called 자격증시험일정");
-    const jmcd = "1320";
+    const jmcd = req.body.data.jmcd;
+    console.log("jmcd값: ", jmcd);
     const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
     "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
     const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getJMList";

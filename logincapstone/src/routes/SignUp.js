@@ -71,6 +71,7 @@ function SignUpPage(){
       const [userName,setUserName] = useState('');
       const [confirm,setConfirm] = useState('');
       const [licenses,setLicenses] = useState(['없음','없음','없음']);
+      const [jmcds,setJmcds] = useState(['empty','empty','empty']); //유저가 원하는 자격증의 코드 값. 없으면 empty. 
       const navigate = useNavigate();
       let dispatch = useDispatch();
       const licenseList = useSelector((state)=> state.licenseList.licenseList)//redux store.js 에서 licenseList 를 가져와준다. 
@@ -84,10 +85,10 @@ function SignUpPage(){
         console.log("업데이트된 licenseList -> ", licenseList);
       }, [licenseList]); // licenseList가 변경될 때마다 이 useEffect가 호출됩니다.
     
-      const handleSubmit = (event) => {
+      const handleSubmit = (event) => { //회원가입 버튼 누르면 
         event.preventDefault();
         if(confirmCheck(password,confirm)){
-           signUp(email, password,userName,licenses);
+           signUp(email, password,userName,licenses,jmcds);
           navigate('/'); // 로그인 성공 시 홈 페이지로 이동
         }
         else{
@@ -98,13 +99,27 @@ function SignUpPage(){
      function confirmCheck(password,confirm){
       return password==confirm; 
      }
-     const handleSelectChange = (index, value) => {
-      // 상태 배열의 복사본을 만들고
-      const updatedLicenses = [...licenses];
-      // 선택된 인덱스의 값을 업데이트한 후
-      updatedLicenses[index] = value;
-      // 상태를 새로운 배열로 설정
-      setLicenses(updatedLicenses);
+
+     const handleSelectChange = (index, value) => { //사용자가 입력한 자격증 이름으로, jmcd값을 찾음. 
+      const selectedLicense = licenseList.find(license => license.name === value);
+      
+      const updatedLicense = [...licenses];
+      updatedLicense[index] = value;
+      setLicenses(updatedLicense);
+
+      if(selectedLicense){//선택한 값(사용자가 입력한 자격증이름)이 유효하면 jmcd값 업데이트 
+        const updatedJmcds = [...jmcds];
+        updatedJmcds[index] = selectedLicense.jmcd;
+        setJmcds(updatedJmcds);
+        console.log(selectedLicense.name, selectedLicense.jmcd);
+      }
+      else{//만약에 사용자가 입력한 값이 licenseList 안에 없으면,  자격증 코드(jmcd)를 empty로 설정해야함. 
+        const updatedJmcds = [...jmcds];
+        updatedJmcds[index] = "empty"
+        setJmcds(updatedJmcds);
+        console.error("선택한 자격증을 찾지 못했습니다.",value);
+      }
+      console.log(jmcds,licenses);
     };
 
     return(
@@ -161,7 +176,7 @@ function SignUpPage(){
                  <datalist id="license_id">
                     {licenseList &&
                       licenseList.map((license, index) => ( //데이터 리스트에 자격증 정보를 삽입 
-                        <option key={index} value={license}>{license}</option>
+                        <option key={index} value={license.name}>{license.name}</option>
                       ))
                     }
                   </datalist>                

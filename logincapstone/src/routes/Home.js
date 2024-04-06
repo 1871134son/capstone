@@ -33,7 +33,7 @@ function HomePage(){
     )
 }
 
-function UserNameComponent(){
+function UserNameComponent(){ //현재 로그인 한 사용자의 이름을 출력해줍니다. 
     let[userName,setUserName] = useState(null);
 
     useEffect(()=>{
@@ -60,62 +60,6 @@ function AddMessage(props) {
     const auth = getAuth();
     const [text, setText] = useState('');
 
-//const sendMEssage
-      const sendMessage = async (message) =>{/////안됨.
-        if(!message){
-            console.error("message empty!");
-        }//ifEnd
-
-        try{
-            //Cloud Functions 의 addmessage 엔드포인트로 POST 요청을 보냅니다. 
-            const response = await fetch("https://addmessage-gpmqc3at3q-uc.a.run.app",{
-                method: "POST", //HTTP 매서드를 POST로 설정함. 
-                headers:{
-                    "Content-Type" : "application/json" //요청 본문이 JSON임을 명시함. 
-                },
-                body: JSON.stringify({text:message}) //요청 본문에 메시지 데이터 포함. 
-            });
-            const data = await response.json();//응답 온거를 json으로 파싱
-            //서버로부터 응답 처리 
-            console.log(data);
-        }//tryEnd
-        catch(error){
-            console.error("Error sending message ", error);
-        }
-      }//sendMessage
-
-      
-      const getLicense = async()=>{  //이 형식대로 cloud function을 호출해야함. 
-        const functions = getFunctions();
-        const getLicenseList = functions.httpsCallable("getLicenseList");
-        console.log("호출합니다.1");
-        getLicenseList()
-        .then((result)=>{
-             // Read result of the Cloud Function.
-             const data = result.data;
-            console.log("Result of cf:"+data);
-        })
-      }
-      
-
-      const sendMessage2 = async (message) =>{
-        if(!message){
-            console.error("message empty!");
-        }//ifEnd
-
-        try{
-            //Cloud Functions 의 addmessage 엔드포인트로 POST 요청을 보냅니다. 
-            const response = await fetch("https://addmessage-gpmqc3at3q-uc.a.run.app?text="+message);
-            const data = await response.json();//응답 온거를 json으로 파싱
-            //서버로부터 응답 처리 
-            console.log(data);
-        }//tryEnd
-        catch(error){
-            console.error("Error sending message ", error);
-        }
-      }//sendMessage
-
-  
     return (
       <div>
         <input
