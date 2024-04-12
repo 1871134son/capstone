@@ -1,0 +1,183 @@
+.schedule-calendar {
+  width: 40%;
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-calendar {
+  width: 60%; 
+  height: 1700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  margin: 0 auto;
+}
+
+
+
+.schedule-calendar .text-today .text-year {
+  color: rgb(99, 22, 22);
+  font-weight: 700;
+  font-size: 2.5em; /* 2024 텍스트 크기 더 크게 조절 */
+}
+
+.schedule-calendar .text-today .text-current:hover {
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  border-radius: 15px;
+  background-color: #F7D9AB;
+}
+
+.schedule-calendar .days {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.3em; 
+  margin-bottom: 2%;
+}
+
+.schedule-calendar .days .col { /* sun, mon 등 주 함수 */
+  width: 13%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  margin-right: 1%;
+  margin-left: -5px;
+  border-radius: 15px;
+  background-color: #F7D9AB;
+}
+
+.schedule-calendar .calendar-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-y: scroll;
+  flex-wrap: wrap;
+}
+
+.schedule-calendar .calendar-list .calendar__item {
+  width: 100%;
+  height: 50%;
+  padding: 2%;
+  padding-top: 8%;
+  margin-bottom: 5%;
+}
+
+.schedule-calendar .calendar-list .calendar__item .header {
+  width: 100%;
+  height: 10%;
+  text-align: center; /* Center align the text */
+  font-size: 1.7em;
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.schedule-calendar .calendar-list .calendar__item .body { /*일자 함수*/
+  width: 100%;
+  height: 89%;
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col {
+  border: 1px solid #ccc; /* 각 날짜 주변에 테두리 추가 */
+  box-sizing: border-box; /* 테두리를 width와 height에 포함시킵니다 */
+  border-radius: 8px; /* 테두리를 둥글게 조절합니다 */
+  width: 15%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 0.8em;
+  z-index: 10000;
+  justify-content: flex-start; /* 날짜를 위로 정렬합니다 */
+  align-items: flex-start; /* 날짜를 왼쪽으로 정렬합니다 */
+  transition: background-color 0.3s;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col:hover {
+  background-color: lightgray;
+}
+
+.schedule-calendar .body .col.today {
+  background-color: lightgray; /* today background*/
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col span {
+  padding-top: 5px;
+  font-size: 1.2em;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col .img {
+  width: 100%;
+  height: 100%;
+  margin: 0% 0 0 -17%;
+  border-radius: 2px;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col .img-undefined {
+  width: 80%;
+  height: 80%;
+  margin: 10% 0 0 -4%;
+  opacity: 0.2;
+}
+
+.schedule-calendar .calendar-list .calendar__item .body .row .col .today {
+  font-weight: 700;
+}
+
+.schedule-calendar .calendar-list::-webkit-scrollbar {
+  display: none;
+}
+
+.green {
+  background-color: green;
+  color: white;
+}
+
+.red-text {
+  color: red;
+}
+
+.blue-text {
+  color: blue;
+}
+
+.gray-text {
+  color: gray;
+}
+
+.text.today {
+  font-weight: bold;
+  color: black;
+}
+
+@font-face {
+  font-family: 'KCC-Hanbit';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/KCC-Hanbit.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.schedule-calendar .calendar-list .calendar__item .header, .schedule-calendar .days .col,
+.schedule-calendar .text-today .text-year {
+  font-family: 'KCC-Hanbit', sans-serif;
+}
+
