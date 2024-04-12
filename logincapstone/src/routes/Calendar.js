@@ -3,6 +3,11 @@ import { format, addMonths, startOfWeek, addDays } from "date-fns";
 import { endOfWeek, isSameDay, isSameMonth, startOfMonth, endOfMonth } from "date-fns";
 import uuid from "react-uuid";
 import "./_style.css";
+import { getExamScheduleList,auth } from "../firebase/firebase.js";
+import { fetchingExamSchedule } from "../redux/store.js";
+import { useDispatch, useSelector } from 'react-redux';
+import { onAuthStateChanged } from "firebase/auth";
+
 
 function convertToDate(dateNum){ //공공데이터에선 날짜를 20230509 이런 식으로 반환함. 이를 Date객체로 만들어 리턴해주는 함수. 
     const dateString = dateNum.toString();// 숫자를 문자열로 변환 -- 데이터 타입 확인해보고 문자면 이건 주석처리
@@ -37,14 +42,12 @@ const RenderDays = () => { // 주의 요일을 표시해주는 컴포넌트
 };
 
 //달력에 표시할 중요한 일정들. store.js에 넣고, 활용하는게 좋을 듯. 
-const importantDates = [ 
-    { date: convertToDate(20240509), text: '정보처리기사 필기시험신청일' },
-    { date: convertToDate(20240514), text: '정보처리기사 필기시험신청종료일' },
-    // 다른 중요 날짜들...
-  ];
+
 
 const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날짜들을 표시해줌. 현재 달, 선택된 날짜를 입력받음. 해달 월의 시작과 끝을 계산 
     //각 날짜에 해당하는 셀을 생성함. 셀은 현재 달, 선택된 날짜 , 주말 여부에 따라 다른 스타일을 표시함. 
+
+    
 
     const monthStart = startOfMonth(currentMonth); //현재 달의 시작 일 
 
@@ -99,7 +102,7 @@ const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날
                         }
                     >
                         {formattedDate}  
-                        {isImportant && <span className="important-text"><br></br>{importantText}</span>}
+                        {isImportant && <span style={{fontSize:"10px"}}><br></br>{importantText}</span>}
                     </span>
                 </div>,
             );
@@ -119,13 +122,55 @@ const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날
 const isLastDayOfMonth = (date, monthEnd) => {
     return format(date, "yyyy-MM-dd") === format(monthEnd, "yyyy-MM-dd");
 };
+const importantDates = [ 
+     // 다른 중요 날짜들...
+  ];
 
+  
 const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 날짜와 선택된 날짜를 기반으로, 12개월치 달력을 생성하고, 현재 달로 스크롤 할 수 있는 기능을 제공함. 
-    useEffect(() => {
-        console.log("Calendar component mounted");
-        console.log(new Date())
-    }, []);
+    let dispatch = useDispatch();
+    const examScheduleList = useSelector((state)=>state.examScheduleList.examScheduleList);
+    
+    useEffect(()=>{ //먼저 dispatch로 사용자가 로그인 한 상태인걸 확인, 시험 일정을 가져옴. 
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                dispatch(fetchingExamSchedule());
+            } else {
+              // 사용자가 로그아웃한 상태입니다.
+            }
+          });
+    },[dispatch])
+   
+    useEffect(()=>{
+        if(examScheduleList&&Array.isArray(examScheduleList)){ //리스트에 데이터가 있을 경우에만 실행
+            for(let i = 0; i<examScheduleList.length; i++){//사용자가 고른 자격증의 갯수만큼 반복함. examScheduleList[0] 은 첫번째, examScheduleList[1] 은 두번째 .. 2는 세번째
+                for(let j=0; j<examScheduleList[i].length; j++){//examScheduleList[i].length -> 자격증 시험의 횟수 == j+1, ex. 1회,2회,3회..   
+                    let examName = examScheduleList[i][j].nameOfExam; //시험 이름 
+                    let licenseName = examScheduleList[i][j].nameOfLicense; //자격증 이름
+                    importantDates.push(
+                        {date: convertToDate(examScheduleList[i][j].docExamEndDt), text: examName+ ' 필기시험종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].docExamStartDt), text: examName+' 필기시험시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].docPassDt), text: examName+' 필기시험 합격자 발표일자'},
+                        {date: convertToDate(examScheduleList[i][j].docRegEndDt), text: examName+' 필기시험원서접수 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].docReStartDt), text: examName+' 필기시험원서접수 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].docSubmitEndDt), text: examName+' 응시자격서류제출 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].docSubmitStartDt), text: examName+' 응시자격서류제출 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracExamEndDt), text: examName+' 실기시험 종료 일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracExamStartDt), text: examName+' 실기시험 시작 일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracPassEndDt), text: examName+' 합격자발표 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracPassStartDt), text: examName+' 합격자발표 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracCreEndDt), text: examName+' 실기시험원서접수 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracCreStartDt), text: examName+' 실기시험원서접수 시작일자'},
+                    );
+                }
+            }
+          //  console.log(importantDates);
+        }//if END
+    },[examScheduleList]); 
 
+   
+   
+    
     const currentDate = new Date();
     const selectedDate = new Date();
 
