@@ -18,6 +18,9 @@ import PostView from './routes/post/PostView';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
+import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
+import HomePageWithLinks from './routes/HomePageWithLinks.js';
 
 function App() {
   return (
@@ -37,6 +40,7 @@ function App() {
         <Route path="/linkD" element={<LinkDPage />} />
       </Routes>
       <HomePageWithLinksSlider />
+      <AdditionalLinksSlider />
     </div>
   );
 }
@@ -59,71 +63,4 @@ function NavigationBar() {
     </Navbar>
   );
 }
-
-function HomePageWithLinks() {
-  return (
-    <div>
-      <HomePage />
-      <div className="links-wrapper">
-        <LinkContainer to="/linkA">
-          <img src="/linkA_image.jpg" alt="Link A" className="link-image" />
-        </LinkContainer>
-        <LinkContainer to="/linkB">
-          <img src="/linkB_image.jpg" alt="Link B" className="link-image" />
-        </LinkContainer>
-        <LinkContainer to="/linkC">
-          <img src="/linkC_image.jpg" alt="Link C" className="link-image" />
-        </LinkContainer>
-        <LinkContainer to="/linkD">
-          <img src="/linkD_image.jpg" alt="Link D" className="link-image" />
-        </LinkContainer>
-      </div>
-    </div>
-  );
-}
-
-
-function HomePageWithLinksSlider() {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 5000
-  };
-
-  return (
-    <div className="links-wrapper" style={{ textAlign: 'center' }}>
-      <Slider {...settings}>
-        <div>
-          <a href="/linkA">
-            <img src="image_1.jpg" alt="첫번째" className="link-image" />
-          </a>
-        </div>
-        <div>
-          <a href="/linkB">
-            <img src="image_2.jpg" alt="두번째" className="link-image" />
-          </a>
-        </div>
-        <div>
-          <a href="/linkC">
-            <img src="image_3.jpg" alt="세번째" className="link-image" />
-          </a>
-        </div>
-        <div>
-          <a href="/linkD">
-            <img src="image_4.jpg" alt="네번째" className="link-image" />
-          </a>
-        </div>
-      </Slider>
-    </div>
-  );
-}
-
-function LinkContainer({ to, children }) {
-  return <Link to={to} className="link-container">{children}</Link>;
-}
-
 export default App;
