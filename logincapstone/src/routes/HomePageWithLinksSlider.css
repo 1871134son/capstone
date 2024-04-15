@@ -1,0 +1,10 @@
+.links-wrapper {
+    text-align: center;
+    max-width: 600px; /* 최대 너비 설정 */
+    margin: auto; /* 가운데 정렬 */
+  }
+  
+  .link-image {
+    width: 100%; /* 슬라이더 내 이미지 폭을 전체로 설정 */
+    height: auto; /* 이미지 높이는 비율에 맞춰 자동 조정 */
+  }
