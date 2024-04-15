@@ -1,7 +1,0 @@
-/* AdditionalLinksSlider.css 파일 내용 추가 */
-.link-image {
-    width: 300px;  /* 이미지 너비 설정 */
-    height: 100px; /* 이미지 높이 설정 */
-    object-fit: cover; /* 이미지 비율을 유지하면서 요소에 맞춤 */
-  }
-  
