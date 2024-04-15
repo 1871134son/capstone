@@ -5,8 +5,6 @@
   flex-direction: column;
 }
 
-
-
 .schedule-calendar {
   width: 60%; 
   height: 1700px;
@@ -17,10 +15,8 @@
   margin: 0 auto;
 }
 
-.schedule-calendar .important-text{
-  color: rgb(0, 7, 74);
-  font-size: 5px;
-}
+
+
 .schedule-calendar .text-today .text-year {
   color: rgb(99, 22, 22);
   font-weight: 700;

@@ -97,91 +97,6 @@ async function signUp(email,password,userName,licenses,jmcds){
   }//Sign Up end 
 
 
-
-  //글 작성 완료하면 firebase에 등록
- async function boardSave(brdno, title, content){
-  try{
-    const user = auth.currentUser;
-
-
-    if(!brdno){
-    /* DB 콜렉션에 유저 정보들 저장, uid로 document 생성 */
-    await setDoc(doc(db,"post",user.uid),{
-      brdno: brdno,
-      title: title,
-      content: content,
-    });
-  }else{
-    //update
-  }
- 
-  } catch (error) {
-    console.error('Error creating user:', error);
-    
-  }//catch 
-
-}
-
-
-//글 삭제
-export const boardRemove = ( brdno = {}) => {
-  return (dispatch) => {
-      console.log(brdno);
-      return db.collection('post').doc(brdno).delete().then(() => {
-          //dispatch(board_remove(brdno));
-      })
-  }
-};
-
-
-//게시판 데이터 가지고 오기
-  export const boardList = () =>{
-    return (dispatch) => {
-        return db.collection('post').orderBy("brddate", "desc").get()
-                    .then((snapshot) => {
-                        var rows = [];
-                        snapshot.forEach((doc) => {
-                            var childData = doc.data();
-                            childData.brddate = dateFormat(childData.brddate, "yyyy-mm-dd");
-                            rows.push(childData);
-                        });
-                        dispatch(board_list(rows));
-                    });    
-    }
-}
-
-
-//글 수정 or 등록  
-//   export const firebase_board_save = ( data = {}) => {
-//     return (dispatch) => {
-//         if (!data.brdno) {
-//             var doc = firestore.collection('boards').doc();
-//             data.brdno = doc.id;
-//             data.brddate = Date.now();
-//             return doc.set(data).then(() => {
-//                 data.brddate = dateFormat(data.brddate, "yyyy-mm-dd");
-//                 dispatch(board_save(data));
-//             })
-//         } else {
-//             return firestore.collection('boards').doc(data.brdno).update(data).then(() => {
-//                 dispatch(board_save(data));
-//             })            
-//         }
-//     }
-// };
-
-
-//글 삭제
-// export const firebase_board_remove = ( brdno = {}) => {
-//   return (dispatch) => {
-//       console.log(brdno);
-//       return firestore.collection('boards').doc(brdno).delete().then(() => {
-//           dispatch(board_remove(brdno));
-//       })
-//   }
-// };
-  
-
 async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
     try{
       const functions =getFunctions(app,"us-central1");
@@ -242,12 +157,9 @@ async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 �
 
 
 
-async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은 JSON데이터를 파싱 후 리턴 
-  console.log("getExamScheduleList 호출");
+async function getExamScheduleList(){//jmcd 값을 인자로 넘겨주고 해당하는 시험의 값을 가져오고 리턴? addMessage 호출처럼, text 파라미터에 jmcd 값 삽입..?
   const user = auth.currentUser;
-  let scheduleList =[]; //자격증들에 대한 시험정보를 담는 배열. schedule 로 이루어짐. 
   if(user){//로그인 상태 
-    //console.log("firebase.js/fetExamScheduleList()-> 사용자로그인상태");
     const userRef = doc(db,"user",user.uid); 
     const docSnap = await getDoc(userRef);
     if(docSnap.exists()){//해당하는 유저의 정보가 DB에 있을 떄 
@@ -259,73 +171,75 @@ async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은
           try{
             const functions =getFunctions(app,"us-central1");
             const getExamSchedule = httpsCallable(functions,"getExamSchedule"); 
-              //console.log("getExamSchedule() 호출",i,"번째");
+              console.log("getExamSchedule() 호출");
               const result = await getExamSchedule({jmcd:jmcds[i]}); //await 므로, then 안쓰고 바로 사용가능 
                    // Read result of the Cloud Function. 
               const jsonResult = result.data.dataText; // JSON형태임. 
               const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
-            //  console.log("firebase.js -> getExamSchedule() -> jsonData ", jsonData);          
+              console.log("firebase.js -> getExamSchedule() -> jsonData ", jsonData);          
+             
+              //가져온 JSON데이터에서 시험일정들을 추출함. 아래의 데이터들은 모두 배열, 보통 3회차까지 있으므로 거의 0,1,2번 인덱스는 1,2,3회차 시험에 대한 정보들.
+
+              /**필기시험종료일자*/
+              const docExamEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.docexamenddt));
+              /**필기시험시작일자*/
+              const docExamStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.docexamstartdt));
+
+             /**필기시험 합격(예정)자 발표일자*/
+              const docPassDt = jsonData.response?.body?.items?.item.map(item=>String(item.docpassdt));
+
+              /**필기시험원서접수 종료일자*/
+              const docRegEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.docregenddt));
+              /**필기시험원서접수 시작일자*/
+              const docReStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.docregstartdt));
+
+              /**응시자격서류제출 종료일자*/
+              const docSubmitEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.docsubmitenddt));
+              /**응시자격서류제출 시작일자*/
+              const docSubmitStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.docsubmitstartdt));
+
+              /**시험 회차정보 ex.2024년 정기 기사 1회 */
+              const nameOfExam = jsonData.response?.body?.items?.item.map(item=>String(item.implplannm));
               
-              //items가 배열이 아니면 배열로 만드는 처리. 데이터가 전부 배열이 아니네용..
-              const items = jsonData.response?.body?.items?.item;
-              const normalizedItems = Array.isArray(items) ? items : [items];
-              
-              if(!jsonData.response?.body?.items?.item){
-                //return []; //빈 배열 리턴 
-              }
-              else{ //자격증마다 비어있는 필드가 있어서 예외처리를 해줍니다. 
-                const schedule = normalizedItems.map(item =>({ //schedule -> 자격증 1개에 대한 정보. 
-                  /**필기시험종료일자*/
-                  docExamEndDt: item.docexamenddt ? String(item.docexamenddt): " ",
-                  /**필기시험시작일자*/
-                  docExamStartDt: item.docexamstartdt ? String(item.docexamstartdt):" ",
-                  /**필기시험 합격(예정)자 발표일자*/
-                  docPassDt: item.docpassdt ? String(item.docpassdt):" ",
-                  /**필기시험원서접수 종료일자*/
-                  docRegEndDt: item.docregenddt ? String(item.docregenddt):" ",
-                  /**필기시험원서접수 시작일자*/
-                  docReStartDt: item.docregstartdt ? String(item.docregstartdt):" ",
-                  /**응시자격서류제출 종료일자*/
-                  docSubmitEndDt: item.docsubmitenddt ? String(item.docsubmitenddt):" ",
-                  /**응시자격서류제출 시작일자*/
-                  docSubmitStartDt: item.docsubmitstartdt ? String(item.docsubmitstartdt):" ",
-                  /**시험 회차정보 ex.2024년 정기 기사 1회 */
-                  nameOfExam: item.implplannm ? String(item.implplannm):" ",
-                  /**자격증 이름 */
-                  nameOfLicense: item.jmfldnm ? String(item.jmfldnm):" ",
-                  /**중직무분야 코드 ex.211 */
-                  mdobligfldCode: item.mdobligfldcd ? String(item.mdobligfldcd):" ",
-                  /**중직무분야 이름 ex. 정보기술 */
-                  mdobloffldName: item.mdobloffldnm ? String(item.mdobloffldnm):" ",
-                  /**대직무분야 코드 ex. 21 */
-                  obligfldCode: item.obligfldcd ? String(item.obligfldcd):" ",
-                  /**대직무분야 이름 ex. 정보통신  */
-                  obligfldName: item.obligfldnm ? String(item.obligfldnm):" ",
-                  /**실기시험 종료 일자 */
-                  pracExamEndDt: item.pracexamenddt ? String(item.pracexamenddt):" ",
-                  //**실기시험 시작 일자 */
-                  pracExamStartDt: item.pracexamstartdt ? String(item.pracexamstartdt):" ",
-                  /**합격자발표 종료일자 */
-                  pracPassEndDt: item.pracpassenddt ? String(item.pracpassenddt):" ",
-                  /**합격자발표 시작일자 */
-                  pracPassStartDt: item.pracpassstartdt ? String(item.pracpassstartdt):" ",
-                  /**실기시험원서접수 종료일자*/
-                  pracCreEndDt: item.pracregenddt ? String(item.pracregenddt):" ",
-                  /**실기시험원서접수 시작일자 */
-                  pracCreStartDt: item.pracregstartdt ? String(item.pracregstartdt):" "
-                }));
-              scheduleList.push(schedule);
-              }//else
-          }//try
+              /**자격증 이름 */
+              const nameOfLicense = jsonData.response?.body?.items?.item.map(item=>String(item.jmfldnm));
+             
+              /**중직무분야 코드 ex.211 */
+              const mdobligfldCode = jsonData.response?.body?.items?.item.map(item=>String(item.mdobligfldcd));
+              /**중직무분야 이름 ex. 정보기술 */
+              const mdobloffldName = jsonData.response?.body?.items?.item.map(item=>String(item.mdobloffldnm));
+
+              /**대직무분야 코드 ex. 21 */
+              const obligfldCode = jsonData.response?.body?.items?.item.map(item=>String(item.obligfldcd));
+              /**대직무분야 이름 ex. 정보통신  */
+              const obligfldName = jsonData.response?.body?.items?.item.map(item=>String(item.obligfldnm));
+
+              /**실기시험 종료 일자 */
+              const pracExamEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracexamenddt));
+              //**실기시험 시작 일자 */
+              const pracExamStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracexamstartdt));
+
+              /**합격자발표 종료일자 */
+              const pracPassEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracpassenddt));
+              /**합격자발표 시작일자 */
+              const pracPassStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracpassstartdt));
+
+              /**실기시험원서접수 종료일자*/
+              const pracCreEndDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracregenddt));
+              /**실기시험원서접수 시작일자 */
+              const pracCreStartDt = jsonData.response?.body?.items?.item.map(item=>String(item.pracregstartdt));
+
+
+          }
           catch(error){
             const code = error.code;
             const message = error.message;
             const details = error.details;
-            console.error("getExamScheduleList/fireabase.js : "+error+code+message+details);
-          }//catch
+            console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+            
+          }
         }
-      }//for
-      return scheduleList;
+      }
     }//if
     else{ //DB에 정보 없을 때 
       console.log("DB에 유저 정보가 없습니다! 운영팀에 문의주세요");
@@ -384,4 +298,4 @@ async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 �
 }//end getExamFeeList
 
 //인증 객체 바깥에서도 사용 가능하게 export
-export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave};
+export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList};
