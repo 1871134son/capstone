@@ -8,8 +8,8 @@
 
 
 .schedule-calendar {
-  width: 60%; 
-  height: 1700px;
+  width: 80%; 
+  height: 2200px;
   display: flex;
   flex-direction: column;
   justify-content: center; 
