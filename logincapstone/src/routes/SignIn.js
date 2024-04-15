@@ -48,8 +48,8 @@ function SignInPage() {
               <Button variant="primary" type="submit"style={{ width:'400px',marginBottom:"10px",fontWeight:"bold" }}>
               <FontAwesomeIcon icon={faFacebook} /> Facebook 계정으로 계속하기
               </Button>
-              
-              
+               
+
             </Form>
           </Card.Body>
         </Card>

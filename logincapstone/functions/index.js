@@ -56,7 +56,7 @@ exports.getExamSchedule = onRequest((req, res)=>{
 exports.getExamFee = onRequest((req, res)=>{
   corsHandler(req, res, async ()=>{
     console.log("Called 자격증 응시료");
-    const jmcd = "1320";
+    const jmcd = req.body.data.jmcd;
     const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
     "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
     const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getFeeList";
@@ -80,7 +80,7 @@ exports.getExamFee = onRequest((req, res)=>{
 exports.getLicenseInfo = onRequest((req, res)=>{
   corsHandler(req, res, async ()=>{
     console.log("Called 자격증 정보 가져오기");
-    const jmcd = "1320";
+    const jmcd = req.body.data.jmcd;
     const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
     "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
     const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryInformationTradeNTQSVC/getList";

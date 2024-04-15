@@ -253,49 +253,104 @@ async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은
 
 
 async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd 값을 인자로 넘겨주고
-  try{
-    const functions =getFunctions(app,"us-central1");
-    const getExamFee = httpsCallable(functions,"getExamFee");
-      console.log("getExamFee() 호출");
-      const result = await getExamFee()
-      .then((result)=>{
-           // Read result of the Cloud Function.
-           const jsonResult = result.data.dataText; // JSON형태임. 
-           const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
-           console.log("firebase.js -> getExamFeeList() -> jsonData ", jsonData);          
-          })
-  }
-  catch(error){
-    const code = error.code;
-    const message = error.message;
-    const details = error.details;
-    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
-    
-  }
+  const user = auth.currentUser;
+  let feeList = [];
+  if(user){//로그인 상태 
+    //console.log("firebase.js/getExamFeeList()-> 사용자로그인상태");
+    const userRef = doc(db,"user",user.uid); 
+    const docSnap = await getDoc(userRef);
+    if(docSnap.exists()){//해당하는 유저의 정보가 DB에 있을 떄 
+      const jmcds = docSnap.data().jmcds;
+      for(let i=0; i<jmcds.length; i++){ 
+        if(jmcds[i]=="empty"){//empty는 회원이 관심있는 자격증이 없는 경우므로 함수를 시행하지 않음. 
+        }
+        else{
+          try{
+            const functions =getFunctions(app,"us-central1");
+            const getExamFee = httpsCallable(functions,"getExamFee");
+              console.log("getExamFee() 호출");
+              const result = await getExamFee({jmcd:jmcds[i]});
+              const jsonResult = result.data.dataText; // JSON형태임. 
+              const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+
+              const items = jsonData.response?.body?.items?.item;
+              const normalizedItems = Array.isArray(items) ? items : [items];
+            //  console.log(jsonData);
+              if(!jsonData.response?.body?.items?.item){
+                //return []; //빈 배열 리턴 
+              }
+              else{
+                const fee = normalizedItems.map(item =>({ //schedule -> 자격증 1개에 대한 정보. 
+                  /**시험응시료*/
+                  contents: item.contents ? String(item.contents): " ",
+                  /**응시수수료 */
+                  infogb: item.infogb ? String(item.infogb): " ",
+                  /**자격증이름  */
+                  licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+                }));
+                feeList.push(fee);
+              }                  
+          }//try
+          catch(error){
+            const code = error.code;
+            const message = error.message;
+            const details = error.details;
+            console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+          } 
+        }
+      }//for
+      console.log(feeList);
+      return feeList;
+    }//if
+    else{ //DB에 정보 없을 때 
+      console.log("DB에 유저 정보가 없습니다! 운영팀에 문의주세요");
+    }//else
+  }//if user End 
+  else{//사용자 로그인 안한 상태 
+    console.log("사용자가 로그아웃 상태입니다. 로그인 해주세요");
+  }//else user End 
+ 
+ 
 }//end getExamFeeList
 
 
 
 async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 가져오는게 아니라 jmcd 값을 인자로 넘겨주고, 그걸로 하기. 
-  try{
-    const functions =getFunctions(app,"us-central1");
-    const getLicenseInfo = httpsCallable(functions,"getLicenseInfo");
-      console.log("getLicenseInfo() 호출");
-      const result = await getLicenseInfo()
-      .then((result)=>{
-           // Read result of the Cloud Function.
-           const jsonResult = result.data.dataText; // JSON형태임. 
-           const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
-           console.log("firebase.js -> getLicenseInfo() -> jsonData ", jsonData);          
-          })
-  }
-  catch(error){
-    const code = error.code;
-    const message = error.message;
-    const details = error.details;
-    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
-    
-  }
+  const user = auth.currentUser;
+  let feeList = [];
+  if(user){//로그인 상태 
+    //console.log("firebase.js/getExamFeeList()-> 사용자로그인상태");
+    const userRef = doc(db,"user",user.uid); 
+    const docSnap = await getDoc(userRef);
+    if(docSnap.exists()){//해당하는 유저의 정보가 DB에 있을 떄 
+      const jmcds = docSnap.data().jmcds;
+      for(let i=0; i<jmcds.length; i++){ 
+        if(jmcds[i]=="empty"){//empty는 회원이 관심있는 자격증이 없는 경우므로 함수를 시행하지 않음. 
+        }
+        else{
+          try{
+            const functions =getFunctions(app,"us-central1");
+            const getLicenseInfo = httpsCallable(functions,"getLicenseInfo");
+              console.log("getLicenseInfo() 호출");
+              const result = await getLicenseInfo({jmcd:jmcds[i]});
+              const jsonResult = result.data.dataText; // JSON형태임. 
+              const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+              console.log("firebase.js -> getLicenseInfo() -> jsonData ", jsonData);          
+                  
+          }
+          catch(error){
+            const code = error.code;
+            const message = error.message;
+            const details = error.details;
+            console.error("getLicenseInfo()/fireabase.js : "+error+code+message+details);
+            
+          }
+        }
+      }//for 
+    }//if doc snap 
+  }//if user 
+  
+  
 }//end getExamFeeList
 
 //인증 객체 바깥에서도 사용 가능하게 export
