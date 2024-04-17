@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getPostByNo } from '../../routes/Data';
 import './Post.css';
-<<<<<<< HEAD
 import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNavigate 가져오기
 
 
@@ -19,18 +18,7 @@ import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNa
 
 
   
-=======
 
-const PostView = ({ history, location, match }) => {
-  const [ data, setData ] = useState({});
-
-  const { no } = match.params;
-
-  useEffect(() => {
-    setData(getPostByNo(no));
-  }, [ ]);
-
->>>>>>> bd0f850 (son)
   return (
     <>
       <h2 align="center">게시글 상세정보</h2>
@@ -66,11 +54,8 @@ const PostView = ({ history, location, match }) => {
             </>
           ) : '해당 게시글을 찾을 수 없습니다.'
         }
-<<<<<<< HEAD
         <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
-=======
-        <button className="post-view-go-list-btn" onClick={() => history.goBack()}>목록으로 돌아가기</button>
->>>>>>> bd0f850 (son)
+
       </div>
     </>
   )

@@ -1,8 +1,7 @@
 import './App.css';
-<<<<<<< HEAD
-=======
+
 import React from 'react';
->>>>>>> bd0f850 (son)
+
 import { Routes, Route, Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -16,22 +15,12 @@ import LinkAPage from './routes/LinkA.js';
 import LinkBPage from './routes/LinkB.js';
 import LinkCPage from './routes/LinkC.js';
 import LinkDPage from './routes/LinkD.js';
-<<<<<<< HEAD
+
 //import BoardList from './routes/BoardList';
 import Write from './routes/Write';
 import PostMain from './routes/post/PostMain';
 import PostView from './routes/post/PostView';
-=======
-import Write from './routes/Write';
-import PostMain from './routes/post/PostMain';
-import PostView from './routes/post/PostView';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
-import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
-import HomePageWithLinks from './routes/HomePageWithLinks.js';
->>>>>>> bd0f850 (son)
+
 
 
 function App() {
@@ -51,11 +40,8 @@ function App() {
         <Route path="/linkC" element={<LinkCPage />} />
         <Route path="/linkD" element={<LinkDPage />} />
       </Routes>
-<<<<<<< HEAD
-=======
-      <HomePageWithLinksSlider />
-      <AdditionalLinksSlider />
->>>>>>> bd0f850 (son)
+
+
     </div>
   );
 }
@@ -80,7 +66,7 @@ function NavigationBar() {
   );
 }
 
-<<<<<<< HEAD
+
 function HomePageWithLinks() {
   return (
     <div>
@@ -106,7 +92,6 @@ function HomePageWithLinks() {
 function LinkContainer({ to, children }) {
   return <Link to={to} className="link-container">{children}</Link>;
 }
-=======
->>>>>>> bd0f850 (son)
+
 
 export default App;
