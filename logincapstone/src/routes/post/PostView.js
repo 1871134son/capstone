@@ -18,6 +18,7 @@ import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNa
 
 
   
+
   return (
     <>
       <h2 align="center">게시글 상세정보</h2>
@@ -54,6 +55,7 @@ import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNa
           ) : '해당 게시글을 찾을 수 없습니다.'
         }
         <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
+
       </div>
     </>
   )

@@ -1,0 +1,18 @@
+.links-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    padding: 20px; 
+  }
+  
+  .link-image {
+    width: 150px; 
+    height: auto; 
+  }
+  
+  .link-container {
+    display: block;
+    text-align: center;
+  }

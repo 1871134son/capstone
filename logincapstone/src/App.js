@@ -1,4 +1,7 @@
 import './App.css';
+
+import React from 'react';
+
 import { Routes, Route, Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -12,10 +15,12 @@ import LinkAPage from './routes/LinkA.js';
 import LinkBPage from './routes/LinkB.js';
 import LinkCPage from './routes/LinkC.js';
 import LinkDPage from './routes/LinkD.js';
+
 //import BoardList from './routes/BoardList';
 import Write from './routes/Write';
 import PostMain from './routes/post/PostMain';
 import PostView from './routes/post/PostView';
+
 
 
 function App() {
@@ -35,6 +40,8 @@ function App() {
         <Route path="/linkC" element={<LinkCPage />} />
         <Route path="/linkD" element={<LinkDPage />} />
       </Routes>
+
+
     </div>
   );
 }
@@ -58,6 +65,7 @@ function NavigationBar() {
     </Navbar>
   );
 }
+
 
 function HomePageWithLinks() {
   return (
@@ -84,5 +92,6 @@ function HomePageWithLinks() {
 function LinkContainer({ to, children }) {
   return <Link to={to} className="link-container">{children}</Link>;
 }
+
 
 export default App;
