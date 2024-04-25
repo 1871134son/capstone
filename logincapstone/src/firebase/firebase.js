@@ -99,7 +99,7 @@ async function signUp(email,password,userName,licenses,jmcds){
 
 
   //글 작성 완료하면 firebase에 등록
- async function boardSave(brdno, title, content){
+ async function boardSave(brdno, title, content, brddate, brdwriter){
   try{
     const user = auth.currentUser;
 
@@ -110,6 +110,8 @@ async function signUp(email,password,userName,licenses,jmcds){
       brdno: brdno,
       title: title,
       content: content,
+      brddate: brddate,
+      brdwriter: brdwriter,
     });
   }else{
     //update
@@ -134,52 +136,7 @@ export const boardRemove = ( brdno = {}) => {
 };
 
 
-//게시판 데이터 가지고 오기
-  export const boardList = () =>{
-    return (dispatch) => {
-        return db.collection('post').orderBy("brddate", "desc").get()
-                    .then((snapshot) => {
-                        var rows = [];
-                        snapshot.forEach((doc) => {
-                            var childData = doc.data();
-                            childData.brddate = dateFormat(childData.brddate, "yyyy-mm-dd");
-                            rows.push(childData);
-                        });
-                        dispatch(board_list(rows));
-                    });    
-    }
-}
 
-
-//글 수정 or 등록  
-//   export const firebase_board_save = ( data = {}) => {
-//     return (dispatch) => {
-//         if (!data.brdno) {
-//             var doc = firestore.collection('boards').doc();
-//             data.brdno = doc.id;
-//             data.brddate = Date.now();
-//             return doc.set(data).then(() => {
-//                 data.brddate = dateFormat(data.brddate, "yyyy-mm-dd");
-//                 dispatch(board_save(data));
-//             })
-//         } else {
-//             return firestore.collection('boards').doc(data.brdno).update(data).then(() => {
-//                 dispatch(board_save(data));
-//             })            
-//         }
-//     }
-// };
-
-
-//글 삭제
-// export const firebase_board_remove = ( brdno = {}) => {
-//   return (dispatch) => {
-//       console.log(brdno);
-//       return firestore.collection('boards').doc(brdno).delete().then(() => {
-//           dispatch(board_remove(brdno));
-//       })
-//   }
-// };
   
 
 async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.

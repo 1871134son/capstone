@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import {boardSave} from "../firebase/firebase.js"
 import React, { useEffect, useState } from 'react';
-
+import { getUserName } from "../firebase/firebase.js";
 
 /**
  * Write class
@@ -15,21 +15,40 @@ function Write(){
     
 
     const [brdno, setBrdno] = useState('');//brdno가 있으면 업데이트 없으면 새로?
+    
     const [title, setTitle] = useState('');
     const [content,setContent] = useState('');
     const [brddate, setBrddate] = useState('');
+    //const [brdwriter, setBrdwriter] = useState('');
     
 
+    //날짜 정보 가져오기
+    useEffect(() => {
+        setBrddate(getCurrentDate());
+    }, []); 
+
+    const getCurrentDate = () => {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1, 2자리로 만듦
+        const day = String(date.getDate()).padStart(2, '0'); // 일자도 2자리로 만듦
+        const formattedDate = `${year}-${month}-${day}`;
+        return formattedDate;
+    };
+
+
     
+
+
 
     const navigate = useNavigate();
-  
-    const handleSubmit = (event) => {
-        console.log("1");
+   
+    const handleSubmit = async (event) => {
       event.preventDefault();
-         boardSave(brdno, title,content, brddate);
-         console.log("2");
-         navigate('/postlist'); // 
+      const brdwriter = await getUserName();
+        boardSave(brdno, title,content, brddate, brdwriter);
+         
+        navigate('/postlist'); // 
     
     };
 
