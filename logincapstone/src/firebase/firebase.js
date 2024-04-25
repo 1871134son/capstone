@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
 import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { format } from 'date-fns';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -134,21 +135,21 @@ export const boardRemove = ( brdno = {}) => {
 };
 
 
-//게시판 데이터 가지고 오기
-  export const boardList = () =>{
-    return (dispatch) => {
-        return db.collection('post').orderBy("brddate", "desc").get()
-                    .then((snapshot) => {
-                        var rows = [];
-                        snapshot.forEach((doc) => {
-                            var childData = doc.data();
-                            childData.brddate = dateFormat(childData.brddate, "yyyy-mm-dd");
-                            rows.push(childData);
-                        });
-                        dispatch(board_list(rows));
-                    });    
-    }
-}
+// //게시판 데이터 가지고 오기
+// export const boardList = () => {
+//   return (dispatch) => {
+//       return db.collection('post').orderBy("brddate", "desc").get()
+//           .then((snapshot) => {
+//               var rows = [];
+//               snapshot.forEach((doc) => {
+//                   var childData = doc.data();
+//                   childData.brddate = format(childData.brddate, "yyyy-MM-dd");
+//                   rows.push(childData);
+//               });
+//               dispatch(board_list(rows));
+//           });
+//   }
+// }
 
 
 //글 수정 or 등록  

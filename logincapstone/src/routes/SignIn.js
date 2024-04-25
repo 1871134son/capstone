@@ -1,60 +1,105 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
-import {signIn} from "../firebase/firebase.js"
-function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  import React, { useState, useEffect } from 'react';
+  import { signIn } from "../firebase/firebase.js";
+  import './SignIn.css';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faUser, faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+  import { faFacebook, faTwitter, faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons';
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await signIn(email, password);
-    navigate('/'); // 로그인 성공 시 홈 페이지로 이동
-  };
+  function SignInPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
-        <Card style={{ minWidth: '400px', maxWidth: '500px' }}>
-          <Card.Header style={{fontSize:"20px" ,fontWeight:"bold"}} >Sign in to EduNavi</Card.Header>
-          <Card.Body>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="formGroupEmail">
-                <Form.Label style={{fontWeight:"bold"}}>이메일</Form.Label>
-                <Form.Control type="email" placeholder="example123@naver.com"
-                value={email} onChange={(e)=>{setEmail(e.target.value)}} required
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formGroupPassword">
-                <Form.Label style={{fontWeight:"bold"}}>비밀번호</Form.Label>
-                <Form.Control type="password" placeholder="Password" 
-                value={password} onChange={(e)=>{setPassword(e.target.value)}} required
-                />
-              </Form.Group>
-              
-              <Button variant="primary" type="submit"style={{ width:'400px',marginBottom:"10px", backgroundColor:"#FF3224", fontWeight:"bold"}}>
-                   로그인
-              </Button>
+    useEffect(() => {
+      const signup = document.getElementById("sign-up");
+      const signin = document.getElementById("sign-in");
+      const loginin = document.getElementById("login-in");
+      const loginup = document.getElementById("login-up");
 
-              <Button variant="primary" type="submit"style={{ width:'400px',marginBottom:"10px", backgroundColor:"gray",fontWeight:"bold" }}>
-              <FontAwesomeIcon icon={faGoogle} /> Google 계정으로 계속하기
-              </Button>
+      if (signup && signin && loginin && loginup) {
+        signup.addEventListener("click", () => {
+          loginin.classList.remove("block");
+          loginup.classList.remove("none");
+    
+          loginin.classList.add("none");
+          loginup.classList.add("block");
+        })
+    
+        signin.addEventListener("click", () => {
+          loginin.classList.remove("none");
+          loginup.classList.remove("block");
+    
+          loginin.classList.add("block");
+          loginup.classList.add("none");
+        })
+      }
+    }, []);
 
-              <Button variant="primary" type="submit"style={{ width:'400px',marginBottom:"10px",fontWeight:"bold" }}>
-              <FontAwesomeIcon icon={faFacebook} /> Facebook 계정으로 계속하기
-              </Button>
-               
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      await signIn(email, password);
+      navigate('/'); // 로그인 성공 시 홈 페이지로 이동
+    };
 
-            </Form>
-          </Card.Body>
-        </Card>
+    return (
+      
+      <div className="login">
+        <div className="login__content">
+          <div className="login__img">
+            <img src="https://image.freepik.com/free-vector/code-typing-concept-illustration_114360-3581.jpg" alt="user login" />
+          </div>
+          <div className="login__forms">
+            {/* Sign in form */}
+            <form onSubmit={handleSubmit} className="login__register" id="login-in">
+              <h1 className="login__title">로그인</h1>
+              <div className="login__box">
+                <FontAwesomeIcon icon={faUser} className="login__icon" />
+                <input type="text" placeholder="아이디" className="login__input" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <div className="login__box">
+                <FontAwesomeIcon icon={faLock} className="login__icon" />
+                <input type="password" placeholder="비밀번호" className="login__input" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </div>
+              <a href="#" className="login__forgot">Forgot Password? </a>
+              <button type="submit" className="login__button">로그인</button>
+              <div>
+                <span className="login__account login__account--account">Don't Have an Account?</span>
+                &nbsp;
+                <span className="login__signin login__signin--signup" id="sign-up">Sign Up</span>
+              </div>
+            </form>
+            
+            {/* Create account form */}
+            <form action="" className="login__create none" id="login-up">
+              <h1 className="login__title">회원가입</h1>
+              <div className="login__box">
+                <FontAwesomeIcon icon={faUser} className="login__icon" />
+                <input type="text" placeholder="아이디" className="login__input" />
+              </div>
+              <div className="login__box">
+                <FontAwesomeIcon icon={faEnvelope} className="login__icon" />
+                <input type="text" placeholder="이메일" className="login__input" />
+              </div>
+              <div className="login__box">
+              <FontAwesomeIcon icon={faLock} className="login__icon" />
+                <input type="password" placeholder="비밀번호" className="login__input" />
+              </div>
+              <button type="submit" className="login__button">회원가입</button>
+              <div>
+                <span className="login__account login__account--account">Already have an Account?</span>
+                &nbsp;
+                <span className="login__signup login__signup--signup" id="sign-in">Sign In</span>
+              </div>
+              <div className="login__social">
+                <a href="#" className="login__social--icon"><FontAwesomeIcon icon={faFacebook} /></a>
+                <a href="#" className="login__social--icon"><FontAwesomeIcon icon={faTwitter} /></a>
+                <a href="#" className="login__social--icon"><FontAwesomeIcon icon={faGoogle} /></a>
+                <a href="#" className="login__social--icon"><FontAwesomeIcon icon={faGithub} /></a>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
-  
+
   export default SignInPage;
