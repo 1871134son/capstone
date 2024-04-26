@@ -7,54 +7,51 @@ import { faFacebook, faTwitter, faGoogle, faGithub } from '@fortawesome/free-bra
 import { useNavigate } from 'react-router-dom';
 
 function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [email, setEmail] = useState(''); // 이메일 상태를 저장할 useState 훅
+  const [password, setPassword] = useState(''); // 비밀번호 상태를 저장할 useState 훅
+  const navigate = useNavigate(); // React Router의 useNavigate 훅을 사용하여 페이지 이동 기능을 가져옴
 
   useEffect(() => {
+    // 페이지가 로드될 때 실행되는 효과
     const signup = document.getElementById("sign-up");
     const signin = document.getElementById("sign-in");
     const loginin = document.getElementById("login-in");
     const loginup = document.getElementById("login-up");
-    const certificate = document.getElementById("certificate"); // certificate 요소 추가
   
-    if (signup && signin && loginin && loginup && certificate) {
+    if (signup && signin && loginin && loginup) {
       signup.addEventListener("click", () => {
+        // "가입" 버튼을 클릭할 때의 동작
         loginin.classList.remove("block");
         loginup.classList.remove("none");
-        certificate.classList.remove("block"); // certificate가 추가되었을 때 보이지 않게 함
   
         loginin.classList.add("none");
         loginup.classList.add("block");
-        certificate.classList.add("none"); // certificate가 추가되었을 때 보이지 않게 함
       });
   
       signin.addEventListener("click", () => {
+        // "로그인" 버튼을 클릭할 때의 동작
         loginin.classList.remove("none");
         loginup.classList.remove("block");
-        certificate.classList.remove("none"); // certificate가 추가되었을 때 보이게 함
   
         loginin.classList.add("block");
         loginup.classList.add("none");
-        certificate.classList.add("block"); // certificate가 추가되었을 때 보이게 함
       });
     }
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await signIn(email, password);
+    await signIn(email, password); // 이메일과 비밀번호로 로그인을 시도함
   };
   
   return (
-    
     <div className="login">
       <div className="login__content">
         <div className="login__img">
           <img src="https://image.freepik.com/free-vector/code-typing-concept-illustration_114360-3581.jpg" alt="user login" />
         </div>
         <div className="login__forms">
-          {/* Sign in form */}
+          {/* 로그인 양식 */}
           <form onSubmit={handleSubmit} className="login__register" id="login-in">
             <h1 className="login__title">로그인</h1>
             <div className="login__box">
@@ -65,16 +62,16 @@ function SignInPage() {
               <FontAwesomeIcon icon={faLock} className="login__icon" />
               <input type="password" placeholder="비밀번호" className="login__input" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <a href="#" className="login__forgot">Forgot Password? </a>
+            <a href="#" className="login__forgot">비밀번호를 잊으셨나요? </a>
             <button type="submit" className="login__button">로그인</button>
             <div>
-              <span className="login__account login__account--account">Don't Have an Account?</span>
+              <span className="login__account login__account--account">계정이 없으신가요?</span>
               &nbsp;
-              <span className="login__signin login__signin--signup" id="sign-up">Sign Up</span>
+              <span className="login__signin login__signin--signup" id="sign-up">가입하기</span>
             </div>
           </form>
           
-          {/* Create account form */}
+          {/* 회원가입 양식 */}
           <form action="" className="login__create none" id="login-up">
             <h1 className="login__title">회원가입</h1>
             <div className="login__box">
@@ -91,9 +88,9 @@ function SignInPage() {
             </div>
             <button type="button" onClick={() => navigate('/second-form')} className="login__button">다음</button>
             <div>
-              <span className="login__account login__account--account">Already have an Account?</span>
+              <span className="login__account login__account--account">이미 계정이 있으신가요?</span>
               &nbsp;
-              <span className="login__signup login__signup--signup" id="sign-in">Sign In</span>
+              <span className="login__signup login__signup--signup" id="sign-in">로그인</span>
             </div>
             <div className="login__social">
               <a href="#" className="login__social--icon"><FontAwesomeIcon icon={faFacebook} /></a>
@@ -102,7 +99,6 @@ function SignInPage() {
               <a href="#" className="login__social--icon"><FontAwesomeIcon icon={faGithub} /></a>
             </div>
           </form>
-          
         </div>
       </div>
     </div>
