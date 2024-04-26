@@ -8,7 +8,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {getLicenseList, signUp} from "../firebase/firebase.js"
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchingLicenseList} from '../redux/store.js';
+import {fetchingLicenseList,sortLicenseList} from '../redux/store.js';
+
 function SignUpPage(){
     const[currentStep,setCurrentStep] = useState(1);
    
@@ -83,6 +84,7 @@ function SignUpPage(){
       useEffect(() => {
         // 상태 업데이트 후 licenseList가 업데이트되면 여기에서 확인할 수 있습니다.
         console.log("업데이트된 licenseList -> ", licenseList);
+        dispatch(sortLicenseList());  // sortLicenseList 액션을 디스패치
       }, [licenseList]); // licenseList가 변경될 때마다 이 useEffect가 호출됩니다.
     
       const handleSubmit = (event) => { //회원가입 버튼 누르면 

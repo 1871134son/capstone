@@ -102,7 +102,7 @@ const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날
                         }
                     >
                         {formattedDate}  
-                        {isImportant && <span style={{fontSize:"10px"}}><br></br>{importantText}</span>}
+                        {isImportant && <span style={{fontSize:"12px"}}><br></br>{importantText}</span>}
                     </span>
                 </div>,
             );
