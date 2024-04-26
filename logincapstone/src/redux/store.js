@@ -54,7 +54,8 @@ let licenseList = createSlice({
   },
   reducers:{//state로 치면 setState 비슷하다고 생각하시면 됩니다. 
     sortLicenseList(state){//myList를 
-      //자격증 정렬 함수 작성 
+      state.licenseList.sort((a,b)=> a.name.localeCompare(b.name,'ko-KR'));
+      console.log("called 한글로정렬");
     }
   },
   extraReducers : (builder) =>{

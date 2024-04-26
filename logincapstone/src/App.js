@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignInPage from './routes/SignIn.js';
 import SignUpPage from './routes/SignUp.js';
 import HomePage from './routes/Home.js';
+import MyPage from './routes/MyPage.js'
 import Calendar from './routes/Calendar.js';
 import LinkAPage from './routes/LinkA.js';
 import LinkBPage from './routes/LinkB.js';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/linkB" element={<LinkBPage />} />
         <Route path="/linkC" element={<LinkCPage />} />
         <Route path="/linkD" element={<LinkDPage />} />
+        <Route path="/myPage" element={<MyPage/>} />
       </Routes>
 
 
@@ -55,7 +57,7 @@ function NavigationBar() {
           <Nav.Link href="/calendar">캘린더</Nav.Link>
           <Nav.Link href="/postlist">게시판</Nav.Link>
           
-          <Nav.Link href="/mypage">내 정보</Nav.Link>
+          <Nav.Link href="/myPage">내 정보</Nav.Link>
         </Nav>
         <Nav className="ms-auto">
           <Nav.Link href="/signup">회원가입</Nav.Link>
