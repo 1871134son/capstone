@@ -58,7 +58,7 @@ function NavigationBar() {
           <Nav.Link href="/mypage">내 정보</Nav.Link>
         </Nav>
         <Nav className="ms-auto">
-          <Nav.Link href="/signup">회원가입</Nav.Link>
+          <Nav.Link href="/signup">마이페이지</Nav.Link>
           <Nav.Link href="/signin">로그인</Nav.Link>
         </Nav>
       </Container>
