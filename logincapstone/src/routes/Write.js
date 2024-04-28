@@ -14,7 +14,7 @@ import { getUserName } from "../firebase/firebase.js";
 function Write(){
     
 
-    const [brdno, setBrdno] = useState('');//brdno가 있으면 업데이트 없으면 새로?
+    const [brdno, setBrdno] = useState(0);//brdno가 있으면 업데이트 없으면 새로?
     
     const [title, setTitle] = useState('');
     const [content,setContent] = useState('');
@@ -45,8 +45,11 @@ function Write(){
    
     const handleSubmit = async (event) => {
       event.preventDefault();
-      const brdwriter = await getUserName();
-        boardSave(brdno, title,content, brddate, brdwriter);
+      const brdwriter = await getUserName();//작성자 정보 가져오기
+      
+
+
+        boardSave(brdno, title, content, brddate, brdwriter);
          
         navigate('/postlist'); // 
     
