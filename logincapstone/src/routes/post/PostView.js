@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getPostByNo } from '../../routes/Data';
 import './Post.css';
 import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNavigate 가져오기
+import Button from "react-bootstrap/Button";
 
 
 
@@ -55,7 +56,7 @@ import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNa
           ) : '해당 게시글을 찾을 수 없습니다.'
         }
         <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
-
+        <Button variant="danger">삭제</Button>
       </div>
     </>
   )

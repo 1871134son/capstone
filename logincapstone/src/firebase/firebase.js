@@ -5,6 +5,10 @@ import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } f
 import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { getStorage } from "firebase/storage";
+import { format } from 'date-fns';
+//import { db } from './firebase';
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -100,7 +104,7 @@ async function signUp(email,password,userName,licenses,jmcds){
 
 
   //글 작성 완료하면 firebase에 등록
- async function boardSave(brdno, title, content){
+ async function boardSave(brdno, title, content, brddate, brdwriter){
   try{
     const user = auth.currentUser;
 
@@ -111,9 +115,12 @@ async function signUp(email,password,userName,licenses,jmcds){
       brdno: brdno,
       title: title,
       content: content,
+      brddate: brddate,
+      brdwriter: brdwriter,
     });
   }else{
     //update
+    
   }
  
   } catch (error) {
@@ -122,6 +129,29 @@ async function signUp(email,password,userName,licenses,jmcds){
   }//catch 
 
 }
+
+
+//파이어베이스에서 게시물 데이터를 가져오는 함수
+export const fetchPostsFromFirebase = async () => {
+  try {
+    const postsSnapshot = await getDocs(collection(db,"post")); // 'post' 컬렉션에서 데이터 가져오기
+    const postsData = postsSnapshot.docs.map(doc => doc.data()); // 문서 스냅샷을 데이터 배열로 변환
+    
+    // postsSnapshot.forEach((doc) =>{
+    //   let docData = doc.data(); //문서의 데이터 객체 배열 
+    //   console.log("게시글 정보 ",docData)
+    // });
+    
+    console.log("게시글 정보:", postsData);
+    return postsData;
+    //return docData;
+  } catch (error) {
+
+    
+    console.error('Error fetching posts from Firebase:', error);
+    return [];
+  }
+};
 
 
 //글 삭제
@@ -135,52 +165,8 @@ export const boardRemove = ( brdno = {}) => {
 };
 
 
-//게시판 데이터 가지고 오기
-  export const boardList = () =>{
-    return (dispatch) => {
-        return db.collection('post').orderBy("brddate", "desc").get()
-                    .then((snapshot) => {
-                        var rows = [];
-                        snapshot.forEach((doc) => {
-                            var childData = doc.data();
-                            childData.brddate = dateFormat(childData.brddate, "yyyy-mm-dd");
-                            rows.push(childData);
-                        });
-                        dispatch(board_list(rows));
-                    });    
-    }
-}
 
 
-//글 수정 or 등록  
-//   export const firebase_board_save = ( data = {}) => {
-//     return (dispatch) => {
-//         if (!data.brdno) {
-//             var doc = firestore.collection('boards').doc();
-//             data.brdno = doc.id;
-//             data.brddate = Date.now();
-//             return doc.set(data).then(() => {
-//                 data.brddate = dateFormat(data.brddate, "yyyy-mm-dd");
-//                 dispatch(board_save(data));
-//             })
-//         } else {
-//             return firestore.collection('boards').doc(data.brdno).update(data).then(() => {
-//                 dispatch(board_save(data));
-//             })            
-//         }
-//     }
-// };
-
-
-//글 삭제
-// export const firebase_board_remove = ( brdno = {}) => {
-//   return (dispatch) => {
-//       console.log(brdno);
-//       return firestore.collection('boards').doc(brdno).delete().then(() => {
-//           dispatch(board_remove(brdno));
-//       })
-//   }
-// };
   
 
 async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
