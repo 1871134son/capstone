@@ -108,7 +108,6 @@ async function signUp(email,password,userName,licenses,jmcds){
     const user = auth.currentUser;
 
 
-<<<<<<< HEAD
     if(!brdno){
     /* DB 콜렉션에 유저 정보들 저장, uid로 document 생성 */
     await setDoc(doc(db,"post",user.uid),{
@@ -121,37 +120,6 @@ async function signUp(email,password,userName,licenses,jmcds){
   }else{
     //update
     
-=======
-    // if(!brdno){
-    // /* DB 콜렉션에 유저 정보들 저장, uid로 document 생성 */
-    // await setDoc(doc(db,"post",user.uid),{
-    //   brdno: brdno,
-    //   title: title,
-    //   content: content,
-    //   brddate: brddate,
-    //   brdwriter: brdwriter,
-    // });
-
-    if (!brdno) {
-      /* 새로운 게시글 생성 */
-      const postCollection = collection(db, "post");
-      const docRef = await addDoc(postCollection, {
-          title: title,
-          content: content,
-          brddate: brddate,
-          brdwriter: brdwriter,
-      });
-
-  }else{
-    //update
-    const postRef = doc(db, "post", brdno);
-    await setDoc(postRef, {
-        title: title,
-        content: content,
-        brddate: brddate,
-        brdwriter: brdwriter,
-    });
->>>>>>> bb5234fb88c4011411b1a3f8542fcf5418f7898f
   }
  
   } catch (error) {
