@@ -20,24 +20,11 @@ function Write(){
     const [content,setContent] = useState('');
     const [brddate, setBrddate] = useState('');
     //const [brdwriter, setBrdwriter] = useState('');
-    
 
-    //날짜 정보 가져오기
+
     useEffect(() => {
-        setBrddate(getCurrentDate());
-    }, []); 
-
-    const getCurrentDate = () => {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1, 2자리로 만듦
-        const day = String(date.getDate()).padStart(2, '0'); // 일자도 2자리로 만듦
-        const formattedDate = `${year}-${month}-${day}`;
-        return formattedDate;
-    };
-
-
-    
+        setBrddate(Date.now()); // 현재 시간으로 설정
+    }, []);
 
 
 
@@ -47,15 +34,13 @@ function Write(){
       event.preventDefault();
       const brdwriter = await getUserName();//작성자 정보 가져오기
       
-
-
-        boardSave(brdno, title, content, brddate, brdwriter);
+    //   const currentDate = new Date().toISOString();
+    //   console.log("시간확인", currentDate);
+      boardSave(null, title, content, brddate, brdwriter);
          
-        navigate('/postlist'); // 
+        navigate('/postlist');  
     
     };
-
-
   
         return (
             <div>
