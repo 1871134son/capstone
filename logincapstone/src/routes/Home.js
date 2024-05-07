@@ -1,4 +1,4 @@
-import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList } from "../firebase/firebase";
+import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,saveMajorToFireStore } from "../firebase/firebase";
 import { useState,useEffect } from 'react';
 import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
 import axios from "axios";
@@ -72,8 +72,8 @@ function AddMessage(props) {
         
         />
         <button onClick={()=>{
-            getLicenseInfoList();
-        }}>자격증정보로그에찍기</button>
+
+}}>학과저장</button>
          <button onClick={()=>{
             getExamFeeList();
         }}>자격증응시료찍기</button>
