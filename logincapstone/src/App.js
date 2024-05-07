@@ -1,7 +1,4 @@
-import './App.css';
-
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -10,28 +7,102 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SignInPage from './routes/SignIn.js';
 import SignUpPage from './routes/SignUp.js';
 import HomePage from './routes/Home.js';
-import MyPage from './routes/MyPage.js'
+import MyPage from './routes/MyPage.js';
 import Calendar from './routes/Calendar.js';
 import LinkAPage from './routes/LinkA.js';
 import LinkBPage from './routes/LinkB.js';
 import LinkCPage from './routes/LinkC.js';
 import LinkDPage from './routes/LinkD.js';
-
-//import BoardList from './routes/BoardList';
 import Write from './routes/Write';
 import PostMain from './routes/post/PostMain';
 import PostView from './routes/post/PostView';
-
-
+import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
+import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
+import './App.css';
 
 function App() {
+  // 네비게이션 상태 관리
+  const [subMenuVisible, setSubMenuVisible] = useState({
+    calendar: false,
+    post: false,
+    myPage: false,
+  });
+
+  // 슬라이드 상태 관리
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  // 슬라이드 변경 이벤트 핸들러
+  useEffect(() => {
+    const slideInterval = setInterval(() => {
+      setSlideIndex((prevIndex) => (prevIndex + 1));
+    }, 5000);
+
+    return () => clearInterval(slideInterval);
+  }, []);
+
   return (
-    <div className="App">
-      <NavigationBar />
+    <div className="wrap">
+      <div className="header">
+        <div className="inner">
+          <div className="logo">
+            <h1>
+              <Link to="/">
+                <img src="images/logo.png" alt="홈 로고" />
+              </Link>
+            </h1>
+          </div>
+          <div className="nav">
+            <ul className="main_menu">
+              <li
+                onMouseOver={() => setSubMenuVisible({ ...subMenuVisible, calendar: true })}
+                onMouseOut={() => setSubMenuVisible({ ...subMenuVisible, calendar: false })}
+              >
+                <Link to="/calendar">캘린더</Link>
+                {subMenuVisible.calendar && (
+                  <ul className="sub_menu">
+                    <li><Link to="/calendar">조회</Link></li>
+                    <li><Link to="/calendar">이체</Link></li>
+                    <li><Link to="/calendar">공과금</Link></li>
+                    <li><Link to="/calendar">예금/신탁</Link></li>
+                  </ul>
+                )}
+              </li>
+              <li
+                onMouseOver={() => setSubMenuVisible({ ...subMenuVisible, post: true })}
+                onMouseOut={() => setSubMenuVisible({ ...subMenuVisible, post: false })}
+              >
+                <Link to="/postlist">게시판</Link>
+                {subMenuVisible.post && (
+                  <ul className="sub_menu">
+                    <li><Link to="/postlist">조회</Link></li>
+                    <li><Link to="/postlist">등록</Link></li>
+                    <li><Link to="/postlist">수정</Link></li>
+                    <li><Link to="/postlist">삭제</Link></li>
+                  </ul>
+                )}
+              </li>
+              <li
+                onMouseOver={() => setSubMenuVisible({ ...subMenuVisible, myPage: true })}
+                onMouseOut={() => setSubMenuVisible({ ...subMenuVisible, myPage: false })}
+              >
+                <Link to="/myPage">내 정보</Link>
+                {subMenuVisible.myPage && (
+                  <ul className="sub_menu">
+                    <li><Link to="/myPage">조회</Link></li>
+                    <li><Link to="/myPage">수정</Link></li>
+                    <li><Link to="/myPage">삭제</Link></li>
+                  </ul>
+                )}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* 라우트 설정 */}
       <Routes>
-        <Route path="/" element={<HomePageWithLinks />} />
-        <Route path="/postView/:no" element={<PostView/>} />
-        <Route path="/postlist" element={<PostMain/>} />
+        <Route path="/postView/:no" element={<PostView />} />
+        <Route path="/postlist" element={<PostMain />} />
         <Route path="/write" element={<Write />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -40,60 +111,31 @@ function App() {
         <Route path="/linkB" element={<LinkBPage />} />
         <Route path="/linkC" element={<LinkCPage />} />
         <Route path="/linkD" element={<LinkDPage />} />
-        <Route path="/myPage" element={<MyPage/>} />
+        <Route path="/myPage" element={<MyPage />} />
       </Routes>
 
+      {/* 추가된 컴포넌트 */}
+      <HomePageWithLinksSlider slideIndex={slideIndex} />
+      <AdditionalLinksSlider />
 
-    </div>
-  );
-}
-
-function NavigationBar() {
-  return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="/">EduNavi</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link href="/calendar">캘린더</Nav.Link>
-          <Nav.Link href="/postlist">게시판</Nav.Link>
-          
-          <Nav.Link href="/myPage">내 정보</Nav.Link>
-        </Nav>
-        <Nav className="ms-auto">
-          <Nav.Link href="/signup">마이페이지</Nav.Link>
-          <Nav.Link href="/signin">로그인</Nav.Link>
-        </Nav>
-      </Container>
-    </Navbar>
-  );
-}
-
-
-function HomePageWithLinks() {
-  return (
-    <div>
-      <HomePage />
-      <div className="links-wrapper">
-        <LinkContainer to="/linkA">
-          <img src="linkA_image.jpg" alt="Link A" className="link-image" />
-        </LinkContainer>
-        <LinkContainer to="/linkB">
-          <img src="linkB_image.jpg" alt="Link B" className="link-image" />
-        </LinkContainer>
-        <LinkContainer to="/linkC">
-          <img src="linkC_image.jpg" alt="Link C" className="link-image" />
-        </LinkContainer>
-        <LinkContainer to="/linkD">
-          <img src="linkD_image.jpg" alt="Link D" className="link-image" />
-        </LinkContainer>
+      <div className="footer">
+        <div className="inner">
+          <div className="bt_logo">
+            <Link to="/">
+              <img src="images/bt_logo.png" alt="홈 하단로고" />
+            </Link>
+          </div>
+          <div className="bt_menu">
+            <ul>
+              <li><a href="/">하단 메뉴 1</a></li>
+              <li><a href="/">하단 메뉴 2</a></li>
+              <li><a href="/">하단 메뉴 3</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-function LinkContainer({ to, children }) {
-  return <Link to={to} className="link-container">{children}</Link>;
-}
-
 
 export default App;

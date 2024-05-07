@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {getLicenseList, signUp} from "../firebase/firebase.js"
+import {getLicenseList, signUp, fetchMajorList} from "../firebase/firebase.js"
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {fetchingLicenseList,sortLicenseList} from '../redux/store.js';
@@ -73,6 +73,10 @@ function SignUpPage(){
       const [confirm,setConfirm] = useState('');
       const [licenses,setLicenses] = useState(['없음','없음','없음']);
       const [jmcds,setJmcds] = useState(['empty','empty','empty']); //유저가 원하는 자격증의 코드 값. 없으면 empty. 
+      const [majorList,setMajorList] = useState([]); //학과리스트를 저장할 state
+      const [major, setMajor] = useState('');//사용자가 선택한 major
+      const [majorLicenses,setMajorLicenses] = useState([]);//major에 따른 사용자에게 추천해줄 자격증들 
+
       const navigate = useNavigate();
       let dispatch = useDispatch();
       const licenseList = useSelector((state)=> state.licenseList.licenseList)//redux store.js 에서 licenseList 를 가져와준다. 
@@ -81,16 +85,33 @@ function SignUpPage(){
         dispatch(fetchingLicenseList());
       },[dispatch]);
 
+     
+      useEffect(() => { //firebase DB에서 학과에 대한 정보들을 가져옵니다. 
+        async function loadMajorList() {
+          try {
+            const majors = await fetchMajorList();
+            majors.sort((a,b)=> a.name.localeCompare(b.name,'ko-KR')); //한글 정렬 
+            setMajorList(majors);
+          } catch (error) {
+            console.error("majorList를 가져오는데 실패했습니다.", error);
+            // 에러 처리 로직
+          }
+        }
+        loadMajorList();
+      }, []);
+
+
       useEffect(() => {
         // 상태 업데이트 후 licenseList가 업데이트되면 여기에서 확인할 수 있습니다.
         console.log("업데이트된 licenseList -> ", licenseList);
         dispatch(sortLicenseList());  // sortLicenseList 액션을 디스패치
       }, [licenseList]); // licenseList가 변경될 때마다 이 useEffect가 호출됩니다.
     
+
       const handleSubmit = (event) => { //회원가입 버튼 누르면 
         event.preventDefault();
         if(confirmCheck(password,confirm)){
-           signUp(email, password,userName,licenses,jmcds);
+           signUp(email, password,userName,licenses,jmcds,major,majorLicenses);
           navigate('/'); // 로그인 성공 시 홈 페이지로 이동
         }
         else{
@@ -123,6 +144,21 @@ function SignUpPage(){
       }
       console.log(jmcds,licenses);
     };
+
+    const majorSelectChange = (value) =>{
+      const seletedMajor = majorList.find(major => major.name === value);
+      
+      setMajor(value);
+      
+      if(seletedMajor){//선택한 값(사용자가 입력한 자격증이름)이 유효하면 
+        setMajorLicenses(seletedMajor.list);
+      }
+      else{//만약에 사용자가 입력한 값이 licenseList 안에 없으면, 아무 자격증이나 추천함. 
+        setMajorLicenses(['정보처리기사','가스기사','전기기사']);
+      }
+
+    };
+    
 
     return(
     <>
@@ -163,10 +199,10 @@ function SignUpPage(){
                 />
                 </Form.Group>
                 
-                <Form.Label style={{fontWeight:"bold",textAlign:"left"}}>관심 있는 자격증을 최대 3가지 골라주세요.</Form.Label> <br></br><br></br>
+                <Form.Label style={{fontWeight:"bold",textAlign:"left"}}>관심 있는 자격증과 학과를 골라주세요.</Form.Label> <br></br><br></br>
 
 
-                {Array.from({ length: 3 }).map((_, index) => (
+                {Array.from({ length: 2 }).map((_, index) => (
                 <Form.Group className="mb-3" controlId={`formGroupLicense${index + 1}`} style={{ textAlign: "left" }} key={index}>
                   <Form.Label style={{ fontWeight: "bold" }}>관심 있는 자격증{index + 1}</Form.Label>
                   <Form.Control 
@@ -184,6 +220,22 @@ function SignUpPage(){
                   </datalist>                
                 </Form.Group>
               ))}
+                <Form.Group className="mb-3" controlId={`formGroupLicense$`} style={{ textAlign: "left" }}>
+                  <Form.Label style={{ fontWeight: "bold" }}>관심 분야(학과)</Form.Label>
+                  <Form.Control 
+                    type = "text"
+                    list = "major_id"
+                    value={major} // 현재 상태에 따라 선택값을 설정
+                    onChange={(e) => majorSelectChange(e.target.value)  } // 변경 이벤트 핸들러
+                  />
+                 <datalist id="major_id">
+                    {majorList &&
+                      majorList.map((major, index) => ( //데이터 리스트에 자격증 정보를 삽입 
+                        <option key={index} value={major.name}>{major.name}</option>
+                      ))
+                    }
+                  </datalist>                
+                </Form.Group>
 
                 
                 <Button type="submit" onClick={()=>{

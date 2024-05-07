@@ -4,6 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
 import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { getStorage } from "firebase/storage";
 import { format } from 'date-fns';
 //import { db } from './firebase';
 
@@ -32,7 +33,7 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 //Navigate사용 
-
+const storage = getStorage(app);
 
 //사용자 회원가입 시, license name, jmcd 값을 user collection의 codument에 필드 값을 추가해서 저장함. 
 //현재 사용자의 jmcd 값을 저장, 적합한 값이 있으면, 그만큼 함수를 호출, 그리
@@ -79,7 +80,7 @@ async function signIn(email, password) {
   }//getUserName()
   
 
-async function signUp(email,password,userName,licenses,jmcds){
+async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses){
     try{
       const userCredential = await createUserWithEmailAndPassword(auth,email,password);
       const user = userCredential.user;
@@ -89,7 +90,9 @@ async function signUp(email,password,userName,licenses,jmcds){
         userName: userName,
         licenses: licenses,
         email : email,
-        jmcds : jmcds
+        jmcds : jmcds,
+        major : major,
+        majorLicenses : majorLicenses
       });
 
       console.log('User created successfully with email:', user.email);
@@ -123,7 +126,9 @@ async function signUp(email,password,userName,licenses,jmcds){
           
       });
 
+
       //await setDoc(doc(db, 'post', docRef.id), { brdno: docRef.id }, { merge: true });
+
       
       console.log("New post added with ID: ", docRef.id);
       
@@ -222,7 +227,36 @@ async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //자격�
       console.log("firebase.js 133: Document written with ID", docRef.id);
     }catch(error){
       console.error("Error adding document LicenseList: ",error);
+    }
+  }
+}//saveLicenseToFireStore END
 
+
+async function saveMajorToFireStore(){ //자격증 리스트를 Firebase DB에 저장합니다. 
+  const majorList = [
+    "컴퓨터공학과", "기계공학과", "전기공학과", "전자공학과",
+    "화학공학과", "건축공학과", "토목공학과", "산업공학과",
+    "의학과", "간호학과", "경영학과", "경제학과",
+    "심리학과", "생명과학과", "화학과", "물리학과",
+    "수학과", "통계학과", "정치외교학과", "법학과",
+    "사회학과", "역사학과", "영어영문학과", "국어국문학과",
+    "철학과", "체육학과", "미술학과", "음악학과",
+    "생물학과", "재료공학과", "식품공학과", "조경학과",
+    "도시공학과", "환경공학과", "정보통신공학과", "자동차공학과",
+    "항공우주공학과", "로봇공학과", "해양공학과", "생명공학과",
+    "바이오공학과", "안전공학과", "에너지공학과", "지구과학과",
+    "조선해양공학과", "광고홍보학과", "국제학과", "농학과",
+    "수의학과", "약학과"
+];
+  const majorCollection = collection(db,"major"); //license collection reference
+  for(let i =0; i<majorList.length; i++){
+    try{
+      const docRef = await addDoc(majorCollection,{
+        name: majorList[i],
+      });
+      console.log("학과추가완료", docRef.id);
+    }catch(error){
+      console.error("Error adding document major: ",error);
     }
   }
 }//saveLicenseToFireStore END
@@ -245,6 +279,22 @@ async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 �
 }
 
 
+async function fetchMajorList(){ //fireStore에서 db정보를 가져와서 배열을 반환
+  const majorList =[
+  
+  ];
+  try{
+    const querySnapShot = await getDocs(collection(db,"major"));
+    querySnapShot.forEach((doc) => {
+      let docData = doc.data();//문서의 데이터 객체 가져옴.
+      majorList.push(docData); //객체 배열에 저장 
+    });
+    console.log("fetchmajorList 성공!:", majorList);
+  }catch(error){
+    console.error("fetchmajorList 에러: ",error);
+  }
+  return majorList;//배열을 반환한다. 
+}
 
 async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은 JSON데이터를 파싱 후 리턴 
   console.log("getExamScheduleList 호출");
@@ -443,4 +493,4 @@ async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 �
 }//end getExamFeeList
 
 //인증 객체 바깥에서도 사용 가능하게 export
-export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave};
+export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,fetchMajorList};
