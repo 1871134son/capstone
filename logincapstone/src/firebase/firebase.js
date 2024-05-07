@@ -107,41 +107,25 @@ async function signUp(email,password,userName,licenses,jmcds){
   try{
     const user = auth.currentUser;
 
-
-<<<<<<< HEAD
-    if(!brdno){
-    /* DB 콜렉션에 유저 정보들 저장, uid로 document 생성 */
-    await setDoc(doc(db,"post",user.uid),{
-      brdno: brdno,
-      title: title,
-      content: content,
-      brddate: brddate,
-      brdwriter: brdwriter,
-    });
-  }else{
-    //update
-    
-=======
-    // if(!brdno){
-    // /* DB 콜렉션에 유저 정보들 저장, uid로 document 생성 */
-    // await setDoc(doc(db,"post",user.uid),{
-    //   brdno: brdno,
-    //   title: title,
-    //   content: content,
-    //   brddate: brddate,
-    //   brdwriter: brdwriter,
-    // });
-
     if (!brdno) {
       /* 새로운 게시글 생성 */
       const postCollection = collection(db, "post");
+      
+      //const currentDate = new Date().toISOString();
       const docRef = await addDoc(postCollection, {
+         // brdno: docRef.id,
+
+          uid: user.uid,
           title: title,
           content: content,
           brddate: brddate,
           brdwriter: brdwriter,
       });
 
+      await setDoc(doc(db, 'post', docRef.id), { brdno: docRef.id }, { merge: true });
+      
+      console.log("New post added with ID: ", docRef.id);
+      
   }else{
     //update
     const postRef = doc(db, "post", brdno);
@@ -151,11 +135,11 @@ async function signUp(email,password,userName,licenses,jmcds){
         brddate: brddate,
         brdwriter: brdwriter,
     });
->>>>>>> bb5234fb88c4011411b1a3f8542fcf5418f7898f
+    console.log("Post updated with ID: ", brdno);
   }
  
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error('Error saving user:', error);
     
   }//catch 
 
@@ -183,6 +167,7 @@ export const fetchPostsFromFirebase = async () => {
     return [];
   }
 };
+
 
 
 //글 삭제

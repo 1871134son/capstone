@@ -20,20 +20,12 @@ function HomePageWithLinksSlider() {
             <Slider {...settings}>
                 <div>
                     <a href="/linkA">
-<<<<<<< HEAD
                         <img src="image1.jpg" alt="첫번째" className="link-image" />
-=======
-                        <img src="image1.png" alt="첫번째" className="link-image" />
->>>>>>> bb5234fb88c4011411b1a3f8542fcf5418f7898f
                     </a>
                 </div>
                 <div>
                     <a href="/linkB">
-<<<<<<< HEAD
                         <img src="image2.jpg" alt="두번째" className="link-image" />
-=======
-                        <img src="image2.png" alt="두번째" className="link-image" />
->>>>>>> bb5234fb88c4011411b1a3f8542fcf5418f7898f
                     </a>
                 </div>
             </Slider>
