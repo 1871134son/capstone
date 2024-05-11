@@ -1,4 +1,4 @@
-import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList } from "../firebase/firebase";
+import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo } from "../firebase/firebase";
 import { useState,useEffect } from 'react';
 import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
 import Col from 'react-bootstrap/Col';
@@ -6,17 +6,68 @@ import Container from 'react-bootstrap/Container';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row';
 import Nav from 'react-bootstrap/Nav';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
+
+
 
 function MyPage(){
 
     return(
         <>
-            <StackedExample></StackedExample>
             <UserNameComponent></UserNameComponent>
+            <SearchLicenseComponent></SearchLicenseComponent>
         </>
     )
 }
-
+function SearchLicenseComponent() {
+  const auth = getAuth();
+  const [searchText, setSearchText] = useState('');
+  const licenseList = useSelector((state)=> state.licenseList.licenseList)//redux store.js 에서 licenseList 를 가져와준다. 
+  
+  const navigate = useNavigate();
+  let dispatch = useDispatch();
+  
+  useEffect(()=>{
+    dispatch(fetchingLicenseList());
+  },[dispatch]);
+  
+  useEffect(() => {
+    // 상태 업데이트 후 licenseList가 업데이트되면 여기에서 확인할 수 있습니다.
+   // console.log("업데이트된 licenseList -> ", licenseList);
+    dispatch(sortLicenseList());  // sortLicenseList 액션을 디스패치
+  }, [licenseList]); // licenseList가 변경될 때마다 이 useEffect가 호출됩니다.
+  return (
+    <div>
+      <input
+        type="text"
+        list = "license_id"
+        value={searchText}
+        onChange={(e) =>
+          setSearchText(e.target.value)
+          }
+        placeholder="Enter a message"
+      />
+      <datalist id="license_id">
+        {licenseList &&
+          licenseList.map((license, index) => ( //데이터 리스트에 자격증 정보를 삽입 
+            <option key={index} value={license.name}>{license.name}</option>
+          ))
+        }
+      </datalist>  
+      <button onClick={()=>{
+        searchLicenseInfo(searchText);
+      }}>자격증 정보 검색</button>
+       <button onClick={()=>{
+          getExamFeeList();
+      }}>자격증응시료찍기</button>
+       <button onClick={()=>{
+          getExamScheduleList();
+      }}>자격증시험일정로그에찍기</button>
+    </div>
+  );
+}//SearchLicenseComponent()
 
 
 function UserNameComponent(){ //현재 로그인 한 사용자의 이름을 출력해줍니다. 
@@ -54,17 +105,5 @@ function UserImage() {
       
     );
   }//ShapeExample
-  function StackedExample() {
-    return (
-      <Nav defaultActiveKey="/home" className="flex-column left-nav">
-        <Nav.Link href="/home">Active</Nav.Link>
-        <Nav.Link eventKey="link-1">Link</Nav.Link>
-        <Nav.Link eventKey="link-2">Link</Nav.Link>
-        <Nav.Link eventKey="disabled" disabled>
-          Disabled
-        </Nav.Link>
-      </Nav>
-    );
-  }
   
 export default MyPage;

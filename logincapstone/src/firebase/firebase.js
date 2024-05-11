@@ -2,10 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
-import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs} from "firebase/firestore"; //firebase cloud firestore 기능 
+import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs, query, where,} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { getStorage } from "firebase/storage";
 import { format } from 'date-fns';
+import { Alert } from "bootstrap";
 //import { db } from './firebase';
 
 
@@ -390,6 +391,114 @@ async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은
   }//else user End 
 }//end getExamScheduleList
 
+/**
+//사용자가 입력한 자격증 이름을 검색한다 
+ */
+async function searchLicenseInfo(licenseName){
+  //이름으로 license db에서 jmcd정보 찾기 
+  const licenseData = [];
+ const licenseCol = collection(db, "license"); //license 컬렉션 참조 
+ const q = query(licenseCol, where("name","==", licenseName)); // 쿼리 생성
+
+ try{
+  const querySnapShot = await getDocs(q); //license 콜렉션에서 licenseName에 해당하는 쿼리를 가져옴 
+  if(querySnapShot.empty){
+    alert("검색어를 다시 확인해주세요. 현재는 국가자격증만 검색 가능합니다.");
+  }else{
+    console.log("자격증 찾음");
+    querySnapShot.forEach(doc => {
+      const jmcd = doc.data().jmcd;
+      const infoData =  getLicenseInfo(jmcd);  //자격증 정보 가져오기 
+      const feeData = getLicenseFee(jmcd);    // 자격증 시험 비용 가져오기 
+      licenseData.push(feeData);
+      licenseData.push(infoData);
+      return licenseData; //자격증에 대한 정보를 전달한다. 
+    });
+  }//else
+ }
+ catch(error){
+  console.error("license 검색에 오류 발생",error);
+ }
+
+}
+
+/** 자격증 정보를 공공데이터 API에서 받아온다. */
+async function getLicenseFee(jmcd){
+  let feeList = [];
+  try{
+    const functions =getFunctions(app,"us-central1");
+    const getFee = httpsCallable(functions,"getExamFee");
+//      console.log("getLicenseInfo() 호출");
+      const result = await getFee({jmcd:jmcd}); //jmcd를 매개변수로 해서 자격증 호출함.
+      const jsonResult = result.data.dataText; // JSON형태임. 
+      const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+      //이제 
+
+      //items가 배열이 아니면 배열로 만드는 처리. 
+      const items = jsonData.response?.body?.items?.item;
+      const normalizedItems = Array.isArray(items) ? items : [items];
+
+      const fee = normalizedItems.map(item =>({
+        /**시험응시료*/
+        contents: item.contents ? String(item.contents): " ",
+        /**응시수수료 */
+        infogb: item.infogb ? String(item.infogb): " ",
+        /**자격증이름  */
+        licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+      }));
+      feeList.push(fee);
+      console.log("데이터", feeList);
+      return feeList;
+    }
+  catch(error){
+    const code = error.code;
+    const message = error.message;
+    const details = error.details;
+    console.error("getLicenseFee/fireabase.js : "+error+code+message+details);
+  }
+}//getLicenseFee
+
+/** 자격증 정보를 공공데이터 API에서 받아온다. */
+async function getLicenseInfo(jmcd){
+  const infoList = [];
+  try{
+    const functions =getFunctions(app,"us-central1");
+    const getInfo = httpsCallable(functions,"getLicenseInfo");
+//      console.log("getLicenseInfo() 호출");
+      const result = await getInfo({jmcd:jmcd}); //jmcd를 매개변수로 해서 자격증 호출함.
+      const jsonResult = result.data.dataText; // JSON형태임. 
+      const jsonData = JSON.parse(jsonResult);//JSON에서 자바스크립트 객체로 파싱.
+      //이제 
+
+      //items가 배열이 아니면 배열로 만드는 처리. 
+      const items = jsonData.response?.body?.items?.item;
+      const normalizedItems = Array.isArray(items) ? items : [items];
+
+      const info = normalizedItems.map(item =>({ //schedule -> 자격증 1개에 대한 정보. 
+        /**글 내용*/
+        contents: item.contents ? String(item.contents): " ",
+        /**글 정보종류 */
+        contentsName: item.infogb ? String(item.infogb): " ",
+        /**자격증 이름 */
+        licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+        /**직무 분야 */
+        obligfldnm: item.obligfldnm ? String(item.obligfldnm): " ",
+
+      }));
+      infoList.push(info);
+      console.log("데이터", infoList);
+      return infoList;
+    }
+  catch(error){
+    const code = error.code;
+    const message = error.message;
+    const details = error.details;
+    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+  }
+}//getLicenseInfo
+
+
+
 
 async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd 값을 인자로 넘겨주고
   const user = auth.currentUser;
@@ -493,4 +602,5 @@ async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 �
 }//end getExamFeeList
 
 //인증 객체 바깥에서도 사용 가능하게 export
-export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,fetchMajorList};
+export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
+  fetchMajorList,getLicenseInfo,searchLicenseInfo};
