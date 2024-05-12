@@ -53,46 +53,20 @@ function App() {
           </div>
           <div className="nav">
             <ul className="main_menu">
-              <li
-                onMouseOver={() => setSubMenuVisible({ ...subMenuVisible, calendar: true })}
-                onMouseOut={() => setSubMenuVisible({ ...subMenuVisible, calendar: false })}
-              >
+              <li>
                 <Link to="/calendar">캘린더</Link>
-                {subMenuVisible.calendar && (
-                  <ul className="sub_menu">
-                    <li><Link to="/calendar">조회</Link></li>
-                    <li><Link to="/calendar">이체</Link></li>
-                    <li><Link to="/calendar">공과금</Link></li>
-                    <li><Link to="/calendar">예금/신탁</Link></li>
-                  </ul>
-                )}
               </li>
-              <li
-                onMouseOver={() => setSubMenuVisible({ ...subMenuVisible, post: true })}
-                onMouseOut={() => setSubMenuVisible({ ...subMenuVisible, post: false })}
-              >
+              <li>
                 <Link to="/postlist">게시판</Link>
-                {subMenuVisible.post && (
-                  <ul className="sub_menu">
-                    <li><Link to="/postlist">조회</Link></li>
-                    <li><Link to="/postlist">등록</Link></li>
-                    <li><Link to="/postlist">수정</Link></li>
-                    <li><Link to="/postlist">삭제</Link></li>
-                  </ul>
-                )}
               </li>
-              <li
-                onMouseOver={() => setSubMenuVisible({ ...subMenuVisible, myPage: true })}
-                onMouseOut={() => setSubMenuVisible({ ...subMenuVisible, myPage: false })}
-              >
+              <li>
                 <Link to="/myPage">내 정보</Link>
-                {subMenuVisible.myPage && (
-                  <ul className="sub_menu">
-                    <li><Link to="/myPage">조회</Link></li>
-                    <li><Link to="/myPage">수정</Link></li>
-                    <li><Link to="/myPage">삭제</Link></li>
-                  </ul>
-                )}
+              </li>
+              <li>
+                <Link to="/signin">로그인</Link>
+              </li>
+              <li>
+                <Link to="/signup">회원가입</Link>
               </li>
             </ul>
           </div>
@@ -112,6 +86,7 @@ function App() {
         <Route path="/linkC" element={<LinkCPage />} />
         <Route path="/linkD" element={<LinkDPage />} />
         <Route path="/myPage" element={<MyPage />} />
+        <Route path="/" element={<HomePage />} />
       </Routes>
 
       {/* 추가된 컴포넌트 */}
@@ -139,3 +114,4 @@ function App() {
 }
 
 export default App;
+

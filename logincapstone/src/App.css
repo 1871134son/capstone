@@ -62,15 +62,32 @@
   margin-right: 100px;
 }
 
-.sub_menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+.nav .main_menu {
+  display: flex; /* 가로로 정렬 */
 }
+
+.nav .main_menu li {
+  margin-right: 10px;
+}
+
+.nav .main_menu li:last-child {
+  margin-right: 0;
+}
+
+.nav .main_menu li a {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+  background-color: #ff8c3f;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav .main_menu li a:hover {
+  background-color: #ff9c5f;
+}
+
 
 .main_menu>li:hover .sub_menu {
   display: block;
@@ -79,28 +96,6 @@
 .main_menu li:hover .sub_menu {
   display: block;
   /* 마우스를 메인 메뉴 위에 올렸을 때 서브 메뉴를 보이도록 함 */
-}
-
-.sub_menu li {
-  padding: 10px;
-  /* 서브 메뉴의 각 항목의 안쪽 여백 설정 */
-}
-
-.sub_menu li:hover {
-  background-color: #f0f0f0;
-  /* 마우스를 서브 메뉴 항목 위에 올렸을 때 배경색 변경 */
-}
-
-.sub_menu a {
-  color: #333;
-  /* 링크 색상 지정 */
-  text-decoration: none;
-  /* 밑줄 제거 */
-}
-
-.sub_menu a:hover {
-  text-decoration: underline;
-  /* 마우스를 링크 위에 올렸을 때 밑줄 표시 */
 }
 
 
@@ -112,6 +107,7 @@ li {
 a:link,
 a:visited {
   text-decoration: none;
+  color: inherit;
   /* 밑줄 없어짐 */
   color: inherit;
   /* css 색상코드 상속 */
@@ -187,29 +183,6 @@ a:visited {
 
 .wrap .header .inner .nav .main_menu>li>a:hover {
   background-color: #ff8c3f;
-}
-
-.nav .sub_menu {
-  display: none;
-  width: 180px;
-  z-index: 2;
-  position: absolute;
-}
-
-.nav .sub_menu>li>a {
-  display: block;
-  width: 180px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  font-size: 16px;
-  background-color: #fff;
-  color: #000;
-}
-
-.nav .sub_menu>li>a:hover {
-  background-color: #ff8c3f;
-  color: #fff;
 }
 
 .slide {
