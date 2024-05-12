@@ -3,22 +3,21 @@ import { Link } from 'react-router-dom';
 import CommonTable from '../../routes/component/table/CommonTable';
 import CommonTableColumn from '../../routes/component/table/CommonTableColumn';
 import CommonTableRow from '../../routes/component/table/CommonTableRow';
-import { postList } from '../../routes/Data';
-import { fetchPostsFromFirebase } from '../../firebase/firebase.js'; // 파이어베이스에서 데이터
+import Button from "react-bootstrap/Button";
 import dateFormat from 'dateformat';
+import { fetchPostsFromFirebase } from '../../firebase/firebase.js'; // 파이어베이스에서 데이터
+import './PostList.css';
 
-
-const PostList = props => {
-  const [ dataList, setDataList ] = useState([]);
- const [selectedBrdNo, setSelectedBrdNo] = useState(null); // brdno 값을 저장할 상태 추가
+const PostMain = () => {
+  const [dataList, setDataList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Firebase에서 데이터 가져오기
         const posts = await fetchPostsFromFirebase();
-        // 날짜순으로 정렬
-        //posts.sort((a, b) => new Date(b.brddate) - new Date(a.brddate));
         setDataList(posts);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -28,38 +27,100 @@ const PostList = props => {
     fetchData();
   }, []);
 
+  const formatDate = date => {
+    const formattedDate = new Date(date).toISOString().split('T')[0];
+    return formattedDate;
+  };
 
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
 
-    //날짜 형식 변환 함수
-    // const formatDate = date => {
-    //   const formattedDate = new Date(date).toISOString().split('T')[0];
-    //   return formattedDate;
-    // };
+  const filteredPosts = dataList.filter(item =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
+  const paginate = (pageNumber) => {
+    if (pageNumber < 1 || pageNumber > Math.ceil(filteredPosts.length / postsPerPage)) {
+      return;
+    }
+    setCurrentPage(pageNumber);
+  };
+
+  const goToPrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, Math.ceil(filteredPosts.length / postsPerPage)));
+  };
+
+  const goToFirstPage = () => {
+    setCurrentPage(1);
+  };
+
+  const goToLastPage = () => {
+    setCurrentPage(Math.ceil(filteredPosts.length / postsPerPage));
+  };
+
+  const handleItemsPerPageChange = e => {
+    setPostsPerPage(parseInt(e.target.value));
+    setCurrentPage(1);
+  };
 
   return (
     <>
-    
-    
-      <CommonTable headersName={['글번호', '제목', '등록일', '작성자']}>
-        {dataList.map((item, index) => (
-          <CommonTableRow key={index}>
-            <CommonTableColumn>{item.brdno}</CommonTableColumn>
-            <CommonTableColumn>
-              <Link to={`/postView/${item.brdno}`}>{item.title}</Link>  
-            </CommonTableColumn>
-            {/* <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn> */}
-            
-            <CommonTableColumn>{dateFormat(item.brddate, "yyyy-mm-dd")}</CommonTableColumn>
-            
-            <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
-          </CommonTableRow>
-        ))}
-      </CommonTable>
-      
+      <div className="board_wrap">
+        <div className="board_title">
+          <strong>게시판</strong>
+        </div>
+        <div className="items-per-page">
+          <span>Show: </span>
+          <select value={postsPerPage} onChange={handleItemsPerPageChange}>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={15}>15</option>
+            <option value={20}>20</option>
+          </select>
+          <span> items per page</span>
+        </div>
+        <div className="board_list_wrap">
+          <div className="board_list">
+            <CommonTable className="top" headersName={['글번호', '제목', '등록일', '작성자']}>
+              {currentPosts.map((item, index) => (
+                <CommonTableRow key={index}>
+                  <CommonTableColumn className="num"><div className="post-number">{item.brdno}</div></CommonTableColumn>
+                  <CommonTableColumn>
+                    <Link to={`/postView/${item.brdno}`}>{item.title}</Link>
+                  </CommonTableColumn>
+                  <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn>
+                  <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
+                </CommonTableRow>
+              ))}
+            </CommonTable>
+          </div>
+          <div className="board_page">
+            <a href="#" className="bt first" onClick={goToFirstPage}>{"<<"}</a>
+            <a href="#" className="bt prev" onClick={goToPrevPage}>{"<"}</a>
+            {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }, (_, i) => i + 1).map(number => (
+              <Link key={number} to="#" className={`num ${currentPage === number ? 'on' : ''}`} onClick={() => paginate(number)}>
+                {number}
+              </Link>
+            ))}
+            <a href="#" className="bt next" onClick={goToNextPage}>{">"}</a>
+            <a href="#" className="bt last" onClick={goToLastPage}>{">>"}</a>
+          </div>
+          <Link to="/write" className="button">
+            <Button variant="info">글쓰기</Button>
+          </Link>
+          <div className="bt_wrap">
+            <a href="#" className="on">목록</a>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
 
-export default PostList;
+export default PostMain;

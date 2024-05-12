@@ -14,7 +14,7 @@ import LinkBPage from './routes/LinkB.js';
 import LinkCPage from './routes/LinkC.js';
 import LinkDPage from './routes/LinkD.js';
 import Write from './routes/Write';
-import PostMain from './routes/post/PostMain';
+import PostList from './routes/post/PostList';
 import PostView from './routes/post/PostView';
 import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
@@ -76,7 +76,7 @@ function App() {
       {/* 라우트 설정 */}
       <Routes>
         <Route path="/postView/:brdno" element={<PostView />} />
-        <Route path="/postlist" element={<PostMain />} />
+        <Route path="/postlist" element={<PostList />} />
         <Route path="/write" element={<Write />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
