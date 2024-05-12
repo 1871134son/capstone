@@ -101,7 +101,7 @@ function App() {
 
       {/* 라우트 설정 */}
       <Routes>
-        <Route path="/postView/:no" element={<PostView />} />
+        <Route path="/postView/:brdno" element={<PostView />} />
         <Route path="/postlist" element={<PostMain />} />
         <Route path="/write" element={<Write />} />
         <Route path="/signin" element={<SignInPage />} />

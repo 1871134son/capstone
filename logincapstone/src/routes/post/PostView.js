@@ -3,22 +3,42 @@ import { getPostByNo } from '../../routes/Data';
 import './Post.css';
 import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNavigate 가져오기
 import Button from "react-bootstrap/Button";
-
+import { getPostByNoFromFirebase } from '../../firebase/firebase.js';
 
 
 
   const PostView = () => {
     const [data, setData] = useState({});
-    const { no } = useParams(); // useParams를 사용하여 파라미터 추출
+    const { brdno } = useParams(); // useParams를 사용하여 파라미터 추출
     const navigate = useNavigate(); // navigate 함수 사용
   
+
+    console.log("가져온 brdno:", brdno);
+    
+  
     useEffect(() => {
-      setData(getPostByNo(no));
-    }, [no]); // useEffect에서 의존성에 'no' 추가
+      
+      //console.log("데이터", data);
+      const fetchData = async () => {
+        
+        try {
+          const postData = await getPostByNoFromFirebase(brdno);
+          console.log("가져온 데이터:", postData);
+          setData(postData);
+        } catch (error) {
+          console.error('Error fetching post:', error);
+        }
+      };
   
+      fetchData();
+    }, [brdno]);
 
+    //날짜 형식 변환 함수
+    const formatDate = date => {
+      const formattedDate = new Date(date).toISOString().split('T')[0];
+      return formattedDate;
+    };
 
-  
 
   return (
     <>
@@ -30,19 +50,19 @@ import Button from "react-bootstrap/Button";
             <>
               <div className="post-view-row">
                 <label>게시글 번호</label>
-                <label>{ data.no }</label>
+                <label>{ data.brdno }</label>
+              </div>
+              <div className="post-view-row">
+                <label>작성자</label>
+                <label>{ data.brdwriter }</label>
+              </div>
+              <div className="post-view-row">
+                <label>작성일</label>
+                <label>{  data.brddate  }</label>
               </div>
               <div className="post-view-row">
                 <label>제목</label>
                 <label>{ data.title }</label>
-              </div>
-              <div className="post-view-row">
-                <label>작성일</label>
-                <label>{ data.createDate }</label>
-              </div>
-              <div className="post-view-row">
-                <label>조회수</label>
-                <label>{ data.readCount }</label>
               </div>
               <div className="post-view-row">
                 <label>내용</label>

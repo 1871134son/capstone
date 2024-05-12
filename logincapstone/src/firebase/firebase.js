@@ -127,7 +127,7 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
       });
 
 
-      //await setDoc(doc(db, 'post', docRef.id), { brdno: docRef.id }, { merge: true });
+      await setDoc(doc(db, 'post', docRef.id), { brdno: docRef.id }, { merge: true });
 
       
       console.log("New post added with ID: ", docRef.id);
@@ -157,7 +157,9 @@ export const fetchPostsFromFirebase = async () => {
   try {
     const postsSnapshot = await getDocs(collection(db,"post")); // 'post' 컬렉션에서 데이터 가져오기
     const postsData = postsSnapshot.docs.map(doc => doc.data()); // 문서 스냅샷을 데이터 배열로 변환
+   
     
+
     // postsSnapshot.forEach((doc) =>{
     //   let docData = doc.data(); //문서의 데이터 객체 배열 
     //   console.log("게시글 정보 ",docData)
@@ -171,6 +173,31 @@ export const fetchPostsFromFirebase = async () => {
     
     console.error('Error fetching posts from Firebase:', error);
     return [];
+  }
+};
+
+
+
+export const getPostByNoFromFirebase = async (brdno) => {
+  try {
+    const postDocRef = doc(db, "post", brdno); // "posts" 컬렉션에서 해당 게시글 번호에 해당하는 문서 가져오기
+    //console.log("이게 뭐야", postDocRef);
+    const postDocSnapshot = await getDoc(postDocRef); // 문서 스냅샷 가져오기
+
+    
+    if (postDocSnapshot.exists()) {
+      // 문서가 존재하는 경우 데이터 반환
+      return postDocSnapshot.data();
+    } else {
+      // 문서가 존재하지 않는 경우 null 반환
+      //console.log("게시글?:", postDocSnapshot.data());
+      return null;
+      
+      
+    }
+  } catch (error) {
+    console.error("Error getting post by number from Firebase:", error);
+    throw error; // 에러 처리
   }
 };
 
