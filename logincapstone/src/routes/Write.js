@@ -19,12 +19,16 @@ function Write(){
     const [title, setTitle] = useState('');
     const [content,setContent] = useState('');
     const [brddate, setBrddate] = useState('');
+    
+    
     //const [brdwriter, setBrdwriter] = useState('');
 
 
     useEffect(() => {
         setBrddate(Date.now()); // 현재 시간으로 설정
     }, []);
+
+
 
 
 

@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
-import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs, query, where,} from "firebase/firestore"; //firebase cloud firestore 기능 
+import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs, query, where, orderBy, deleteDoc, updateDoc} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { getStorage } from "firebase/storage";
 import { format } from 'date-fns';
@@ -123,6 +123,10 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
 
 
 
+
+
+
+
   //글 작성 완료하면 firebase에 등록
  async function boardSave(brdno, title, content, brddate, brdwriter){
   try{
@@ -135,19 +139,13 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
       //const currentDate = new Date().toISOString();
       const docRef = await addDoc(postCollection, {
          // brdno: docRef.id,
-
           uid: user.uid,
           title: title,
           content: content,
           brddate: brddate,
           brdwriter: brdwriter,
-          
       });
-
-
       await setDoc(doc(db, 'post', docRef.id), { brdno: docRef.id }, { merge: true });
-
-      
       console.log("New post added with ID: ", docRef.id);
       
   }else{
@@ -173,19 +171,11 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
 //파이어베이스에서 게시물 데이터를 가져오는 함수
 export const fetchPostsFromFirebase = async () => {
   try {
-    const postsSnapshot = await getDocs(collection(db,"post")); // 'post' 컬렉션에서 데이터 가져오기
-    const postsData = postsSnapshot.docs.map(doc => doc.data()); // 문서 스냅샷을 데이터 배열로 변환
-   
-    
-
-    // postsSnapshot.forEach((doc) =>{
-    //   let docData = doc.data(); //문서의 데이터 객체 배열 
-    //   console.log("게시글 정보 ",docData)
-    // });
-    
+    const q = query(collection(db, 'post'), orderBy('brddate', 'desc')); // 'post' 컬렉션에서 brddate 필드를 기준으로 내림차순으로 정렬하여 데이터 가져오기
+    const postsSnapshot = await getDocs(q); // 쿼리 실행하여 데이터 가져오기
+    const postsData = postsSnapshot.docs.map(doc => doc.data());
     console.log("게시글 정보:", postsData);
     return postsData;
-    //return docData;
   } catch (error) {
 
     
@@ -199,7 +189,6 @@ export const fetchPostsFromFirebase = async () => {
 export const getPostByNoFromFirebase = async (brdno) => {
   try {
     const postDocRef = doc(db, "post", brdno); // "posts" 컬렉션에서 해당 게시글 번호에 해당하는 문서 가져오기
-    //console.log("이게 뭐야", postDocRef);
     const postDocSnapshot = await getDoc(postDocRef); // 문서 스냅샷 가져오기
 
     
@@ -207,11 +196,8 @@ export const getPostByNoFromFirebase = async (brdno) => {
       // 문서가 존재하는 경우 데이터 반환
       return postDocSnapshot.data();
     } else {
-      // 문서가 존재하지 않는 경우 null 반환
-      //console.log("게시글?:", postDocSnapshot.data());
+      // 문서가 존재하지 않는 경우 null 반환 
       return null;
-      
-      
     }
   } catch (error) {
     console.error("Error getting post by number from Firebase:", error);
@@ -220,21 +206,42 @@ export const getPostByNoFromFirebase = async (brdno) => {
 };
 
 
-
 //글 삭제
-export const boardRemove = ( brdno = {}) => {
-  return (dispatch) => {
-      console.log(brdno);
-      return db.collection('post').doc(brdno).delete().then(() => {
-          //dispatch(board_remove(brdno));
-      })
+export const deletePostFromFirebase = async (brdno) => {
+  try {
+    // 삭제할 게시물의 문서 참조를 가져옵니다.
+    const postRef = doc(db, 'post', brdno); // 'post' 컬렉션에서 brdno를 ID로 갖는 문서를 참조합니다.
+
+    // 문서를 삭제합니다.
+    await deleteDoc(postRef);
+
+    console.log('게시물 삭제 성공');
+  } catch (error) {
+    console.error('게시물 삭제 오류:', error);
+    throw error; // 오류를 호출자에게 전파합니다.
   }
 };
 
 
-
-
+//글 수정
+export const updatePostInFirebase = async (brdno, newData) => {
+  try {
+    const postRef = doc(db, "post", brdno); // "post" 컬렉션에서 해당 게시물 문서 가져오기
+    await updateDoc(postRef, newData); // 문서 업데이트
+    console.log("게시물 업데이트 성공");
+  } catch (error) {
+    console.error("게시물 업데이트 오류:", error);
+    throw error;
+  }
+};
   
+
+
+
+
+
+
+
 
 async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
     try{

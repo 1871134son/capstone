@@ -18,7 +18,7 @@ const PostList = props => {
         // Firebase에서 데이터 가져오기
         const posts = await fetchPostsFromFirebase();
         // 날짜순으로 정렬
-        posts.sort((a, b) => new Date(b.brddate) - new Date(a.brddate));
+        //posts.sort((a, b) => new Date(b.brddate) - new Date(a.brddate));
         setDataList(posts);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -31,10 +31,10 @@ const PostList = props => {
 
 
     //날짜 형식 변환 함수
-    const formatDate = date => {
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      return formattedDate;
-    };
+    // const formatDate = date => {
+    //   const formattedDate = new Date(date).toISOString().split('T')[0];
+    //   return formattedDate;
+    // };
 
 
 
@@ -49,8 +49,9 @@ const PostList = props => {
             <CommonTableColumn>
               <Link to={`/postView/${item.brdno}`}>{item.title}</Link>  
             </CommonTableColumn>
-            <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn>
-            {/* <CommonTableColumn>{dateFormat(item.brddate, "yyyy-mm-dd")}</CommonTableColumn> */}
+            {/* <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn> */}
+            
+            <CommonTableColumn>{dateFormat(item.brddate, "yyyy-mm-dd")}</CommonTableColumn>
             
             <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
           </CommonTableRow>

@@ -3,15 +3,22 @@ import { getPostByNo } from '../../routes/Data';
 import './Post.css';
 import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNavigate 가져오기
 import Button from "react-bootstrap/Button";
-import { getPostByNoFromFirebase } from '../../firebase/firebase.js';
-
-
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase } from '../../firebase/firebase.js';
+import dateFormat from 'dateformat';
+import { getUserName } from '../../firebase/firebase.js';
 
   const PostView = () => {
     const [data, setData] = useState({});
     const { brdno } = useParams(); // useParams를 사용하여 파라미터 추출
     const navigate = useNavigate(); // navigate 함수 사용
-  
+    const [currentUser, setCurrentUser] = useState(null); // 현재 사용자의 정보 상태 추가
+
+
+    //수정
+    const [editing, setEditing] = useState(false); // 수정 중 여부 상태 추가
+    const [editedTitle, setEditedTitle] = useState(''); // 수정된 제목 상태 추가
+    const [editedContent, setEditedContent] = useState(''); // 수정된 내용 상태 추가
+
 
     console.log("가져온 brdno:", brdno);
     
@@ -25,6 +32,10 @@ import { getPostByNoFromFirebase } from '../../firebase/firebase.js';
           const postData = await getPostByNoFromFirebase(brdno);
           console.log("가져온 데이터:", postData);
           setData(postData);
+
+          //수정
+          setEditedTitle(postData.title); // 수정된 제목 상태 초기화
+          setEditedContent(postData.content); // 수정된 내용 상태 초기화
         } catch (error) {
           console.error('Error fetching post:', error);
         }
@@ -33,12 +44,45 @@ import { getPostByNoFromFirebase } from '../../firebase/firebase.js';
       fetchData();
     }, [brdno]);
 
-    //날짜 형식 변환 함수
-    const formatDate = date => {
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      return formattedDate;
-    };
 
+
+    useEffect(() => {
+      const fetchCurrentUser = async () => {
+        try {
+          // 현재 사용자의 이름 가져오기
+          const userName = await getUserName();
+          setCurrentUser(userName);
+        } catch (error) {
+          console.error('Error fetching current user:', error);
+        }
+      };
+  
+      fetchCurrentUser();
+    }, []);
+
+
+    //삭제
+    const handleDelete = async () => {
+      try {
+        await deletePostFromFirebase(brdno);
+        console.log('게시물 삭제 성공');
+        navigate('/postlist');
+      } catch (error) {
+        console.error('게시물 삭제 오류:', error);
+      }
+    };
+    
+
+    //수정
+    const handleUpdate = async () => {
+      try {
+        await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
+        console.log('게시물 수정 성공');
+        setEditing(false); // 수정 완료 후 editing 상태를 false로 변경
+      } catch (error) {
+        console.error('게시물 수정 오류:', error);
+      }
+    };
 
   return (
     <>
@@ -58,25 +102,44 @@ import { getPostByNoFromFirebase } from '../../firebase/firebase.js';
               </div>
               <div className="post-view-row">
                 <label>작성일</label>
-                <label>{  data.brddate  }</label>
+                <label>{dateFormat(data.brddate, "yyyy-mm-dd")}</label>
               </div>
+              {/* 수정 버튼 클릭 시 제목과 내용을 input 요소로 변경 */}
               <div className="post-view-row">
-                <label>제목</label>
-                <label>{ data.title }</label>
-              </div>
+              <label>제목</label>
+              {editing ? (
+                <input type="text" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
+              ) : (
+                <label>{data.title}</label>
+              )}
+            </div>
               <div className="post-view-row">
-                <label>내용</label>
-                <div>
-                  {
-                    data.content
-                  }
-                </div>
-              </div>
+              <label>내용</label>
+              {editing ? (
+                <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
+              ) : (
+                <div>{data.content}</div>
+              )}
+            </div>
+
             </>
           ) : '해당 게시글을 찾을 수 없습니다.'
         }
         <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
-        <Button variant="danger">삭제</Button>
+
+          {/* 수정 버튼 클릭 시 수정/저장 버튼으로 변경 */}
+          {currentUser === data.brdwriter && (
+          editing ? (
+            <Button variant="success" onClick={handleUpdate}>저장</Button>
+          ) : (
+            <Button variant="success" onClick={() => setEditing(true)}>수정</Button>
+          )
+        )}
+
+        {/* 작성자와 현재 사용자의 이름이 같을 때만 삭제 버튼이 활성화되도록 함 */}
+        {currentUser === data.brdwriter && (
+          <Button variant="danger" onClick={handleDelete}>삭제</Button>
+        )}
       </div>
     </>
   )
