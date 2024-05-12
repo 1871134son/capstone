@@ -1,4 +1,4 @@
-import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo } from "../firebase/firebase";
+import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo,signInEduNavi } from "../firebase/firebase";
 import { useState,useEffect } from 'react';
 import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
 import Col from 'react-bootstrap/Col';
@@ -63,8 +63,8 @@ function SearchLicenseComponent() {
           getExamFeeList();
       }}>자격증응시료찍기</button>
        <button onClick={()=>{
-          getExamScheduleList();
-      }}>자격증시험일정로그에찍기</button>
+          signInEduNavi();
+      }}>에듀나비로 로그인</button>
     </div>
   );
 }//SearchLicenseComponent()

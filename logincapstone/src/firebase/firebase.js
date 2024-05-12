@@ -53,6 +53,23 @@ async function signIn(email, password) {
     }
   }//Sign In End 
 
+/**임시 함수입니다, 로그인 버튼 복구하면 삭제 */
+  async function signInEduNavi(email, password) {
+    const auth = getAuth();
+    email = "edunavi@gmail.com";
+    password = "12345678";
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Logged in user:", userCredential.user);
+      // 로그인 성공 후 처리
+      alert("로그인성공!");
+    } catch (error) {
+      console.error("Error signing in:", error);
+      // 로그인 실패 시 처리
+      alert("아이디 및 패스워드 오류!");
+    }
+  }//Sign In End 
+
   async function getUserName() {
       
         const user = auth.currentUser;
@@ -603,4 +620,4 @@ async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 �
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi};
