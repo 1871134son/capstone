@@ -1,4 +1,5 @@
-import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo,signInEduNavi } from "../firebase/firebase";
+import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo,
+  signInEduNavi,storage,FileUpload,DisplayImage } from "../firebase/firebase";
 import { useState,useEffect } from 'react';
 import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
 import Col from 'react-bootstrap/Col';
@@ -9,6 +10,7 @@ import Nav from 'react-bootstrap/Nav';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
+import { getStorage,ref,uploadBytes  } from "firebase/storage";
 
 
 
@@ -18,9 +20,28 @@ function MyPage(){
         <>
             <UserNameComponent></UserNameComponent>
             <SearchLicenseComponent></SearchLicenseComponent>
+            <TestImageUpload></TestImageUpload>
         </>
     )
 }
+
+function TestImageUpload(){
+  return(
+      <>
+          <Container>
+             <Image src="holder.js/171x180" thumbnail />
+             <FileUpload folderName ="testFolder" fileName="forTest"></FileUpload>
+             <DisplayImage folderName ="testFolder" fileName="forTest"></DisplayImage>
+          </Container>
+          
+
+
+      </>
+  );
+}
+
+
+
 function SearchLicenseComponent() {
   const auth = getAuth();
   const [searchText, setSearchText] = useState('');

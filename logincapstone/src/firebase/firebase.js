@@ -4,9 +4,11 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
 import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs, query, where, orderBy, deleteDoc, updateDoc} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { getStorage } from "firebase/storage";
+import { getStorage,ref,uploadBytes,getDownloadURL  } from "firebase/storage";
 import { format } from 'date-fns';
 import { Alert } from "bootstrap";
+import React, { useState, useEffect } from 'react';
+
 //import { db } from './firebase';
 
 
@@ -36,8 +38,82 @@ const db = getFirestore(app);
 //Navigate사용 
 const storage = getStorage(app);
 
+/** 파일을 업로드 하는 컴포넌트. */
+function FileUpload({folderName, fileName}) {
+  const [file, setFile] = useState(null);
+
+  // 파일을 선택하는 함수
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+//------------------------------------------------------------------------------Storage-------------------------------------------------------------------------
+  // 파일을 Firebase Storage에 업로드하는 함수
+  const handleUpload = () => {//folderName폴더에 fileName을 업로드함. 
+    if (file) { //사용자가 파일을 선택했나 확인함. 
+      const storage = getStorage(); 
+      const storageRef = ref(storage, `${folderName}/${fileName}`); //storageRef -> 업로드 할곳(폴더) 와 업로드할 파일의 이름 설정 
+      //호출할때 지정한 폴더와, 파일 이름으로 업로드 됩니다. 
+      //같은 폴더의, 같은 이름으로 올리게 되면 수정 됨. 
+
+      uploadBytes(storageRef, file).then((snapshot) => { //storageRef 에 file을 업로드합니다.  
+        console.log('파일이 성공적으로 업로드되었습니다!');
+        alert("업로드 성공!")
+      }).catch((error) => {
+        console.error('업로드 중 오류 발생:', error);
+        alert("업로드 중 오류 발생!");
+      });
+    } else {//사용자가 아직 파일을 선택하지 않았음. 
+      alert("파일을 선택해주세요!");
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleChange} accept="image/*"/>
+      <button onClick={handleUpload}>업로드하기</button>
+    </div>
+  );
+}//FileUpload
+
+/** 이미지를 디스플레이 해주는 컴포넌트 */
+function DisplayImage({folderName,fileName}) {//forlderName 아래, 있는 fileName 이미지를 디스플레이한다. 
+  const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    // Firebase 스토리지 인스턴스를 가져옵니다.
+    const storage = getStorage();
+    // 'testFolder/test.jpg' 위치의 참조를 만듭니다.
+    const imageRef = ref(storage, `${folderName}/${fileName}`);
+
+    // 다운로드 URL을 얻어옵니다.
+    getDownloadURL(imageRef)
+      .then((url) => {
+        setImageUrl(url);  // URL을 상태에 저장하여 이미지로 사용할 수 있게 합니다.
+      })
+      .catch((error) => {
+        console.error('이미지를 불러오는 중 오류 발생:', error);
+      });
+  }, []);  // 의존성 배열이 비어 있으므로 컴포넌트 마운트 시 한 번만 실행됩니다.
+
+  return (
+    <div>
+      {imageUrl ? <img src={imageUrl} alt="Uploaded" /> : <p>Loading...</p>}
+    </div>
+  );
+}//DisplayImage
+
+
+
+//------------------------------------------------------------------------------Storage-------------------------------------------------------------------------
+
+
+
+
 //사용자 회원가입 시, license name, jmcd 값을 user collection의 codument에 필드 값을 추가해서 저장함. 
 //현재 사용자의 jmcd 값을 저장, 적합한 값이 있으면, 그만큼 함수를 호출, 그리
+
+//---------------------------------------------------------------------------인증 관련(Authentication)-------------------------------------------------------------------------
+
 
 async function signIn(email, password) {
     const auth = getAuth();
@@ -121,11 +197,13 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
     }//catch 
   }//Sign Up end 
 
+//---------------------------------------------------------------------------인증 관련(Authentication)-------------------------------------------------------------------------
 
 
 
 
 
+//--------------------------------------------------------------------------게시판(시작)------------------------------------------------------------------------------
 
   //글 작성 완료하면 firebase에 등록
  async function boardSave(brdno, title, content, brddate, brdwriter){
@@ -236,11 +314,14 @@ export const updatePostInFirebase = async (brdno, newData) => {
 };
   
 
+//--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
 
 
 
 
 
+
+//--------------------------------------------------------------------------자격증 관련(시작)------------------------------------------------------------------------------
 
 
 async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
@@ -323,7 +404,7 @@ async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 �
       let docData = doc.data();//문서의 데이터 객체 가져옴.
       licenseList.push(docData); //객체 배열에 저장 
     });
-    console.log("fetchLicenseList 성공!:", licenseList);
+    //console.log("fetchLicenseList 성공!:", licenseList);
   }catch(error){
     console.error("fetchLicenseList 에러: ",error);
   }
@@ -651,7 +732,12 @@ async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 �
   
   
 }//end getExamFeeList
+//--------------------------------------------------------------------------자격증 관련(종료)------------------------------------------------------------------------------
+
+
+
+
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage};

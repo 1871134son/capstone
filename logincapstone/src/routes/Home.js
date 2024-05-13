@@ -27,8 +27,6 @@ function HomePage(){
     return(
         <>
             <UserNameComponent></UserNameComponent>
-            <AddMessage userToken={userToken}></AddMessage>
-
         </>
     )
 }
@@ -55,34 +53,6 @@ function UserNameComponent(){ //현재 로그인 한 사용자의 이름을 출�
     else return <div>{userName}</div>
 }//UserNameComponent
 
-/*Cloud Functions 작동 확인용 연습용 컴포넌트입니다.*/
-function AddMessage(props) {
-    const auth = getAuth();
-    const [text, setText] = useState('');
-
-    return (
-      <div>
-        <input
-          type="text"
-          value={text}
-          onChange={(e) =>
-             setText(e.target.value)
-            }
-          placeholder="Enter a message"
-        
-        />
-        <button onClick={()=>{
-
-}}>학과저장</button>
-         <button onClick={()=>{
-            getExamFeeList();
-        }}>자격증응시료찍기</button>
-         <button onClick={()=>{
-            getExamScheduleList();
-        }}>자격증시험일정로그에찍기</button>
-      </div>
-    );
-  }//AddMessage()
   
 
 export default HomePage;
