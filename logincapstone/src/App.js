@@ -19,6 +19,8 @@ import PostView from './routes/post/PostView';
 import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
 import './App.css';
+import LicenseInfoPage from './routes/LicenseInfoPage.js';
+
 
 function App() {
   // 네비게이션 상태 관리
@@ -75,6 +77,7 @@ function App() {
 
       {/* 라우트 설정 */}
       <Routes>
+        <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage/>}/>
         <Route path="/postView/:brdno" element={<PostView />} />
         <Route path="/postlist" element={<PostList />} />
         <Route path="/write" element={<Write />} />
