@@ -541,21 +541,20 @@ async function searchLicenseInfo(licenseName){
     alert("검색어를 다시 확인해주세요. 현재는 국가자격증만 검색 가능합니다.");
   }else{
     console.log("자격증 찾음");
-    querySnapShot.forEach(doc => {
+    for( const doc of querySnapShot.docs){
       const jmcd = doc.data().jmcd;
-      const infoData =  getLicenseInfo(jmcd);  //자격증 정보 가져오기 
-      const feeData = getLicenseFee(jmcd);    // 자격증 시험 비용 가져오기 
-      licenseData.push(feeData);
-      licenseData.push(infoData);
-      return licenseData; //자격증에 대한 정보를 전달한다. 
-    });
+      const infoData = await getLicenseInfo(jmcd); //자격증 상세정보 가져오기 
+      const feeData = await getLicenseFee(jmcd); //자격증 시험 비용 가져오기 
+      licenseData.push({infoData,feeData,jmcd});
+    }//forEnd
   }//else
- }
+  //console.log("자격증상세정보->",licenseData);
+  return licenseData;
+ }//try
  catch(error){
   console.error("license 검색에 오류 발생",error);
  }
-
-}
+}//searchLicenseInfo
 
 /** 자격증 정보를 공공데이터 API에서 받아온다. */
 async function getLicenseFee(jmcd){
@@ -582,7 +581,7 @@ async function getLicenseFee(jmcd){
         licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
       }));
       feeList.push(fee);
-      console.log("데이터", feeList);
+      //console.log("데이터", feeList);
       return feeList;
     }
   catch(error){
@@ -631,7 +630,7 @@ async function getLicenseInfo(jmcd){
 
       }));
       infoList.push(info);
-      console.log("데이터", infoList);
+      //console.log("데이터", infoList);
       return infoList;
     }
   catch(error){
