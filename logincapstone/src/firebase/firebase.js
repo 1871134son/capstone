@@ -93,11 +93,11 @@ function DisplayImage({folderName,fileName}) {//forlderName 아래, 있는 fileN
       .catch((error) => {
         console.error('이미지를 불러오는 중 오류 발생:', error);
       });
-  }, []);  // 의존성 배열이 비어 있으므로 컴포넌트 마운트 시 한 번만 실행됩니다.
+  }, [folderName, fileName]);  // 의존성 배열이 비어 있으므로 컴포넌트 마운트 시 한 번만 실행됩니다.
 
-  return (
+  return ( //사진 크기 조절은  아래서 보고 하면 될것같아요 
     <div>
-      {imageUrl ? <img src={imageUrl} alt="Uploaded" /> : <p>Loading...</p>}
+      {imageUrl ? <img src={imageUrl} alt="Uploaded" style={{witdh: '100%', height: '500px', objectFit: 'fill'}} /> : <p>Loading...</p>}
     </div>
   );
 }//DisplayImage
@@ -324,7 +324,8 @@ export const updatePostInFirebase = async (brdno, newData) => {
 //--------------------------------------------------------------------------자격증 관련(시작)------------------------------------------------------------------------------
 
 
-async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
+/**국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요*/
+async function getLicenseList(){
     try{
       const functions =getFunctions(app,"us-central1");
       const getLicense = httpsCallable(functions,"getLicenseList2");
@@ -349,7 +350,8 @@ async function getLicenseList(){//국가기술자격 목록에서 자격증 목�
     }
 }//end getLicenseList()
 
-async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //자격증 리스트를 Firebase DB에 저장합니다. 
+/** 자격증 리스트를 Firebase DB에 저장합니다. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요 */
+async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //
   const licenseCollection = collection(db,"license"); //license collection reference
   for(let i =0; i<licenseList.length; i++){
     try{
@@ -364,8 +366,8 @@ async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //자격�
   }
 }//saveLicenseToFireStore END
 
-
-async function saveMajorToFireStore(){ //자격증 리스트를 Firebase DB에 저장합니다. 
+/**자격증 리스트를 Firebase DB에 저장합니다. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요*/
+async function saveMajorToFireStore(){ //
   const majorList = [
     "컴퓨터공학과", "기계공학과", "전기공학과", "전자공학과",
     "화학공학과", "건축공학과", "토목공학과", "산업공학과",
@@ -394,7 +396,8 @@ async function saveMajorToFireStore(){ //자격증 리스트를 Firebase DB에 �
   }
 }//saveLicenseToFireStore END
 
-async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 배열을 반환
+/**fireStore에서 db정보를 가져와서 배열을 반환 */
+async function fetchLicenseList(){ 
   const licenseList =[
   
   ];
@@ -411,8 +414,8 @@ async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 �
   return licenseList;//배열을 반환한다. 
 }
 
-
-async function fetchMajorList(){ //fireStore에서 db정보를 가져와서 배열을 반환
+/**fireStore에서 db정보를 가져와서 배열을 반환 */
+async function fetchMajorList(){ 
   const majorList =[
   
   ];
@@ -429,7 +432,8 @@ async function fetchMajorList(){ //fireStore에서 db정보를 가져와서 배�
   return majorList;//배열을 반환한다. 
 }
 
-async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은 JSON데이터를 파싱 후 리턴 
+/**jmcd값을 인자로 넘겨주고, 받은 JSON데이터를 파싱 후 리턴  */
+async function getExamScheduleList(){
   console.log("getExamScheduleList 호출");
   const user = auth.currentUser;
   let scheduleList =[]; //자격증들에 대한 시험정보를 담는 배열. schedule 로 이루어짐. 
@@ -523,9 +527,8 @@ async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은
   }//else user End 
 }//end getExamScheduleList
 
-/**
-//사용자가 입력한 자격증 이름을 검색한다 
- */
+
+/**사용자가 입력한 자격증 이름을 검색한다 */
 async function searchLicenseInfo(licenseName){
   //이름으로 license db에서 jmcd정보 찾기 
   const licenseData = [];
@@ -605,6 +608,16 @@ async function getLicenseInfo(jmcd){
       //items가 배열이 아니면 배열로 만드는 처리. 
       const items = jsonData.response?.body?.items?.item;
       const normalizedItems = Array.isArray(items) ? items : [items];
+      
+      const cleanText = (html) => { //contents에 딸려오는 쓰레기값을 제거해줌. << 아직 사용할지 말지 생각중--> 검색 시 새로운거 나오게 해서 한번 보자 
+        // HTML 태그 제거
+        let cleanText = html.replace(/<[^>]*>?/gm, '');
+        // CSS 스타일 코드 제거
+        cleanText = cleanText.replace(/BODY\s*{[^}]*}|P\s*{[^}]*}|LI\s*{[^}]*}/g, '');
+        //유니 코드 숫자 엔티티 제거 
+        cleanText  = cleanText.replace(/&#(\d+);/g, '');
+        return cleanText;
+      };
 
       const info = normalizedItems.map(item =>({ //schedule -> 자격증 1개에 대한 정보. 
         /**글 내용*/
@@ -631,8 +644,8 @@ async function getLicenseInfo(jmcd){
 
 
 
-
-async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd 값을 인자로 넘겨주고
+/** 현재 로그인한 사용자가 관심있어하는 자격증에 대한  시험 응시료를 가져옴.  */
+async function getExamFeeList(){
   const user = auth.currentUser;
   let feeList = [];
   if(user){//로그인 상태 
@@ -694,8 +707,8 @@ async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd
 }//end getExamFeeList
 
 
-
-async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 가져오는게 아니라 jmcd 값을 인자로 넘겨주고, 그걸로 하기. 
+/** 현재 로그인 중인 사용자가 관심 있어하는 자격증들에 대한 자격증정보들을 가져온다. */
+async function getLicenseInfoList(){// 
   const user = auth.currentUser;
   let feeList = [];
   if(user){//로그인 상태 
