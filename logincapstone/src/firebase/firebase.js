@@ -545,7 +545,7 @@ async function searchLicenseInfo(licenseName){
       const jmcd = doc.data().jmcd;
       const infoData = await getLicenseInfo(jmcd); //자격증 상세정보 가져오기 
       const feeData = await getLicenseFee(jmcd); //자격증 시험 비용 가져오기 
-      licenseData.push({infoData,feeData,jmcd});
+      licenseData.push({infoData,feeData,licenseName,jmcd});
     }//forEnd
   }//else
   //console.log("자격증상세정보->",licenseData);
@@ -572,13 +572,18 @@ async function getLicenseFee(jmcd){
       const items = jsonData.response?.body?.items?.item;
       const normalizedItems = Array.isArray(items) ? items : [items];
 
+      if (!items) {
+        throw new Error("정보 요청이 지원되지 않는 자격증입니다");
+        return;
+      }
+
       const fee = normalizedItems.map(item =>({
         /**시험응시료*/
-        contents: item.contents ? String(item.contents): " ",
+        contents: item.contents ? String(item.contents): "정보 없음",
         /**응시수수료 */
-        infogb: item.infogb ? String(item.infogb): " ",
+        infogb: item.infogb ? String(item.infogb): "정보 없음",
         /**자격증이름  */
-        licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+        licenseName: item.jmfldnm ? String(item.jmfldnm): "정보 없음",
       }));
       feeList.push(fee);
       //console.log("데이터", feeList);
@@ -608,6 +613,10 @@ async function getLicenseInfo(jmcd){
       const items = jsonData.response?.body?.items?.item;
       const normalizedItems = Array.isArray(items) ? items : [items];
       
+      if (!items) {
+        throw new Error("정보 요청이 지원되지 않는 자격증입니다");
+      }
+
       const cleanText = (html) => { //contents에 딸려오는 쓰레기값을 제거해줌. << 아직 사용할지 말지 생각중--> 검색 시 새로운거 나오게 해서 한번 보자 
         // HTML 태그 제거
         let cleanText = html.replace(/<[^>]*>?/gm, '');
@@ -620,13 +629,13 @@ async function getLicenseInfo(jmcd){
 
       const info = normalizedItems.map(item =>({ //schedule -> 자격증 1개에 대한 정보. 
         /**글 내용*/
-        contents: item.contents ? String(item.contents): " ",
+        contents: item.contents ? cleanText(String(item.contents)): "정보 없음",
         /**글 정보종류 */
-        contentsName: item.infogb ? String(item.infogb): " ",
+        contentsName: item.infogb ? String(item.infogb): "정보 없음",
         /**자격증 이름 */
-        licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+        licenseName: item.jmfldnm ? String(item.jmfldnm): "정보 없음",
         /**직무 분야 */
-        obligfldnm: item.obligfldnm ? String(item.obligfldnm): " ",
+        obligfldnm: item.obligfldnm ? String(item.obligfldnm): "정보 없음",
 
       }));
       infoList.push(info);
@@ -637,7 +646,7 @@ async function getLicenseInfo(jmcd){
     const code = error.code;
     const message = error.message;
     const details = error.details;
-    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+    console.error("getLicenseInfo/fireabase.js : "+error+code+message+details);
   }
 }//getLicenseInfo
 

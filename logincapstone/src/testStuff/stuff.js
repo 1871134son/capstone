@@ -35,12 +35,7 @@ function SearchLicenseComponent() {
     }, [licenseList]); // licenseList가 변경될 때마다 이 useEffect가 호출됩니다.
 
     useEffect(()=>{
-        if(licenseInfo){//licenseInfo가 null이 아닐때만 
-            console.log("검색한 자격증 정보 ->",licenseInfo[0]);
-            console.log("검색한 자격증 정보 ->",licenseInfo[0].infoData);
-            console.log("검색한 자격증 정보 ->",licenseInfo[0].feeData);
-            console.log("검색한 자격증 정보 ->",licenseInfo[0].jmcd);
-        }
+        
     },[licenseInfo]);
 
     /**  searchLicenseInfo 비동기 처리를 위한 함수 */
@@ -48,6 +43,9 @@ function SearchLicenseComponent() {
         try{
             const result = await searchLicenseInfo(searchText);
             setLicenseInfo(result);
+            if(licenseInfo){//licenseInfo가 null이 아닐때만 
+                navigate(`./licenseInfoPage/${licenseInfo[0].jmcd}`, {state: {licenseInfo: licenseInfo[0]}}); //해당 페이지로 이동한다. 
+            }
         }
         catch(error){
             console.error("자격증 정보 검색 중 오류 발생:", error);
@@ -75,9 +73,6 @@ function SearchLicenseComponent() {
         <button onClick={()=>{
             handleSearch();
         }}>자격증 정보 검색</button>
-         <button onClick={()=>{
-            getExamFeeList();
-        }}>자격증응시료찍기</button>
          <button onClick={()=>{
             signInEduNavi();
         }}>에듀나비로 로그인</button>

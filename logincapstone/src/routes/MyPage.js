@@ -19,7 +19,6 @@ function MyPage(){
     return(
         <>
             <UserNameComponent></UserNameComponent>
-            <SearchLicenseComponent></SearchLicenseComponent>
             <TestImageUpload></TestImageUpload>
         </>
     )
