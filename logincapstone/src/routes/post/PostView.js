@@ -79,7 +79,7 @@ useEffect(() => {
 
     fetchComments();
   }, [brdno]);
-
+//
   const handleAddComment = async () => {
     try {
       // 현재 사용자의 UID 가져오기
@@ -192,9 +192,10 @@ useEffect(() => {
         {/* 댓글 목록 렌더링 */}
         {comments.map((comment, index) => (
           <div key={index} className="comment">
+            <p>{comment.commenter}</p> {/* 댓글 작성자 */}
             <p>{comment.content}</p> {/* 댓글 내용 */}
-            {/* <p>{dateFormat(comment.date, "yyyy-mm-dd")}</p> 댓글 작성일 */}
             <p>{formatDate(comment.date)}</p> {/* 댓글 작성일 */}
+            <p>================</p> {/* 댓글 구분 */}
             {/* 댓글 삭제 버튼 */}
             {currentUser === comment.writer && (
               <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
@@ -203,8 +204,8 @@ useEffect(() => {
         ))}
 
         {/* 새로운 댓글 입력 요소 */}
-        <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-        <button onClick={handleAddComment}>댓글 추가</button>
+        <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="댓글을 입력하세요"/>
+        <button onClick={handleAddComment}>등록</button>
       </div>
 
 
