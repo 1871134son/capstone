@@ -331,10 +331,11 @@ export const getCommentsByPostNo = async (brdno) => {
 };
 
 // Firebase Firestore에 댓글을 추가하는 함수
-export const addCommentToPost = async (brdno, commentContent, commenter) => {
+export const addCommentToPost = async (brdno, commentContent) => {
   try {
+    const user = auth.currentUser;
     const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
-    await addDoc(commentsCollectionRef, { brdno, content: commentContent, commenter, date: new Date() }); // 댓글 데이터 추가
+    await addDoc(commentsCollectionRef, { brdno, content: commentContent, commenter: user.uid, date: Date.now() }); // 댓글 데이터 추가
     console.log('댓글이 성공적으로 추가되었습니다!');
   } catch (error) {
     console.error('Error adding comment to post:', error);

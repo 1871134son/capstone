@@ -85,7 +85,7 @@ useEffect(() => {
       // 현재 사용자의 UID 가져오기
       const commenter = currentUser.uid;
       // 댓글 추가 함수 호출 시 작성자 정보도 함께 전달
-      await addCommentToPost(brdno, newComment, commenter);
+      await addCommentToPost(brdno, newComment);
       setNewComment('');
       // 새로운 댓글을 화면에 표시하기 위해 댓글 목록 다시 가져오기
       const commentsData = await getCommentsByPostNo(brdno);
@@ -120,6 +120,11 @@ useEffect(() => {
     };
 
 
+    //날짜 변환 함수
+    const formatDate = date => {
+      const formattedDate = new Date(date).toISOString().split('T')[0];
+      return formattedDate;
+    };
 
 
   return (
@@ -188,7 +193,8 @@ useEffect(() => {
         {comments.map((comment, index) => (
           <div key={index} className="comment">
             <p>{comment.content}</p> {/* 댓글 내용 */}
-            <p>{dateFormat(comment.date, "yyyy-mm-dd")}</p> {/* 댓글 작성일 */}
+            {/* <p>{dateFormat(comment.date, "yyyy-mm-dd")}</p> 댓글 작성일 */}
+            <p>{formatDate(comment.date)}</p> {/* 댓글 작성일 */}
             {/* 댓글 삭제 버튼 */}
             {currentUser === comment.writer && (
               <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
