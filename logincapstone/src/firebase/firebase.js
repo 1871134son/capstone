@@ -4,9 +4,11 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
 import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs, query, where, orderBy, deleteDoc, updateDoc} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { getStorage } from "firebase/storage";
+import { getStorage,ref,uploadBytes,getDownloadURL  } from "firebase/storage";
 import { format } from 'date-fns';
 import { Alert } from "bootstrap";
+import React, { useState, useEffect } from 'react';
+
 //import { db } from './firebase';
 
 
@@ -36,8 +38,82 @@ const db = getFirestore(app);
 //Navigate사용 
 const storage = getStorage(app);
 
+/** 파일을 업로드 하는 컴포넌트. */
+function FileUpload({folderName, fileName}) {
+  const [file, setFile] = useState(null);
+
+  // 파일을 선택하는 함수
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+//------------------------------------------------------------------------------Storage-------------------------------------------------------------------------
+  // 파일을 Firebase Storage에 업로드하는 함수
+  const handleUpload = () => {//folderName폴더에 fileName을 업로드함. 
+    if (file) { //사용자가 파일을 선택했나 확인함. 
+      const storage = getStorage(); 
+      const storageRef = ref(storage, `${folderName}/${fileName}`); //storageRef -> 업로드 할곳(폴더) 와 업로드할 파일의 이름 설정 
+      //호출할때 지정한 폴더와, 파일 이름으로 업로드 됩니다. 
+      //같은 폴더의, 같은 이름으로 올리게 되면 수정 됨. 
+
+      uploadBytes(storageRef, file).then((snapshot) => { //storageRef 에 file을 업로드합니다.  
+        console.log('파일이 성공적으로 업로드되었습니다!');
+        alert("업로드 성공!")
+      }).catch((error) => {
+        console.error('업로드 중 오류 발생:', error);
+        alert("업로드 중 오류 발생!");
+      });
+    } else {//사용자가 아직 파일을 선택하지 않았음. 
+      alert("파일을 선택해주세요!");
+    }
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleChange} accept="image/*"/>
+      <button onClick={handleUpload}>업로드하기</button>
+    </div>
+  );
+}//FileUpload
+
+/** 이미지를 디스플레이 해주는 컴포넌트 */
+function DisplayImage({folderName,fileName}) {//forlderName 아래, 있는 fileName 이미지를 디스플레이한다. 
+  const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    // Firebase 스토리지 인스턴스를 가져옵니다.
+    const storage = getStorage();
+    // 'testFolder/test.jpg' 위치의 참조를 만듭니다.
+    const imageRef = ref(storage, `${folderName}/${fileName}`);
+
+    // 다운로드 URL을 얻어옵니다.
+    getDownloadURL(imageRef)
+      .then((url) => {
+        setImageUrl(url);  // URL을 상태에 저장하여 이미지로 사용할 수 있게 합니다.
+      })
+      .catch((error) => {
+        console.error('이미지를 불러오는 중 오류 발생:', error);
+      });
+  }, [folderName, fileName]);  // 의존성 배열이 비어 있으므로 컴포넌트 마운트 시 한 번만 실행됩니다.
+
+  return ( //사진 크기 조절은  아래서 보고 하면 될것같아요 
+    <div>
+      {imageUrl ? <img src={imageUrl} alt="Uploaded" style={{witdh: '100%', height: '500px', objectFit: 'fill'}} /> : <p>Loading...</p>}
+    </div>
+  );
+}//DisplayImage
+
+
+
+//------------------------------------------------------------------------------Storage-------------------------------------------------------------------------
+
+
+
+
 //사용자 회원가입 시, license name, jmcd 값을 user collection의 codument에 필드 값을 추가해서 저장함. 
 //현재 사용자의 jmcd 값을 저장, 적합한 값이 있으면, 그만큼 함수를 호출, 그리
+
+//---------------------------------------------------------------------------인증 관련(Authentication)-------------------------------------------------------------------------
+
 
 async function signIn(email, password) {
     const auth = getAuth();
@@ -121,11 +197,13 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
     }//catch 
   }//Sign Up end 
 
+//---------------------------------------------------------------------------인증 관련(Authentication)-------------------------------------------------------------------------
 
 
 
 
 
+//--------------------------------------------------------------------------게시판(시작)------------------------------------------------------------------------------
 
   //글 작성 완료하면 firebase에 등록
  async function boardSave(brdno, title, content, brddate, brdwriter){
@@ -236,14 +314,18 @@ export const updatePostInFirebase = async (brdno, newData) => {
 };
   
 
+//--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
 
 
 
 
 
 
+//--------------------------------------------------------------------------자격증 관련(시작)------------------------------------------------------------------------------
 
-async function getLicenseList(){//국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장.
+
+/**국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요*/
+async function getLicenseList(){
     try{
       const functions =getFunctions(app,"us-central1");
       const getLicense = httpsCallable(functions,"getLicenseList2");
@@ -268,7 +350,8 @@ async function getLicenseList(){//국가기술자격 목록에서 자격증 목�
     }
 }//end getLicenseList()
 
-async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //자격증 리스트를 Firebase DB에 저장합니다. 
+/** 자격증 리스트를 Firebase DB에 저장합니다. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요 */
+async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //
   const licenseCollection = collection(db,"license"); //license collection reference
   for(let i =0; i<licenseList.length; i++){
     try{
@@ -283,8 +366,8 @@ async function saveLicenseToFireStore(licenseList, licenseJmcdValue){ //자격�
   }
 }//saveLicenseToFireStore END
 
-
-async function saveMajorToFireStore(){ //자격증 리스트를 Firebase DB에 저장합니다. 
+/**자격증 리스트를 Firebase DB에 저장합니다. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요*/
+async function saveMajorToFireStore(){ //
   const majorList = [
     "컴퓨터공학과", "기계공학과", "전기공학과", "전자공학과",
     "화학공학과", "건축공학과", "토목공학과", "산업공학과",
@@ -313,7 +396,8 @@ async function saveMajorToFireStore(){ //자격증 리스트를 Firebase DB에 �
   }
 }//saveLicenseToFireStore END
 
-async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 배열을 반환
+/**fireStore에서 db정보를 가져와서 배열을 반환 */
+async function fetchLicenseList(){ 
   const licenseList =[
   
   ];
@@ -323,15 +407,15 @@ async function fetchLicenseList(){ //fireStore에서 db정보를 가져와서 �
       let docData = doc.data();//문서의 데이터 객체 가져옴.
       licenseList.push(docData); //객체 배열에 저장 
     });
-    console.log("fetchLicenseList 성공!:", licenseList);
+    //console.log("fetchLicenseList 성공!:", licenseList);
   }catch(error){
     console.error("fetchLicenseList 에러: ",error);
   }
   return licenseList;//배열을 반환한다. 
 }
 
-
-async function fetchMajorList(){ //fireStore에서 db정보를 가져와서 배열을 반환
+/**fireStore에서 db정보를 가져와서 배열을 반환 */
+async function fetchMajorList(){ 
   const majorList =[
   
   ];
@@ -348,7 +432,8 @@ async function fetchMajorList(){ //fireStore에서 db정보를 가져와서 배�
   return majorList;//배열을 반환한다. 
 }
 
-async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은 JSON데이터를 파싱 후 리턴 
+/**jmcd값을 인자로 넘겨주고, 받은 JSON데이터를 파싱 후 리턴  */
+async function getExamScheduleList(){
   console.log("getExamScheduleList 호출");
   const user = auth.currentUser;
   let scheduleList =[]; //자격증들에 대한 시험정보를 담는 배열. schedule 로 이루어짐. 
@@ -442,9 +527,8 @@ async function getExamScheduleList(){//jmcd값을 인자로 넘겨주고, 받은
   }//else user End 
 }//end getExamScheduleList
 
-/**
-//사용자가 입력한 자격증 이름을 검색한다 
- */
+
+/**사용자가 입력한 자격증 이름을 검색한다 */
 async function searchLicenseInfo(licenseName){
   //이름으로 license db에서 jmcd정보 찾기 
   const licenseData = [];
@@ -457,21 +541,20 @@ async function searchLicenseInfo(licenseName){
     alert("검색어를 다시 확인해주세요. 현재는 국가자격증만 검색 가능합니다.");
   }else{
     console.log("자격증 찾음");
-    querySnapShot.forEach(doc => {
+    for( const doc of querySnapShot.docs){
       const jmcd = doc.data().jmcd;
-      const infoData =  getLicenseInfo(jmcd);  //자격증 정보 가져오기 
-      const feeData = getLicenseFee(jmcd);    // 자격증 시험 비용 가져오기 
-      licenseData.push(feeData);
-      licenseData.push(infoData);
-      return licenseData; //자격증에 대한 정보를 전달한다. 
-    });
+      const infoData = await getLicenseInfo(jmcd); //자격증 상세정보 가져오기 
+      const feeData = await getLicenseFee(jmcd); //자격증 시험 비용 가져오기 
+      licenseData.push({infoData,feeData,licenseName,jmcd});
+    }//forEnd
   }//else
- }
+  //console.log("자격증상세정보->",licenseData);
+  return licenseData;
+ }//try
  catch(error){
   console.error("license 검색에 오류 발생",error);
  }
-
-}
+}//searchLicenseInfo
 
 /** 자격증 정보를 공공데이터 API에서 받아온다. */
 async function getLicenseFee(jmcd){
@@ -489,16 +572,21 @@ async function getLicenseFee(jmcd){
       const items = jsonData.response?.body?.items?.item;
       const normalizedItems = Array.isArray(items) ? items : [items];
 
+      if (!items) {
+        throw new Error("정보 요청이 지원되지 않는 자격증입니다");
+        return;
+      }
+
       const fee = normalizedItems.map(item =>({
         /**시험응시료*/
-        contents: item.contents ? String(item.contents): " ",
+        contents: item.contents ? String(item.contents): "정보 없음",
         /**응시수수료 */
-        infogb: item.infogb ? String(item.infogb): " ",
+        infogb: item.infogb ? String(item.infogb): "정보 없음",
         /**자격증이름  */
-        licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+        licenseName: item.jmfldnm ? String(item.jmfldnm): "정보 없음",
       }));
       feeList.push(fee);
-      console.log("데이터", feeList);
+      //console.log("데이터", feeList);
       return feeList;
     }
   catch(error){
@@ -524,34 +612,48 @@ async function getLicenseInfo(jmcd){
       //items가 배열이 아니면 배열로 만드는 처리. 
       const items = jsonData.response?.body?.items?.item;
       const normalizedItems = Array.isArray(items) ? items : [items];
+      
+      if (!items) {
+        throw new Error("정보 요청이 지원되지 않는 자격증입니다");
+      }
+
+      const cleanText = (html) => { //contents에 딸려오는 쓰레기값을 제거해줌. << 아직 사용할지 말지 생각중--> 검색 시 새로운거 나오게 해서 한번 보자 
+        // HTML 태그 제거
+        let cleanText = html.replace(/<[^>]*>?/gm, '');
+        // CSS 스타일 코드 제거
+        cleanText = cleanText.replace(/BODY\s*{[^}]*}|P\s*{[^}]*}|LI\s*{[^}]*}/g, '');
+        //유니 코드 숫자 엔티티 제거 
+        cleanText  = cleanText.replace(/&#(\d+);/g, '');
+        return cleanText;
+      };
 
       const info = normalizedItems.map(item =>({ //schedule -> 자격증 1개에 대한 정보. 
         /**글 내용*/
-        contents: item.contents ? String(item.contents): " ",
+        contents: item.contents ? cleanText(String(item.contents)): "정보 없음",
         /**글 정보종류 */
-        contentsName: item.infogb ? String(item.infogb): " ",
+        contentsName: item.infogb ? String(item.infogb): "정보 없음",
         /**자격증 이름 */
-        licenseName: item.jmfldnm ? String(item.jmfldnm): " ",
+        licenseName: item.jmfldnm ? String(item.jmfldnm): "정보 없음",
         /**직무 분야 */
-        obligfldnm: item.obligfldnm ? String(item.obligfldnm): " ",
+        obligfldnm: item.obligfldnm ? String(item.obligfldnm): "정보 없음",
 
       }));
       infoList.push(info);
-      console.log("데이터", infoList);
+      //console.log("데이터", infoList);
       return infoList;
     }
   catch(error){
     const code = error.code;
     const message = error.message;
     const details = error.details;
-    console.error("getLicenseList/fireabase.js : "+error+code+message+details);
+    console.error("getLicenseInfo/fireabase.js : "+error+code+message+details);
   }
 }//getLicenseInfo
 
 
 
-
-async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd 값을 인자로 넘겨주고
+/** 현재 로그인한 사용자가 관심있어하는 자격증에 대한  시험 응시료를 가져옴.  */
+async function getExamFeeList(){
   const user = auth.currentUser;
   let feeList = [];
   if(user){//로그인 상태 
@@ -613,8 +715,8 @@ async function getExamFeeList(){//자격증 시험 응시료를 가져옴. .jmcd
 }//end getExamFeeList
 
 
-
-async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 가져오는게 아니라 jmcd 값을 인자로 넘겨주고, 그걸로 하기. 
+/** 현재 로그인 중인 사용자가 관심 있어하는 자격증들에 대한 자격증정보들을 가져온다. */
+async function getLicenseInfoList(){// 
   const user = auth.currentUser;
   let feeList = [];
   if(user){//로그인 상태 
@@ -651,7 +753,12 @@ async function getLicenseInfoList(){//자격증정보들을 가져옴, 그냥 �
   
   
 }//end getExamFeeList
+//--------------------------------------------------------------------------자격증 관련(종료)------------------------------------------------------------------------------
+
+
+
+
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage};

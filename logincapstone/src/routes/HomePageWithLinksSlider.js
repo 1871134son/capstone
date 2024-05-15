@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
+import { DisplayImage } from "../firebase/firebase"; //firebase.js 에서 import 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './HomePageWithLinksSlider.css';
@@ -20,12 +21,22 @@ function HomePageWithLinksSlider() {
             <Slider {...settings}>
                 <div>
                     <a href="/linkA">
-                        <img src="image1.jpg" alt="첫번째" className="link-image" />
+                    <DisplayImage folderName ="promotions" fileName="promotions1.jpg"></DisplayImage>
                     </a>
                 </div>
                 <div>
                     <a href="/linkB">
-                        <img src="image2.jpg" alt="두번째" className="link-image" />
+                    <DisplayImage folderName ="promotions" fileName="promotions2.jpg"></DisplayImage>
+                    </a>
+                </div>
+                <div>
+                    <a href="/linkC">
+                    <DisplayImage folderName ="promotions" fileName="promotions5.jpg"></DisplayImage>
+                    </a>
+                </div>
+                <div>
+                    <a href="/linkD">
+                    <DisplayImage folderName ="promotions" fileName="promotions4.jpg"></DisplayImage>
                     </a>
                 </div>
             </Slider>

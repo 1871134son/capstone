@@ -7,7 +7,7 @@ export const fetchingLicenseList = createAsyncThunk(
   "licenseList/getLicenseList",
   async()=>{
     const response = await fetchLicenseList();
-    console.log("store.js ->", response);
+   // console.log("store.js ->", response);
     return response; //자격증 이름 목록 반환.
   }
 );
@@ -55,7 +55,7 @@ let licenseList = createSlice({
   reducers:{//state로 치면 setState 비슷하다고 생각하시면 됩니다. 
     sortLicenseList(state){//myList를 
       state.licenseList.sort((a,b)=> a.name.localeCompare(b.name,'ko-KR'));
-      console.log("called 한글로정렬");
+     // console.log("called 한글로정렬");
     }
   },
   extraReducers : (builder) =>{
@@ -64,7 +64,7 @@ let licenseList = createSlice({
 
     })
     .addCase(fetchingLicenseList.fulfilled, (state,action)=>{//비동기작업성공
-      console.log("addCase->",action.payload); // fetchingLicenseList.fulfilled에서 로그 출력
+     // console.log("addCase->",action.payload); // fetchingLicenseList.fulfilled에서 로그 출력
       state.licenseList = action.payload;
     })
     .addCase(fetchingLicenseList.rejected, (state,action)=>{//비동기작업실패
