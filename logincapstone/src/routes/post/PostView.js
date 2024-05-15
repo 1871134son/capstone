@@ -19,6 +19,10 @@ import { getUserName } from '../../firebase/firebase.js';
     const [editedTitle, setEditedTitle] = useState(''); // 수정된 제목 상태 추가
     const [editedContent, setEditedContent] = useState(''); // 수정된 내용 상태 추가
 
+    // 댓글 관련 상태 추가
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
+
 
     console.log("가져온 brdno:", brdno);
     
@@ -84,6 +88,15 @@ import { getUserName } from '../../firebase/firebase.js';
       }
     };
 
+
+    // 댓글 추가 함수
+    const handleAddComment = () => {
+      if (newComment.trim() !== '') {
+        setComments([...comments, newComment]);
+        setNewComment('');
+      }
+    };
+
   return (
     <>
       <h2 align="center">게시글 상세정보</h2>
@@ -141,6 +154,24 @@ import { getUserName } from '../../firebase/firebase.js';
           <Button variant="danger" onClick={handleDelete}>삭제</Button>
         )}
       </div>
+
+
+
+
+
+       {/* 댓글 렌더링 및 입력 요소 추가 */}
+<div className="comments-section">
+  {/* 댓글 목록 렌더링 */}
+  {comments.map((comment, index) => (
+    <div key={index} className="comment">
+      <p>{comment}</p>
+    </div>
+  ))}
+
+  {/* 새로운 댓글 입력 요소 */}
+  <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+  <button onClick={handleAddComment}>댓글 추가</button>
+</div>
     </>
   )
 }
