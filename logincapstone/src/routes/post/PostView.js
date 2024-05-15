@@ -3,7 +3,7 @@ import { getPostByNo } from '../../routes/Data';
 import './Post.css';
 import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNavigate 가져오기
 import Button from "react-bootstrap/Button";
-import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase } from '../../firebase/firebase.js';
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo } from '../../firebase/firebase.js';
 import dateFormat from 'dateformat';
 import { getUserName } from '../../firebase/firebase.js';
 
@@ -21,9 +21,8 @@ import { getUserName } from '../../firebase/firebase.js';
 
 
     // 댓글 관련 상태 추가
-    const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState('');
-
+    const [comments, setComments] = useState([]); // 댓글 상태 추가
+    const [newComment, setNewComment] = useState(''); // 새 댓글 상태 추가
 
 
     console.log("가져온 brdno:", brdno);
@@ -67,6 +66,36 @@ import { getUserName } from '../../firebase/firebase.js';
     }, []);
 
 
+//댓글
+useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getCommentsByPostNo(brdno); // 해당 게시글의 댓글 가져오기
+        setComments(commentsData);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    fetchComments();
+  }, [brdno]);
+
+  const handleAddComment = async () => {
+    try {
+      // 현재 사용자의 UID 가져오기
+      const commenter = currentUser.uid;
+      // 댓글 추가 함수 호출 시 작성자 정보도 함께 전달
+      await addCommentToPost(brdno, newComment, commenter);
+      setNewComment('');
+      // 새로운 댓글을 화면에 표시하기 위해 댓글 목록 다시 가져오기
+      const commentsData = await getCommentsByPostNo(brdno);
+      setComments(commentsData);
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  };
+
+
     //삭제
     const handleDelete = async () => {
       try {
@@ -91,14 +120,6 @@ import { getUserName } from '../../firebase/firebase.js';
     };
 
 
-
-    // 댓글 추가 함수
-    const handleAddComment = () => {
-      if (newComment.trim() !== '') {
-        setComments([...comments, newComment]);
-        setNewComment('');
-      }
-    };
 
 
   return (
@@ -161,22 +182,27 @@ import { getUserName } from '../../firebase/firebase.js';
 
 
 
-
-
-
-       {/* 댓글 렌더링 및 입력 요소 추가 */}
+{/* 댓글 렌더링 및 입력 요소 추가 */}
 <div className="comments-section">
-  {/* 댓글 목록 렌더링 */}
-  {comments.map((comment, index) => (
-    <div key={index} className="comment">
-      <p>{comment}</p>
-    </div>
-  ))}
+        {/* 댓글 목록 렌더링 */}
+        {comments.map((comment, index) => (
+          <div key={index} className="comment">
+            <p>{comment.content}</p> {/* 댓글 내용 */}
+            <p>{dateFormat(comment.date, "yyyy-mm-dd")}</p> {/* 댓글 작성일 */}
+            {/* 댓글 삭제 버튼 */}
+            {currentUser === comment.writer && (
+              <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+            )}
+          </div>
+        ))}
 
-  {/* 새로운 댓글 입력 요소 */}
-  <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-  <button onClick={handleAddComment}>댓글 추가</button>
-</div>
+        {/* 새로운 댓글 입력 요소 */}
+        <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} />
+        <button onClick={handleAddComment}>댓글 추가</button>
+      </div>
+
+
+
 
     </>
   )

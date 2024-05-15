@@ -314,6 +314,34 @@ export const updatePostInFirebase = async (brdno, newData) => {
 };
   
 
+
+// Firebase Firestore에서 댓글을 가져오는 함수
+export const getCommentsByPostNo = async (brdno) => {
+  try {
+    const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
+    const q = query(commentsCollectionRef, where('brdno', '==', brdno)); // 해당 게시물 번호(brdno)와 일치하는 댓글들을 쿼리
+    const commentsSnapshot = await getDocs(q); // 쿼리 실행하여 댓글 스냅샷 가져오기
+    const commentsData = commentsSnapshot.docs.map(doc => doc.data()); // 댓글 데이터 추출하여 배열로 변환
+    console.log("댓글 정보:", commentsData);
+    return commentsData;
+  } catch (error) {
+    console.error('Error fetching comments from Firebase:', error);
+    throw error;
+  }
+};
+
+// Firebase Firestore에 댓글을 추가하는 함수
+export const addCommentToPost = async (brdno, commentContent, commenter) => {
+  try {
+    const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
+    await addDoc(commentsCollectionRef, { brdno, content: commentContent, commenter, date: new Date() }); // 댓글 데이터 추가
+    console.log('댓글이 성공적으로 추가되었습니다!');
+  } catch (error) {
+    console.error('Error adding comment to post:', error);
+    throw error;
+  }
+};
+
 //--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
 
 
