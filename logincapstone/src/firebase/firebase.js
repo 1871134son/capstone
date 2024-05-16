@@ -157,7 +157,7 @@ async function signIn(email, password) {
       
           if (docSnap.exists()) {
             // 문서에서 'name' 필드(사용자 이름)를 가져와 출력합니다.
-            console.log("User name:", docSnap.data().userName);
+            //console.log("User name:", docSnap.data().userName);
             return docSnap.data().userName;
           } else {
             // 문서가 존재하지 않는 경우
@@ -646,6 +646,7 @@ async function getLicenseInfo(jmcd){
     const code = error.code;
     const message = error.message;
     const details = error.details;
+    alert("해당 자격증 정보는 추후 업데이트 예정입니다.");
     console.error("getLicenseInfo/fireabase.js : "+error+code+message+details);
   }
 }//getLicenseInfo

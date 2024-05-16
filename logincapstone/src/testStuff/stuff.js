@@ -3,15 +3,14 @@ import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, ge
   import { useState,useEffect } from 'react';
   import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
   import Col from 'react-bootstrap/Col';
-  import Container from 'react-bootstrap/Container';
   import Image from 'react-bootstrap/Image';
   import Row from 'react-bootstrap/Row';
-  import Nav from 'react-bootstrap/Nav';
   import { useNavigate } from 'react-router-dom';
   import { useDispatch, useSelector } from 'react-redux';
   import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
   import { getStorage,ref,uploadBytes  } from "firebase/storage";
-
+  import { Navbar, Nav, Dropdown, Badge, Button, Container } from 'react-bootstrap';
+  import { Bell } from 'react-bootstrap-icons';
 //개발에 필요한 테스트 하는 것들에 대한 컴포넌트를 모아놓은 js 파일입니다. 
 
 
@@ -117,4 +116,48 @@ function UserImage() {
     );
   }//ShapeExample
 
-  export {UserImage, UserNameComponent, SearchLicenseComponent};
+  function NotificationBell(){
+    const [notifications, setNotifications] = useState([
+      { id: 1, message: '2024년 06월 07일 정보처리기사 2차 필기시험 신청일입니다.' },
+      { id: 2, message: '두 번째 알람입니다.' },
+      { id: 3, message: '세 번째 알람입니다.' },
+    ]);
+  
+    const handleClearNotifications = () => {
+      setNotifications([]);
+    };
+  
+    return (
+        <div className="notification-bell">
+        <Dropdown alignRight>
+          <Dropdown.Toggle variant="light" id="dropdown-basic">
+            <Bell size={24} />
+            {notifications.length > 0 && (
+              <Badge pill bg="danger" className="ml-2">
+                {notifications.length}
+              </Badge>
+            )}
+          </Dropdown.Toggle>
+    
+          <Dropdown.Menu>
+            {notifications.length === 0 ? (
+              <Dropdown.Item>알람이 없습니다.</Dropdown.Item>
+            ) : (
+              notifications.map((notification) => (
+                <Dropdown.Item key={notification.id}>
+                  {notification.message}
+                </Dropdown.Item>
+              ))
+            )}
+            <Dropdown.Divider />
+            <Dropdown.Item as="button" onClick={handleClearNotifications}>
+              알람 지우기
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        </div>
+      );
+  };
+  
+
+  export {UserImage, UserNameComponent, SearchLicenseComponent,NotificationBell};
