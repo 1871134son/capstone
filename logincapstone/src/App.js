@@ -7,10 +7,6 @@ import SignUpPage from './routes/SignUp.js';
 import HomePage from './routes/Home.js';
 import MyPage from './routes/MyPage.js';
 import Calendar from './routes/Calendar.js';
-import LinkAPage from './routes/LinkA.js';
-import LinkBPage from './routes/LinkB.js';
-import LinkCPage from './routes/LinkC.js';
-import LinkDPage from './routes/LinkD.js';
 import Write from './routes/Write';
 import PostList from './routes/post/PostList';
 import PostView from './routes/post/PostView';
@@ -18,8 +14,7 @@ import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
 import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
-import FindBoot from './routes/FindBoot.js';
-
+import CertificationInfoPage from './routes/CertificationInfoPage.js';
 
 function App() {
   const location = useLocation();
@@ -30,7 +25,6 @@ function App() {
     '/calendar',
     '/postlist',
     '/myPage',
-    '/findBoot',
   ];
 
   const isPostViewPage = location.pathname.includes('/postView');
@@ -85,7 +79,7 @@ function App() {
                 <Link to="/myPage">내 정보</Link>
               </li>
               <li>
-                <Link to="/findBoot">부트캠프 찾기</Link>
+                <Link to="/certificationInfo">자격증 정보</Link>
               </li>
               <li>
                 <Link to="/signin">로그인</Link>
@@ -99,19 +93,15 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage/>}/>
+        <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage />} />
         <Route path="/postView/:brdno" element={<PostView />} />
         <Route path="/postlist" element={<PostList />} />
         <Route path="/write" element={<Write />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/linkA" element={<LinkAPage />} />
-        <Route path="/linkB" element={<LinkBPage />} />
-        <Route path="/linkC" element={<LinkCPage />} />
-        <Route path="/linkD" element={<LinkDPage />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/findBoot" element={<FindBoot />} />
+        <Route path="/certificationInfo" element={<CertificationInfoPage />} /> {/* 새로운 라우트 설정 */}
         <Route path="/" element={<HomePage />} />
       </Routes>
 
@@ -123,6 +113,7 @@ function App() {
           ))}
         </>
       )}
+
 
       {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
         <div className="footer">
