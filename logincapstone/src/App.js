@@ -31,9 +31,9 @@ function App() {
 
   const sliderContents = [
     [
-      { id: 1, href: "/extraLink1", src: "extra_image1.jpg", alt: "Extra Link 1" },
-      { id: 2, href: "/extraLink2", src: "extra_image2.jpg", alt: "Extra Link 2" },
-      { id: 3, href: "/extraLink3", src: "extra_image3.jpg", alt: "Extra Link 3" }
+      { id: 1, href: "/https://boottent.com/community/article/20230725123326", src: "IT_certifi.jpg", alt: "Extra Link 1" },
+      { id: 2, href: "/extraLink2", src: "certifi.jpg", alt: "Extra Link 2" },
+      { id: 3, href: "/extraLink3", src: "baristar.jpg", alt: "Extra Link 3" }
     ],
     [
       { id: 4, href: "/extraLink4", src: "extra_image4.jpg", alt: "Extra Link 4" },
