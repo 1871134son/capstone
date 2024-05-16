@@ -124,18 +124,31 @@ useEffect(() => {
 
 
 //댓글 삭제
-const handleDeleteComment = async (commentId) => {
+// const handleDeleteComment = async (commentId) => {
+//   try {
+//     await deleteCommentFromFirebase(brdno, commentId); // 댓글 삭제 함수 호출
+//     console.log('댓글 삭제 성공');
+//     // 삭제 후 댓글 목록 다시 가져오기
+//     const updatedComments = comments.filter(comment => comment.id !== commentId);
+//     setComments(updatedComments);
+//   } catch (error) {
+//     console.error('댓글 삭제 오류:', error);
+//   }
+// };
+
+
+//댓글 삭제
+const handleDeleteComment = async (commentDocId) => {
   try {
-    await deleteCommentFromFirebase(brdno, commentId); // 댓글 삭제 함수 호출
+    await deleteCommentFromFirebase(brdno, commentDocId); // 댓글 삭제 함수 호출
     console.log('댓글 삭제 성공');
     // 삭제 후 댓글 목록 다시 가져오기
-    const updatedComments = comments.filter(comment => comment.id !== commentId);
+    const updatedComments = comments.filter(comment => comment.id !== commentDocId); // Firebase에서 생성된 문서의 ID를 사용하여 댓글을 필터링
     setComments(updatedComments);
   } catch (error) {
     console.error('댓글 삭제 오류:', error);
   }
 };
-
 //--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
 
