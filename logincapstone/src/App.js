@@ -14,8 +14,7 @@ import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
 import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
-import FindBoot from './routes/FindBoot.js';
-import CertificationInfoPage from './routes/CertificationInfoPage.js'; // 새로운 컴포넌트 추가
+import CertificationInfoPage from './routes/CertificationInfoPage.js';
 
 function App() {
   const location = useLocation();
@@ -26,7 +25,6 @@ function App() {
     '/calendar',
     '/postlist',
     '/myPage',
-    '/findBoot',
   ];
 
   const isPostViewPage = location.pathname.includes('/postView');
@@ -81,9 +79,6 @@ function App() {
                 <Link to="/myPage">내 정보</Link>
               </li>
               <li>
-                <Link to="/findBoot">검색</Link>
-              </li>
-              <li>
                 <Link to="/certificationInfo">자격증 정보</Link>
               </li>
               <li>
@@ -106,7 +101,6 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/findBoot" element={<FindBoot />} />
         <Route path="/certificationInfo" element={<CertificationInfoPage />} /> {/* 새로운 라우트 설정 */}
         <Route path="/" element={<HomePage />} />
       </Routes>
