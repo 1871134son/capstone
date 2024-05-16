@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './FindBoot.css';
 
 const bootcamps = [
-    '부트캠프 1',
-    '부트캠프 2',
-    '부트캠프 3',
-    '부트캠프 4',
-    '부트캠프 5'
+    '자격증 1',
+    '자격증 2',
+    '자격증 3',
+    '자격증 4',
+    '자격증 5'
 ];
 
 function FindBoot() {
@@ -29,15 +29,6 @@ function FindBoot() {
                         <li key={index}>{bootcamp}</li>
                     ))}
                 </ul>
-            </div>
-            <div className="search-container">
-                <h2>부트캠프 검색</h2>
-                <input
-                    type="text"
-                    placeholder="부트캠프 이름 검색"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                />
             </div>
         </div>
     );
