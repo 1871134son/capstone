@@ -16,6 +16,7 @@ import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import FindBoot from './routes/FindBoot.js';
 import CertificationInfoPage from './routes/CertificationInfoPage.js'; // 새로운 컴포넌트 추가
+import { DisplayImage } from './firebase/firebase.js';
 
 function App() {
   const location = useLocation();
@@ -65,7 +66,19 @@ function App() {
           <div className="logo">
             <h1>
               <Link to="/">
-                <img src="images/logo.png" alt="홈 로고" />
+                <DisplayImage 
+                  folderName="logo"
+                  fileName="logo.jpg"
+                  style={{ 
+                    position: 'absolute',  // 추가된 속성
+                    top: '-30px', 
+                    left: '180px', 
+                    width: '100px', 
+                    height: '100px', 
+                    objectFit: 'contain', 
+                    zIndex: 1000 
+                  }}
+                ></DisplayImage>
               </Link>
             </h1>
           </div>

@@ -76,13 +76,13 @@ function FileUpload({folderName, fileName}) {
 }//FileUpload
 
 /** 이미지를 디스플레이 해주는 컴포넌트 */
-function DisplayImage({folderName,fileName}) {//forlderName 아래, 있는 fileName 이미지를 디스플레이한다. 
+function DisplayImage({ folderName, fileName, style, className }) {
   const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     // Firebase 스토리지 인스턴스를 가져옵니다.
     const storage = getStorage();
-    // 'testFolder/test.jpg' 위치의 참조를 만듭니다.
+    // 'folderName/fileName' 위치의 참조를 만듭니다.
     const imageRef = ref(storage, `${folderName}/${fileName}`);
 
     // 다운로드 URL을 얻어옵니다.
@@ -93,14 +93,19 @@ function DisplayImage({folderName,fileName}) {//forlderName 아래, 있는 fileN
       .catch((error) => {
         console.error('이미지를 불러오는 중 오류 발생:', error);
       });
-  }, [folderName, fileName]);  // 의존성 배열이 비어 있으므로 컴포넌트 마운트 시 한 번만 실행됩니다.
+  }, [folderName, fileName]);  // folderName과 fileName이 변경될 때마다 다시 실행됩니다.
 
-  return ( //사진 크기 조절은  아래서 보고 하면 될것같아요 
+  return (
     <div>
-      {imageUrl ? <img src={imageUrl} alt="Uploaded" style={{witdh: '100%', height: '500px', objectFit: 'fill'}} /> : <p>Loading...</p>}
+      {imageUrl ? (
+        <img src={imageUrl} alt="Uploaded" style={style} className={className} />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
-}//DisplayImage
+}
+
 
 
 

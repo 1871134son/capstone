@@ -8,9 +8,16 @@ const axios = require("axios");
 const cors = require("cors");
 const corsHandler = cors({origin: true});
 const {initializeApp} = require("firebase-admin/app");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
 const {getFirestore} = require("firebase-admin/firestore");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
+const { event } = require("firebase-functions/v1/analytics");
 
 initializeApp();
+
+// Firestore 데이터베이스 인스턴스를 가져옵니다.
+const db = getFirestore();
+const auth = getAuth();
 
 // Take the text parameter passed to this HTTP endpoint and insert it into
 // Firestore under the path /messages/:documentId/original
@@ -26,6 +33,42 @@ exports.addmessage = onRequest((req, res) => {
     res.json({result: `Message with ID: ${writeResult.id} added.`});
   });
 });
+
+/**사용자에게 시험일정에 대해 알람을 보내는 함수. 하루에 한번 호출되며, 날짜 비교 후, 당일, 3일전에 사용자에게 알람을 보냄. */
+exports.sendSceduleNotification = onSchedule("every day 00:00", async (event)=>{
+  //오늘 날짜와 3일 후의 날짜를 계산함. 
+  const today = new Date();
+  const threeDaysLater = new Date();
+  threeDaysLater.setDate(today.getDate() + 3);
+
+   // Firestore의 'users' 컬렉션에서 모든 사용자 문서를 가져옵니다.
+   const usersSnapshot = await db.collection('user').get();
+   // Firestore의 배치 작업을 시작합니다.
+   const notificationsBatch = db.batch()
+
+  // Firestore의 users 컬렉션에서 모든 사용자 문서 가져옴 
+  for (const doc of usersSnapshot.docs){
+    const user = doc.data(); // 사용자 데이터 가져오기
+    const userId = doc.id(); //사용자 ID를 가져옵니다. 
+    const jmcds = user.jmcds; //사용자의 관심 자격증 코드 배열을 가져옵니다. 
+
+    //각 자격증 코드에 대해 공공데이터 API를 호출합니다. 
+    for(const jmcd of jmcds){
+      if(jmcd=="empty"){//empty는 회원이 관심있는 자격증이 없는 경우므로 함수를 시행하지 않음. 
+
+      }//if 
+      else{ // 관심 있는 자격증이 있음. 
+        
+      
+      }//else 
+
+    }//for End jmcd
+
+
+  }//forEnd usersSnapshot
+
+
+})
 
 // 공공데이터 포탈에서 자격증 종류들을 가져옵니다.
 exports.getExamSchedule = onRequest((req, res)=>{
