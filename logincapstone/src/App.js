@@ -19,7 +19,7 @@ import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
 import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import FindBoot from './routes/FindBoot.js';
-
+import CertificationInfoPage from './routes/CertificationInfoPage.js'; // 새로운 컴포넌트 추가
 
 function App() {
   const location = useLocation();
@@ -88,6 +88,9 @@ function App() {
                 <Link to="/findBoot">부트캠프 찾기</Link>
               </li>
               <li>
+                <Link to="/certificationInfo">자격증 정보</Link>
+              </li>
+              <li>
                 <Link to="/signin">로그인</Link>
               </li>
               <li>
@@ -112,6 +115,7 @@ function App() {
         <Route path="/linkD" element={<LinkDPage />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/findBoot" element={<FindBoot />} />
+        <Route path="/certificationInfo" element={<CertificationInfoPage />} /> {/* 새로운 라우트 설정 */}
         <Route path="/" element={<HomePage />} />
       </Routes>
 
@@ -123,6 +127,7 @@ function App() {
           ))}
         </>
       )}
+
 
       {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
         <div className="footer">
