@@ -3,7 +3,7 @@ import { getPostByNo } from '../../routes/Data';
 import './Post.css';
 import { useParams, useNavigate } from 'react-router-dom'; // useParams와 useNavigate 가져오기
 import Button from "react-bootstrap/Button";
-import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo } from '../../firebase/firebase.js';
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase } from '../../firebase/firebase.js';
 import dateFormat from 'dateformat';
 import { getUserName } from '../../firebase/firebase.js';
 
@@ -20,7 +20,7 @@ import { getUserName } from '../../firebase/firebase.js';
     const [editedContent, setEditedContent] = useState(''); // 수정된 내용 상태 추가
 
 
-    // 댓글 관련 상태 추가
+    //댓글 관련 상태 추가
     const [comments, setComments] = useState([]); // 댓글 상태 추가
     const [newComment, setNewComment] = useState(''); // 새 댓글 상태 추가
 
@@ -66,7 +66,32 @@ import { getUserName } from '../../firebase/firebase.js';
     }, []);
 
 
-//댓글
+    //게시물 삭제
+    const handleDelete = async () => {
+      try {
+        await deletePostFromFirebase(brdno);
+        console.log('게시물 삭제 성공');
+        navigate('/postlist');
+      } catch (error) {
+        console.error('게시물 삭제 오류:', error);
+      }
+    };
+    
+
+    //게시물 수정
+    const handleUpdate = async () => {
+      try {
+        await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
+        console.log('게시물 수정 성공');
+        setEditing(false); // 수정 완료 후 editing 상태를 false로 변경
+      } catch (error) {
+        console.error('게시물 수정 오류:', error);
+      }
+    };
+
+
+//--------------------------------------------------------------------------댓글(시작)------------------------------------------------------------------------------
+//댓글 가져오기
 useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -79,6 +104,7 @@ useEffect(() => {
 
     fetchComments();
   }, [brdno]);
+
 
   //댓글 추가
   const handleAddComment = async () => {
@@ -96,6 +122,7 @@ useEffect(() => {
     }
   };
 
+
 //댓글 삭제
 const handleDeleteComment = async (commentId) => {
   try {
@@ -109,29 +136,7 @@ const handleDeleteComment = async (commentId) => {
   }
 };
 
-
-    //삭제
-    const handleDelete = async () => {
-      try {
-        await deletePostFromFirebase(brdno);
-        console.log('게시물 삭제 성공');
-        navigate('/postlist');
-      } catch (error) {
-        console.error('게시물 삭제 오류:', error);
-      }
-    };
-    
-
-    //수정
-    const handleUpdate = async () => {
-      try {
-        await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
-        console.log('게시물 수정 성공');
-        setEditing(false); // 수정 완료 후 editing 상태를 false로 변경
-      } catch (error) {
-        console.error('게시물 수정 오류:', error);
-      }
-    };
+//--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
 
     //날짜 변환 함수
