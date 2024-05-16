@@ -18,7 +18,7 @@ import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import CertificationInfoPage from './routes/CertificationInfoPage.js'; // 새로운 컴포넌트 추가
 import { DisplayImage } from './firebase/firebase.js';
-
+import {SearchLicenseComponent} from './testStuff/stuff.js';
 function App() {
   const location = useLocation();
   const [slideIndex, setSlideIndex] = useState(0);
@@ -80,6 +80,7 @@ function App() {
                 ></DisplayImage>
               </Link>
             </h1>
+            <SearchLicenseComponent></SearchLicenseComponent>
           </div>
           <div className="nav">
             <ul className="main_menu">

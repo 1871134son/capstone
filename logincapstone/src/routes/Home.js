@@ -11,8 +11,6 @@ function HomePage(){
 
     return(
         <>
-            <UserNameComponent></UserNameComponent>
-            <SearchLicenseComponent></SearchLicenseComponent>
         </>
     )
 }// 

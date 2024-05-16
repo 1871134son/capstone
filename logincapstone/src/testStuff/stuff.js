@@ -60,7 +60,16 @@ function SearchLicenseComponent() {
           onChange={(e) =>
             setSearchText(e.target.value)
             }
-          placeholder="Enter a message"
+          placeholder="자격증 검색"
+          style={{ 
+            position: 'absolute',  // 추가된 속성
+            top: '35px', 
+            left: '300px', 
+            width: '300px', 
+            height: '40px', 
+            objectFit: 'contain', 
+            zIndex: 1000 
+          }}
         />
         <datalist id="license_id">
           {licenseList &&
@@ -71,10 +80,17 @@ function SearchLicenseComponent() {
         </datalist>  
         <button onClick={()=>{
             handleSearch();
-        }}>자격증 정보 검색</button>
-         <button onClick={()=>{
-            signInEduNavi();
-        }}>에듀나비로 로그인</button>
+        }}
+        style={{ 
+            position: 'absolute',  // 추가된 속성
+            top: '35px', 
+            left: '610px', 
+            width: '70px', 
+            height: '40px', 
+            objectFit: 'contain', 
+            zIndex: 1000 
+          }}
+        >검색</button>
       </div>
     );
   }//SearchLicenseComponent()

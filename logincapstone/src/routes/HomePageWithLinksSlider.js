@@ -31,7 +31,7 @@ function HomePageWithLinksSlider() {
                 </div>
                 <div>
                     <a href="/linkC">
-                    <DisplayImage folderName ="promotions" fileName="promotions5.jpg"></DisplayImage>
+                    <DisplayImage folderName ="promotions" fileName="promotions.jpg"></DisplayImage>
                     </a>
                 </div>
                 <div>
