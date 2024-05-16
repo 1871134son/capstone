@@ -16,8 +16,10 @@ import PostList from './routes/post/PostList';
 import PostView from './routes/post/PostView';
 import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
+import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import FindBoot from './routes/FindBoot.js';
+
 
 function App() {
   const location = useLocation();
@@ -97,7 +99,7 @@ function App() {
       </div>
 
       <Routes>
-        <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage />} />
+        <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage/>}/>
         <Route path="/postView/:brdno" element={<PostView />} />
         <Route path="/postlist" element={<PostList />} />
         <Route path="/write" element={<Write />} />
