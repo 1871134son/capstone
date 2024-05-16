@@ -319,7 +319,7 @@ export const updatePostInFirebase = async (brdno, newData) => {
 export const getCommentsByPostNo = async (brdno) => {
   try {
     const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
-    const q = query(commentsCollectionRef, where('brdno', '==', brdno)); // 해당 게시물 번호(brdno)와 일치하는 댓글들을 쿼리
+    const q = query(commentsCollectionRef, where('brdno', '==', brdno), orderBy('date', 'asc')); // 해당 게시물 번호(brdno)와 일치하는 댓글들을 쿼리
     const commentsSnapshot = await getDocs(q); // 쿼리 실행하여 댓글 스냅샷 가져오기
     const commentsData = commentsSnapshot.docs.map(doc => doc.data()); // 댓글 데이터 추출하여 배열로 변환
     console.log("댓글 정보:", commentsData);
