@@ -79,7 +79,8 @@ useEffect(() => {
 
     fetchComments();
   }, [brdno]);
-//
+
+  //댓글 추가
   const handleAddComment = async () => {
     try {
       // 현재 사용자의 UID 가져오기
@@ -94,6 +95,19 @@ useEffect(() => {
       console.error('Error adding comment:', error);
     }
   };
+
+//댓글 삭제
+const handleDeleteComment = async (commentId) => {
+  try {
+    await deleteCommentFromFirebase(brdno, commentId); // 댓글 삭제 함수 호출
+    console.log('댓글 삭제 성공');
+    // 삭제 후 댓글 목록 다시 가져오기
+    const updatedComments = comments.filter(comment => comment.id !== commentId);
+    setComments(updatedComments);
+  } catch (error) {
+    console.error('댓글 삭제 오류:', error);
+  }
+};
 
 
     //삭제
@@ -126,6 +140,8 @@ useEffect(() => {
       return formattedDate;
     };
 
+
+    console.log("currentUser는 이거다!:", currentUser);
 
   return (
     <>
@@ -197,7 +213,7 @@ useEffect(() => {
             <p>{formatDate(comment.date)}</p> {/* 댓글 작성일 */}
             <p>================</p> {/* 댓글 구분 */}
             {/* 댓글 삭제 버튼 */}
-            {currentUser === comment.writer && (
+            {currentUser === comment.commenter && (
               <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
             )}
           </div>

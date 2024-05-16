@@ -344,6 +344,19 @@ export const addCommentToPost = async (brdno, commentContent) => {
   }
 };
 
+
+// 댓글을 삭제하는 함수
+export const deleteCommentFromFirebase = async (brdno, commentId) => {
+  try {
+    const postRef = db.collection('post').doc(brdno); // 게시물 문서 참조
+    await postRef.collection('comments').doc(commentId).delete(); // 댓글 문서 삭제
+    console.log('댓글 삭제 성공');
+  } catch (error) {
+    console.error('댓글 삭제 오류:', error);
+    throw error; // 오류를 호출자에게 전파합니다.
+  }
+};
+
 //--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
 
 
