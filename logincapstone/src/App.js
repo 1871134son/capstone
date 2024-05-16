@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
@@ -18,17 +20,6 @@ import CertificationInfoPage from './routes/CertificationInfoPage.js';
 
 function App() {
   const location = useLocation();
-
-  const isAuthPage = [
-    '/signin',
-    '/signup',
-    '/calendar',
-    '/postlist',
-    '/myPage',
-  ];
-
-  const isPostViewPage = location.pathname.includes('/postView');
-
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
@@ -54,6 +45,16 @@ function App() {
       { id: 8, href: "/extraLink8", src: "extra_image8.jpg", alt: "Extra Link 8" },
       { id: 9, href: "/extraLink9", src: "extra_image9.jpg", alt: "Extra Link 9" }
     ]
+  ];
+
+  const isAuthPage = [
+    '/signin',
+    '/signup',
+    '/calendar',
+    '/postlist',
+    '/myPage',
+    `/postView/${location.pathname.split('/')[2]}`, // PostView 페이지에서 Extra 링크가 나오지 않도록 설정
+    '/write' // Write 페이지에서도 Extra 링크가 나오지 않도록 설정
   ];
 
   return (
@@ -101,11 +102,11 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/certificationInfo" element={<CertificationInfoPage />} /> {/* 새로운 라우트 설정 */}
+        <Route path="/certificationInfo" element={<CertificationInfoPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 
-      {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
+      {!isAuthPage.includes(location.pathname) && (
         <>
           <HomePageWithLinksSlider slideIndex={slideIndex} />
           {sliderContents.map((links, index) => (
@@ -114,8 +115,7 @@ function App() {
         </>
       )}
 
-
-      {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
+      {!isAuthPage.includes(location.pathname) && (
         <div className="footer">
           <div className="inner">
             <div className="bt_logo">
