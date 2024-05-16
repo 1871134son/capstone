@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
@@ -14,24 +16,11 @@ import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
 import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
-import FindBoot from './routes/FindBoot.js';
 import CertificationInfoPage from './routes/CertificationInfoPage.js'; // 새로운 컴포넌트 추가
 import { DisplayImage } from './firebase/firebase.js';
 
 function App() {
   const location = useLocation();
-
-  const isAuthPage = [
-    '/signin',
-    '/signup',
-    '/calendar',
-    '/postlist',
-    '/myPage',
-    '/findBoot',
-  ];
-
-  const isPostViewPage = location.pathname.includes('/postView');
-
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
@@ -43,9 +32,9 @@ function App() {
 
   const sliderContents = [
     [
-      { id: 1, href: "/extraLink1", src: "extra_image1.jpg", alt: "Extra Link 1" },
-      { id: 2, href: "/extraLink2", src: "extra_image2.jpg", alt: "Extra Link 2" },
-      { id: 3, href: "/extraLink3", src: "extra_image3.jpg", alt: "Extra Link 3" }
+      { id: 1, href: "/https://boottent.com/community/article/20230725123326", src: "IT_certifi.jpg", alt: "Extra Link 1" },
+      { id: 2, href: "/extraLink2", src: "certifi.jpg", alt: "Extra Link 2" },
+      { id: 3, href: "/extraLink3", src: "baristar.jpg", alt: "Extra Link 3" }
     ],
     [
       { id: 4, href: "/extraLink4", src: "extra_image4.jpg", alt: "Extra Link 4" },
@@ -57,6 +46,16 @@ function App() {
       { id: 8, href: "/extraLink8", src: "extra_image8.jpg", alt: "Extra Link 8" },
       { id: 9, href: "/extraLink9", src: "extra_image9.jpg", alt: "Extra Link 9" }
     ]
+  ];
+
+  const isAuthPage = [
+    '/signin',
+    '/signup',
+    '/calendar',
+    '/postlist',
+    '/myPage',
+    `/postView/${location.pathname.split('/')[2]}`, // PostView 페이지에서 Extra 링크가 나오지 않도록 설정
+    '/write' // Write 페이지에서도 Extra 링크가 나오지 않도록 설정
   ];
 
   return (
@@ -94,9 +93,6 @@ function App() {
                 <Link to="/myPage">내 정보</Link>
               </li>
               <li>
-                <Link to="/findBoot">검색</Link>
-              </li>
-              <li>
                 <Link to="/certificationInfo">자격증 정보</Link>
               </li>
               <li>
@@ -119,12 +115,11 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/myPage" element={<MyPage />} />
-        <Route path="/findBoot" element={<FindBoot />} />
-        <Route path="/certificationInfo" element={<CertificationInfoPage />} /> {/* 새로운 라우트 설정 */}
+        <Route path="/certificationInfo" element={<CertificationInfoPage />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 
-      {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
+      {!isAuthPage.includes(location.pathname) && (
         <>
           <HomePageWithLinksSlider slideIndex={slideIndex} />
           {sliderContents.map((links, index) => (
@@ -133,8 +128,7 @@ function App() {
         </>
       )}
 
-
-      {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
+      {!isAuthPage.includes(location.pathname) && (
         <div className="footer">
           <div className="inner">
             <div className="bt_logo">

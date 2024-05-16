@@ -42,8 +42,10 @@
 }
 
 .link-image {
-  width: 50px;
-  height: auto;
+  width: 10px;
+  /* 원하는 너비로 설정 */
+  height: 10px;
+  /* 높이를 자동으로 설정하여 비율 유지 */
   margin-right: 0;
   transition: transform 0.3s ease-in-out;
 }
@@ -51,6 +53,7 @@
 .link-image:hover {
   transform: scale(1.1);
 }
+
 
 .link-container {
   border: 1px solid #ccc;
@@ -123,14 +126,6 @@ a:visited {
 .inner {
   width: 1200px;
   margin: 0 auto;
-}
-
-.wrap .header {
-  width: 100%;
-  height: 100px;
-  background-color: #fff;
-  border-bottom: 3px solid #ff8c3f;
-  box-sizing: border-box;
 }
 
 .wrap .header .inner {
