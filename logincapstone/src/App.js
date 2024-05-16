@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignInPage from './routes/SignIn.js';
 import SignUpPage from './routes/SignUp.js';
@@ -23,24 +21,42 @@ import LicenseInfoPage from './routes/LicenseInfoPage.js';
 
 
 function App() {
-  // 네비게이션 상태 관리
-  const [subMenuVisible, setSubMenuVisible] = useState({
-    calendar: false,
-    post: false,
-    myPage: false,
-  });
+  const location = useLocation();
 
-  // 슬라이드 상태 관리
+  const isAuthPage = [
+    '/signin', 
+    '/signup', 
+    '/calendar', 
+    '/postlist', 
+    '/myPage'
+  ].includes(location.pathname);
+
   const [slideIndex, setSlideIndex] = useState(0);
 
-  // 슬라이드 변경 이벤트 핸들러
   useEffect(() => {
     const slideInterval = setInterval(() => {
-      setSlideIndex((prevIndex) => (prevIndex + 1));
+      setSlideIndex((prevIndex) => (prevIndex + 1) % 3);
     }, 5000);
-
     return () => clearInterval(slideInterval);
   }, []);
+
+  const sliderContents = [
+    [
+      { id: 1, href: "/extraLink1", src: "extra_image1.jpg", alt: "Extra Link 1" },
+      { id: 2, href: "/extraLink2", src: "extra_image2.jpg", alt: "Extra Link 2" },
+      { id: 3, href: "/extraLink3", src: "extra_image3.jpg", alt: "Extra Link 3" }
+    ],
+    [
+      { id: 4, href: "/extraLink4", src: "extra_image4.jpg", alt: "Extra Link 4" },
+      { id: 5, href: "/extraLink5", src: "extra_image5.jpg", alt: "Extra Link 5" },
+      { id: 6, href: "/extraLink6", src: "extra_image6.jpg", alt: "Extra Link 6" }
+    ],
+    [
+      { id: 7, href: "/extraLink7", src: "extra_image7.jpg", alt: "Extra Link 7" },
+      { id: 8, href: "/extraLink8", src: "extra_image8.jpg", alt: "Extra Link 8" },
+      { id: 9, href: "/extraLink9", src: "extra_image9.jpg", alt: "Extra Link 9" }
+    ]
+  ];
 
   return (
     <div className="wrap">
@@ -75,7 +91,6 @@ function App() {
         </div>
       </div>
 
-      {/* 라우트 설정 */}
       <Routes>
         <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage/>}/>
         <Route path="/postView/:brdno" element={<PostView />} />
@@ -92,29 +107,35 @@ function App() {
         <Route path="/" element={<HomePage />} />
       </Routes>
 
-      {/* 추가된 컴포넌트 */}
-      <HomePageWithLinksSlider slideIndex={slideIndex} />
-      <AdditionalLinksSlider />
+      {!isAuthPage && (
+        <>
+          <HomePageWithLinksSlider slideIndex={slideIndex} />
+          {sliderContents.map((links, index) => (
+            <AdditionalLinksSlider key={index} links={links} />
+          ))}
+        </>
+      )}
 
-      <div className="footer">
-        <div className="inner">
-          <div className="bt_logo">
-            <Link to="/">
-              <img src="images/bt_logo.png" alt="홈 하단로고" />
-            </Link>
-          </div>
-          <div className="bt_menu">
-            <ul>
-              <li><a href="/">하단 메뉴 1</a></li>
-              <li><a href="/">하단 메뉴 2</a></li>
-              <li><a href="/">하단 메뉴 3</a></li>
-            </ul>
+      {!isAuthPage && (
+        <div className="footer">
+          <div className="inner">
+            <div className="bt_logo">
+              <Link to="/">
+                <img src="images/bt_logo.png" alt="홈 하단로고" />
+              </Link>
+            </div>
+            <div className="bt_menu">
+              <ul>
+                <li><a href="/">하단 메뉴 1</a></li>
+                <li><a href="/">하단 메뉴 2</a></li>
+                <li><a href="/">하단 메뉴 3</a></li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
 export default App;
-

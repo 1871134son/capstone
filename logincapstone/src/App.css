@@ -74,9 +74,10 @@
   margin-right: 0;
 }
 
+/* App.css */
 .nav .main_menu li a {
   display: block;
-  padding: 10px;
+  padding-bottom: 14px;
   text-align: center;
   font-size: 16px;
   background-color: #ff8c3f;
