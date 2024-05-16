@@ -17,17 +17,21 @@ import PostView from './routes/post/PostView';
 import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
+import FindBoot from './routes/FindBoot.js';
 
 function App() {
   const location = useLocation();
 
   const isAuthPage = [
-    '/signin', 
-    '/signup', 
-    '/calendar', 
-    '/postlist', 
-    '/myPage'
-  ].includes(location.pathname);
+    '/signin',
+    '/signup',
+    '/calendar',
+    '/postlist',
+    '/myPage',
+    '/findBoot',
+  ];
+
+  const isPostViewPage = location.pathname.includes('/postView');
 
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -79,6 +83,9 @@ function App() {
                 <Link to="/myPage">내 정보</Link>
               </li>
               <li>
+                <Link to="/findBoot">부트캠프 찾기</Link>
+              </li>
+              <li>
                 <Link to="/signin">로그인</Link>
               </li>
               <li>
@@ -102,10 +109,11 @@ function App() {
         <Route path="/linkC" element={<LinkCPage />} />
         <Route path="/linkD" element={<LinkDPage />} />
         <Route path="/myPage" element={<MyPage />} />
+        <Route path="/findBoot" element={<FindBoot />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
 
-      {!isAuthPage && (
+      {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
         <>
           <HomePageWithLinksSlider slideIndex={slideIndex} />
           {sliderContents.map((links, index) => (
@@ -114,7 +122,7 @@ function App() {
         </>
       )}
 
-      {!isAuthPage && (
+      {!isAuthPage.includes(location.pathname) && !isPostViewPage && (
         <div className="footer">
           <div className="inner">
             <div className="bt_logo">

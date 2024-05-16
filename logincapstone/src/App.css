@@ -63,7 +63,8 @@
 }
 
 .nav .main_menu {
-  display: flex; /* 가로로 정렬 */
+  display: flex;
+  /* 가로로 정렬 */
 }
 
 .nav .main_menu li {
@@ -77,41 +78,37 @@
 /* App.css */
 .nav .main_menu li a {
   display: block;
-  padding-bottom: 14px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: center;
-  font-size: 16px;
+  font-size: 10px;
   background-color: #ff8c3f;
   color: #fff;
   text-decoration: none;
+  height: auto;
+  width: 100px;
 }
 
 .nav .main_menu li a:hover {
   background-color: #ff9c5f;
 }
 
-
-.main_menu>li:hover .sub_menu {
-  display: block;
-}
-
-.main_menu li:hover .sub_menu {
-  display: block;
-  /* 마우스를 메인 메뉴 위에 올렸을 때 서브 메뉴를 보이도록 함 */
+.nav .main_menu {
+  display: flex;
+  justify-content: center;
 }
 
 
 li {
   list-style: none;
-  /* 블렛포인트 지우기(동그라미) */
 }
 
 a:link,
 a:visited {
   text-decoration: none;
   color: inherit;
-  /* 밑줄 없어짐 */
   color: inherit;
-  /* css 색상코드 상속 */
 }
 
 .wrap {
@@ -120,7 +117,6 @@ a:visited {
 }
 
 .inner {
-  /* 가로 1200px, 가운데 정렬 */
   width: 1200px;
   margin: 0 auto;
 }
