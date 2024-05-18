@@ -331,7 +331,8 @@ export const getCommentsByPostNo = async (brdno) => {
     const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
     const q = query(commentsCollectionRef, where('brdno', '==', brdno), orderBy('date', 'asc')); // 해당 게시물 번호(brdno)와 일치하는 댓글들을 쿼리
     const commentsSnapshot = await getDocs(q); // 쿼리 실행하여 댓글 스냅샷 가져오기
-    const commentsData = commentsSnapshot.docs.map(doc => doc.data()); // 댓글 데이터 추출하여 배열로 변환
+    //const commentsData = commentsSnapshot.docs.map(doc => doc.data()); // 댓글 데이터 추출하여 배열로 변환
+    const commentsData = commentsSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })); // 댓글 데이터 추출하여 배열로 변환, ID 포함
     console.log("댓글 정보:", commentsData);
     return commentsData;
   } catch (error) {
@@ -340,7 +341,7 @@ export const getCommentsByPostNo = async (brdno) => {
   }
 };
 
-// Firebase Firestore에 댓글을 추가하는 함수
+//Firebase Firestore에 댓글을 추가하는 함수
 export const addCommentToPost = async (brdno, commentContent) => {
   try {
     const user = auth.currentUser;
@@ -354,15 +355,34 @@ export const addCommentToPost = async (brdno, commentContent) => {
 };
 
 
-// 댓글을 삭제하는 함수
-export const deleteCommentFromFirebase = async (brdno, commentId) => {
+
+//글 삭제
+export const deleteCommentFromFirebase = async (commentId) => {
   try {
-    const postRef = db.collection('post').doc(brdno); // 게시물 문서 참조
-    await postRef.collection('comments').doc(commentId).delete(); // 댓글 문서 삭제
+    // 삭제할 게시물의 문서 참조를 가져옵니다.
+    const postRef = doc(db, 'comments', commentId); // 'post' 컬렉션에서 brdno를 ID로 갖는 문서를 참조합니다.
+
+    // 문서를 삭제합니다.
+    await deleteDoc(postRef);
+
     console.log('댓글 삭제 성공');
   } catch (error) {
     console.error('댓글 삭제 오류:', error);
     throw error; // 오류를 호출자에게 전파합니다.
+  }
+};
+
+
+
+// Firebase Firestore에서 댓글을 업데이트하는 함수
+export const updateCommentInFirebase = async (commentId, newData) => {
+  try {
+    const commentRef = doc(db, 'comments', commentId); // 'comments' 컬렉션에서 해당 댓글 문서 가져오기
+    await updateDoc(commentRef, newData); // 문서 업데이트
+    console.log("댓글 업데이트 성공");
+  } catch (error) {
+    console.error("댓글 업데이트 오류:", error);
+    throw error;
   }
 };
 
