@@ -272,8 +272,10 @@ const handleDeleteComment = async (commentDocId) => {
 ))}
 
 {/* 새로운 댓글 입력 요소 */}
-<input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="댓글을 입력하세요"/>
-<button onClick={handleAddComment}>등록</button>
+<div className="comment-input-container">
+        <input type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="댓글을 입력하세요" className="comment-input" />
+        <button onClick={handleAddComment} className="comment-button">등록</button>
+      </div>
 </div>
 </>
 );
