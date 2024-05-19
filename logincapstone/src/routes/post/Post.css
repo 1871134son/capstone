@@ -1,27 +1,24 @@
-
-.post-view-wrapper {
-  width: 60%;
-  margin: 0 auto;
+/* "글쓰기" 버튼의 커스텀 스타일 추가 */
+.custom-write-button {
+  background-color: #28a745 !important; /* 배경색을 초록색으로 설정 */
+  border: none !important; /* 테두리를 제거 */
+  color: white !important; /* 텍스트 색상을 흰색으로 설정 */
+  padding: 10px 20px; /* 패딩 추가 */
+  font-size: 16px; /* 폰트 크기 설정 */
+  cursor: pointer; /* 커서를 포인터로 설정 */
+  border-radius: 4px; /* 모서리를 둥글게 설정 */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* 부드러운 전환 효과 */
+  display: block; /* 버튼을 블록 수준 요소로 설정 */
+  margin-left: 1580px; /* 버튼을 약간 왼쪽으로 이동 */
+  width: fit-content; /* 버튼의 너비를 내용에 맞게 설정 */
 }
 
-.post-view-go-list-btn {
-  border: 0;
-  padding: 10px;
-  background-color: #ffd9d9;
+.custom-write-button:hover {
+  background-color: #28a745 !important; /* 호버 시 약간 더 밝은 초록색 */
+  transform: scale(1.05); /* 호버 시 약간 확대 */
 }
 
-.post-view-row {
-  margin: 10px 0;
-  display: flex;
-}
-
-.post-view-row > label:first-child {
-  margin: 10px 0;
-  width: 30%;
-  font-weight: bold;
-}
-
-.post-view-row > *:nth-child(2) {
-  margin: 10px 0;
-  width: 70%;
+.custom-write-button:active {
+  background-color: #218838 !important; /* 활성화 시 더 어두운 초록색 */
+  transform: scale(1); /* 활성화 시 원래 크기 */
 }

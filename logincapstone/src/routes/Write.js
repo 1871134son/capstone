@@ -1,73 +1,70 @@
-import { Component } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import {boardSave} from "../firebase/firebase.js"
 import React, { useEffect, useState } from 'react';
-import { getUserName } from "../firebase/firebase.js";
+import { Form, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { boardSave, getUserName } from '../firebase/firebase.js';
+import styles from './Write.module.css';
 
-/**
- * Write class
- */
-//class Write extends Component {
-function Write(){
-    
-
-    const [brdno, setBrdno] = useState(0);//brdno가 있으면 업데이트 없으면 새로?
-    
+function Write() {
     const [title, setTitle] = useState('');
-    const [content,setContent] = useState('');
+    const [content, setContent] = useState('');
     const [brddate, setBrddate] = useState('');
-    
-    
-    //const [brdwriter, setBrdwriter] = useState('');
-
 
     useEffect(() => {
-        setBrddate(Date.now()); // 현재 시간으로 설정
+        setBrddate(Date.now()); // Set current date
     }, []);
 
-
-
-
-
     const navigate = useNavigate();
-   
+
     const handleSubmit = async (event) => {
-      event.preventDefault();
-      const brdwriter = await getUserName();//작성자 정보 가져오기
-      
-    //   const currentDate = new Date().toISOString();
-    //   console.log("시간확인", currentDate);
-      boardSave(null, title, content, brddate, brdwriter);
-         
-        navigate('/postlist');  
-    
+        event.preventDefault();
+        const brdwriter = await getUserName(); // Get the writer's information
+        boardSave(null, title, content, brddate, brdwriter);
+        navigate('/postlist');
     };
-  
-        return (
-            <div>
-                <Form onSubmit={handleSubmit}>
-                
+
+    return (
+        <main role="main" className={styles.container}>
+            <h2 className={styles.writeTitle}>글쓰기</h2>
+            <Form onSubmit={handleSubmit}>
+                <div className={styles.pt1}>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>제목</Form.Label>
-                        <Form.Control type="text"  value={title} 
-                        onChange={(e) => setTitle(e.target.value)} placeholder="제목을 입력하세요" required/>
+                        <Form.Control
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            placeholder="제목을 입력하세요"
+                            required
+                            className={styles.input}
+                        />
                     </Form.Group>
+                </div>
+                <div className={styles.pt1}>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>내용</Form.Label>
-                        <Form.Control as="textarea"  value={content} 
-                        onChange={(e) => setContent(e.target.value)} placeholder="내용을 입력하세요" required/>
+                        <Form.Control
+                            as="textarea"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="내용을 입력하세요"
+                            required
+                            className={styles.textarea}
+                        />
                     </Form.Group>
-                    <Button type="submit" onClick={()=>{    
-                    console.log("버튼눌림");
-                 }} variant="info" >작성완료</Button>
-                </Form>             
-                <Link to="/postlist">  <Button variant="secondary">취소</Button></Link>
-            </div>
-        );
-    
+                </div>
+                <div className={`${styles.pt1} ${styles.textRight}`}>
+                    <Button type="submit" variant="success" className={styles.submitButton}>
+                        작성완료
+                    </Button>
+                    <Link to="/postlist">
+                        <Button variant="secondary" type="button" className={styles.cancelButton}>
+                            취소
+                        </Button>
+                    </Link>
+                </div>
+            </Form>
+        </main>
+    );
 }
 
 export default Write;
