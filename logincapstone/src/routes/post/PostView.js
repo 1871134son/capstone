@@ -161,7 +161,7 @@ const PostView = () => {
                 {editing ? (
                   <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
                 ) : (
-                  <div>{data.content}</div>
+                  <label>{data.content}</label>
                 )}
               </div>
             </div>

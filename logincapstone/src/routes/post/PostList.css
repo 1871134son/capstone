@@ -268,3 +268,10 @@ a {
 .commentButton:hover {
   background-color: #218838;
 }
+
+
+
+/* 제목에 마우스를 올렸을 때 밑줄이 생기도록 설정합니다. */
+a.titlehover:hover {
+  text-decoration: underline;
+}

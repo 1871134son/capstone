@@ -92,7 +92,7 @@ const PostMain = () => {
                 <CommonTableRow key={index}>
                   <CommonTableColumn className="num"><div className="post-number">{item.brdno}</div></CommonTableColumn>
                   <CommonTableColumn>
-                    <Link to={`/postView/${item.brdno}`}>{item.title}</Link>
+                    <Link to={`/postView/${item.brdno}`}className="titlehover">{item.title}</Link>
                   </CommonTableColumn>
                   <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn>
                   <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
