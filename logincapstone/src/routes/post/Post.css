@@ -82,8 +82,9 @@ h2 {
 
 .post-view-actions {
   display: flex;
-  justify-content: flex-start; /* Align buttons to the left */
+  justify-content: flex-end; /* Align buttons to the end */
   margin-top: 20px;
+  margin-right: -10px;
 }
 
 .post-view-actions button {

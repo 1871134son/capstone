@@ -171,16 +171,16 @@ const PostView = () => {
           '해당 게시글을 찾을 수 없습니다.'
         )}
         <div className="post-view-actions">
-          <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록으로 돌아가기</button>
+          <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록</button>
           {currentUser === data.brdwriter && (
             editing ? (
-              <Button variant="success" className="post-view-go-list-btn1" onClick={handleUpdate}>저장</Button>
+              <button className="post-view-go-list-btn1" onClick={handleUpdate}>저장</button>
             ) : (
-              <Button variant="success" className="post-view-go-list-btn1" onClick={() => setEditing(true)}>수정</Button>
+              <button className="post-view-go-list-btn1" onClick={() => setEditing(true)}>수정</button>
             )
           )}
           {currentUser === data.brdwriter && (
-            <Button variant="danger" className="post-view-go-list-btn1" onClick={handleDelete}>삭제</Button>
+            <button className="post-view-go-list-btn1" onClick={handleDelete}>삭제</button>
           )}
         </div>
       </div>
