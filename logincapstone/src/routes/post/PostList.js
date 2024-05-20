@@ -111,8 +111,9 @@ const PostMain = () => {
             <a href="#" className="bt next" onClick={goToNextPage}>{">"}</a>
             <a href="#" className="bt last" onClick={goToLastPage}>{">>"}</a>
           </div>
-          <Link to="/write" className="button">
-            <Button variant="info">글쓰기</Button>
+          <Link to="/write">
+            {/* <Button variant="info">글쓰기</Button> */}
+            <button className="button">글쓰기 </button>
           </Link>
           <div className="bt_wrap">
             <a href="#" className="on">목록</a>

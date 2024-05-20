@@ -201,6 +201,8 @@ a {
   float: right; /* 버튼을 오른쪽으로 부유시킵니다. */
   margin-top: -40px; /* 위쪽 여백을 추가합니다. */
   margin-right: 200px; /* 오른쪽 여백을 추가합니다. */
+  background-color: #74706a !important;
+  
 }
 
 .search-bar {
