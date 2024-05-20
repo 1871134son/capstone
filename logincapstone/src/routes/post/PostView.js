@@ -135,21 +135,21 @@ const PostView = () => {
           <>
             <div className="post-view-info">
               <div className="post-view-row">
-                <label>게시글 번호</label>
+                <label>게 시 글 번호</label>
                 <label>{data.brdno}</label>
               </div>
               <div className="post-view-row">
-                <label>작성자</label>
+                <label>작 성 자</label>
                 <label>{data.brdwriter}</label>
               </div>
               <div className="post-view-row">
-                <label>작성일</label>
+                <label>작 성 일</label>
                 <label>{dateFormat(data.brddate, "yyyy-mm-dd")}</label>
               </div>
             </div>
             <div className="post-view-content">
               <div className="post-view-row">
-                <label>제목</label>
+                <label>제 목</label>
                 {editing ? (
                   <input type="text" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} />
                 ) : (
@@ -157,7 +157,7 @@ const PostView = () => {
                 )}
               </div>
               <div className="post-view-row">
-                <label>내용</label>
+                <label>내 용</label>
                 {editing ? (
                   <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
                 ) : (

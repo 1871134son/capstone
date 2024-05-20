@@ -62,6 +62,8 @@ h2 {
   font-size: 22px;
   line-height: 1.5;
   word-break: break-word;
+
+  
 }
 
 .post-view-row input[type="text"],
@@ -343,6 +345,6 @@ button.post-view-delete-btn:focus {
 
 /* 버튼에 마우스를 올렸을 때의 스타일을 설정합니다. */
 .comment-button:hover {
-  background-color: #218838;
+  background-color: #585958;
 }
 
