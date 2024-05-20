@@ -258,7 +258,7 @@ const handleDeleteComment = async (commentDocId) => {
         <p>{comment.commenter}</p> {/* 댓글 작성자 */}
         <p>{comment.content}</p> {/* 댓글 내용 */}
         <p>{formatDate(comment.date)}</p> {/* 댓글 작성일 */}
-        <p>================</p> {/* 댓글 구분 */}
+        
         {/* 댓글 수정 및 삭제 버튼 */}
         {currentUser === comment.commenter && (
           <>
