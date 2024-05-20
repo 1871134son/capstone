@@ -33,52 +33,148 @@
 
 
 /* 게시글 상세 정보 스타일링 */
-.post-view-ticket {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+
+h2 {
+  margin-top: 40px; /* Adjust the value as needed */
+  text-align: center;
+  font-size: 40px;
+}
+
+.post-view-wrapper {
   padding: 20px;
-  margin: 20px auto;
-  max-width: 600px;
-  background-color: #f9f9f9;
+  max-width: 800px;
+  margin: 30px auto; /* Center the wrapper with auto margins */
+  background-color: #ffffff;
 }
 
-.post-view-ticket table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.post-view-ticket th,
-.post-view-ticket td {
+.post-view-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ensure items are centered vertically */
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.post-view-ticket th {
-  text-align: left;
-  font-weight: bold;
-}
-
-.post-view-ticket td {
-  vertical-align: top;
-}
-
-.post-view-ticket input[type="text"],
-.post-view-ticket textarea {
-  width: calc(100% - 20px);
-  padding: 8px;
-  border: 1px solid #ddd;
   border-radius: 5px;
-  margin-bottom: 10px;
 }
 
-.post-view-ticket textarea {
-  height: 120px;
+.post-view-row label {
+  flex: 1;
+  font-size: 22px;
+  line-height: 1.5;
+  word-break: break-word;
 }
 
-.post-view-ticket .post-view-go-list-btn {
+.post-view-row input[type="text"],
+.post-view-row textarea {
+  flex: 2; /* Make the input/textarea take more space */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.post-view-row textarea {
+  height: 150px;
+}
+
+.post-view-actions {
+  display: flex;
+  justify-content: flex-start; /* Align buttons to the left */
   margin-top: 20px;
-  float: right;
 }
+
+.post-view-actions button {
+  background: none; /* Remove background color */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000; /* Change button text color to black */
+}
+
+.post-view-actions button:not(:last-child)::after {
+  margin: 10px;
+  color: #ccc;
+}
+
+.post-view-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.post-view-prev-btn,
+.post-view-next-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #000000; /* Set background color to black */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.post-view-prev-btn:hover,
+.post-view-next-btn:hover {
+  background-color: #333333; /* Darken background color on hover */
+}
+
+.post-view-go-list-btn,
+.post-view-edit-btn,
+.post-view-delete-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #000000; /* Change button text color to black */
+  background: none; /* Remove background color */
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  margin-left: -10px;
+}
+
+.post-view-go-list-btn:hover,
+.post-view-edit-btn:hover,
+.post-view-delete-btn:hover {
+  text-decoration: underline; /* Add underline on hover for visibility */
+}
+
+/* Style for buttons without background and with left margin */
+/* Style for buttons without background and with left margin */
+button.post-view-go-list-btn1,
+button.post-view-edit-btn,
+button.post-view-delete-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #000000; /* Change button text color to black */
+  background: none; /* Remove background color */
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  margin-left: -10px; /* Move the button slightly to the left */
+  outline: none; /* Remove outline */
+}
+
+/* Remove background color on hover and focus */
+button.post-view-go-list-btn1:hover,
+button.post-view-go-list-btn1:focus,
+button.post-view-edit-btn:hover,
+button.post-view-edit-btn:focus,
+button.post-view-delete-btn:hover,
+button.post-view-delete-btn:focus {
+  background: none; /* Ensure no background color on hover */
+  color: #000000; /* Keep text color black on hover */
+  text-decoration: underline; /* Add underline on hover for visibility */
+}
+
+
+
+
+
+
+
+
 
 
 
