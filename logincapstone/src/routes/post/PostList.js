@@ -112,7 +112,7 @@ const PostMain = () => {
             <a href="#" className="bt last" onClick={goToLastPage}>{">>"}</a>
           </div>
           {/* "글쓰기" 버튼을 감싸는 Link 컴포넌트, custom-write-button 클래스를 사용하여 스타일 적용 */}
-          <Link to="/write" className="button">
+          <Link to="/write">
             <Button variant="info" className="custom-write-button">글쓰기</Button>
           </Link>
           <div className="bt_wrap">
