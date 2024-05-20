@@ -200,9 +200,9 @@ const PostView = () => {
               </>
             ) : (
               <>
-                <p>{comment.commenter}</p>
-                <p>{comment.content}</p>
-                <p>{formatDate(comment.date)}</p>
+                <p>작성자 : {comment.commenter}</p>
+                <p>내 용 : {comment.content}</p>
+                <p>작성일 : {formatDate(comment.date)}</p>
                
                 {currentUser === comment.commenter && (
                   <>
