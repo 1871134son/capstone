@@ -206,8 +206,10 @@ const PostView = () => {
                
                 {currentUser === comment.commenter && (
                   <>
+                  <div class="button-container">
                     <button onClick={() => startEditingComment(comment.id, comment.content)}>수정</button>
                     <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                    </div>
                   </>
                 )}
               </>
