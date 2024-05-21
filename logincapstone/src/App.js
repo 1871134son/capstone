@@ -54,8 +54,8 @@ function App() {
     '/postlist',
     '/myPage',
     `/postView/${location.pathname.split('/')[2]}`,
-    '/write', 
-    '/certificationInfo' 
+    '/write',
+    '/certificationInfo'
   ];
 
   return (
@@ -65,17 +65,17 @@ function App() {
           <div className="logo">
             <h1>
               <Link to="/">
-                <DisplayImage 
+                <DisplayImage
                   folderName="logo"
                   fileName="logo.jpg"
-                  style={{ 
+                  style={{
                     position: 'absolute',  // 추가된 속성
-                    top: '-30px', 
-                    left: '180px', 
-                    width: '100px', 
-                    height: '100px', 
-                    objectFit: 'contain', 
-                    zIndex: 1000 
+                    top: '-30px',
+                    left: '180px',
+                    width: '100px',
+                    height: '100px',
+                    objectFit: 'contain',
+                    zIndex: 1000
                   }}
                 ></DisplayImage>
               </Link>

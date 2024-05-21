@@ -21,7 +21,7 @@ function HomePageWithLinksSlider() {
             <Slider {...settings}>
                 <div>
                     <a href="/linkA" className="slider-link">
-                        <DisplayImage folderName="promotions" fileName="promotions1.jpg" className="slider-image"/>
+                        <DisplayImage folderName="promotions" fileName="promotions1.jpg" className="slider-image" />
                     </a>
                 </div>
                 <div>

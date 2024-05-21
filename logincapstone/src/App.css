@@ -10,10 +10,14 @@
 .logo-image {
   top: 10px;
   left: 100px;
-  width: 5000px; /* 원하는 너비로 설정 */
-  height: 5000px; /* 비율에 맞게 높이 자동 조절 */
-  object-fit: contain; /* 이미지가 컨테이너에 맞게 조절됨 */
-  z-index: 1000; /* 다른 요소들 위에 위치하도록 설정 */
+  width: 5000px;
+  /* 원하는 너비로 설정 */
+  height: 5000px;
+  /* 비율에 맞게 높이 자동 조절 */
+  object-fit: contain;
+  /* 이미지가 컨테이너에 맞게 조절됨 */
+  z-index: 1000;
+  /* 다른 요소들 위에 위치하도록 설정 */
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -101,7 +105,7 @@
 
 .nav .main_menu li a {
   border-radius: 4px;
-  
+
   /* 둥근 모서리 */
 }
 
@@ -367,7 +371,7 @@ a:visited {
 
 .wrap .footer .inner .bt_menu ul {
   font-size: 16px;
-  
+
 }
 
 .wrap .footer .inner .bt_menu ul li {
