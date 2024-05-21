@@ -5,7 +5,7 @@ import CommonTableColumn from '../../routes/component/table/CommonTableColumn';
 import CommonTableRow from '../../routes/component/table/CommonTableRow';
 import Button from "react-bootstrap/Button";
 import dateFormat from 'dateformat';
-import { fetchPostsFromFirebase } from '../../firebase/firebase.js'; // 파이어베이스에서 데이터
+import { fetchPostsFromFirebase } from '../../firebase/firebase.js';
 import './PostList.css';
 
 const PostMain = () => {
@@ -92,7 +92,7 @@ const PostMain = () => {
                 <CommonTableRow key={index}>
                   <CommonTableColumn className="num"><div className="post-number">{item.brdno}</div></CommonTableColumn>
                   <CommonTableColumn>
-                    <Link to={`/postView/${item.brdno}`}>{item.title}</Link>
+                    <Link to={`/postView/${item.brdno}`}className="titlehover">{item.title}</Link>
                   </CommonTableColumn>
                   <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn>
                   <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
@@ -111,9 +111,14 @@ const PostMain = () => {
             <a href="#" className="bt next" onClick={goToNextPage}>{">"}</a>
             <a href="#" className="bt last" onClick={goToLastPage}>{">>"}</a>
           </div>
-          <Link to="/write" className="button">
-            <Button variant="info">글쓰기</Button>
+          {/* "글쓰기" 버튼을 감싸는 Link 컴포넌트, custom-write-button 클래스를 사용하여 스타일 적용 */}
+          <Link to="/write">
+            <Button variant="info" className="custom-write-button">글쓰기</Button>
           </Link>
+
+
+
+          
           <div className="bt_wrap">
             <a href="#" className="on">목록</a>
           </div>

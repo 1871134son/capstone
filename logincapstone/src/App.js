@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
@@ -18,7 +16,8 @@ import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import CertificationInfoPage from './routes/CertificationInfoPage.js'; // 새로운 컴포넌트 추가
 import { DisplayImage } from './firebase/firebase.js';
-import {SearchLicenseComponent} from './testStuff/stuff.js';
+import { SearchLicenseComponent } from './testStuff/stuff.js';
+
 function App() {
   const location = useLocation();
   const [slideIndex, setSlideIndex] = useState(0);
@@ -32,19 +31,19 @@ function App() {
 
   const sliderContents = [
     [
-      { id: 1, href: "/https://boottent.com/community/article/20230725123326", src: "IT_certifi.jpg", alt: "Extra Link 1" },
-      { id: 2, href: "/extraLink2", src: "certifi.jpg", alt: "Extra Link 2" },
-      { id: 3, href: "/extraLink3", src: "baristar.jpg", alt: "Extra Link 3" }
+      { id: 1, href: "https://boottent.com/community/article/20230725123326", src: "IT_certifi.jpg", alt: "Extra Link 1" },
+      { id: 2, href: "https://www.tippingkorea.co.kr/kr/education/view.php?edu_idx=4218", src: "certifi.jpg", alt: "Extra Link 2" },
+      { id: 3, href: "https://www.kpei.co.kr/license/license_86.asp", src: "baristar.jpg", alt: "Extra Link 3" }
     ],
     [
-      { id: 4, href: "/extraLink4", src: "extra_image4.jpg", alt: "Extra Link 4" },
-      { id: 5, href: "/extraLink5", src: "extra_image5.jpg", alt: "Extra Link 5" },
-      { id: 6, href: "/extraLink6", src: "extra_image6.jpg", alt: "Extra Link 6" }
+      { id: 4, href: "https://www.edu2080.co.kr/content.php?co_id=s51", src: "leader.jpg", alt: "Extra Link 4" },
+      { id: 5, href: "https://product.kyobobook.co.kr/detail/S000061351864", src: "3dprint.jpg", alt: "Extra Link 5" },
+      { id: 6, href: "https://www.nbedu.or.kr/bbs/content.php?co_id=major5_6", src: "car_fix.jpg", alt: "Extra Link 6" }
     ],
     [
-      { id: 7, href: "/extraLink7", src: "extra_image7.jpg", alt: "Extra Link 7" },
-      { id: 8, href: "/extraLink8", src: "extra_image8.jpg", alt: "Extra Link 8" },
-      { id: 9, href: "/extraLink9", src: "extra_image9.jpg", alt: "Extra Link 9" }
+      { id: 7, href: "http://www.ysnaracook.co.kr/bbs/board.php?bo_table=gallery&wr_id=175&page=9", src: "fish.jpg", alt: "Extra Link 7" },
+      { id: 8, href: "https://wsart.co.kr/certificate/interior1/", src: "archi.jpg", alt: "Extra Link 8" },
+      { id: 9, href: "https://janet.co.kr/bbs/board.php?bo_table=bNews&wr_id=760", src: "clothes.jpg", alt: "Extra Link 9" }
     ]
   ];
 
@@ -54,8 +53,9 @@ function App() {
     '/calendar',
     '/postlist',
     '/myPage',
-    `/postView/${location.pathname.split('/')[2]}`, // PostView 페이지에서 Extra 링크가 나오지 않도록 설정
-    '/write' // Write 페이지에서도 Extra 링크가 나오지 않도록 설정
+    `/postView/${location.pathname.split('/')[2]}`,
+    '/write',
+    '/certificationInfo'
   ];
 
   return (
@@ -65,17 +65,17 @@ function App() {
           <div className="logo">
             <h1>
               <Link to="/">
-                <DisplayImage 
+                <DisplayImage
                   folderName="logo"
                   fileName="logo.jpg"
-                  style={{ 
+                  style={{
                     position: 'absolute',  // 추가된 속성
-                    top: '-30px', 
-                    left: '180px', 
-                    width: '100px', 
-                    height: '100px', 
-                    objectFit: 'contain', 
-                    zIndex: 1000 
+                    top: '-30px',
+                    left: '180px',
+                    width: '100px',
+                    height: '100px',
+                    objectFit: 'contain',
+                    zIndex: 1000
                   }}
                 ></DisplayImage>
               </Link>

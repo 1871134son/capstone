@@ -1,19 +1,20 @@
-.links-wrapper {
-  text-align: center;
+.slider-container {
   max-width: 600px;
-  /* 최대 너비 설정 */
-  margin: auto;
-  /* 가운데 정렬 */
-  padding:auto;
+  margin: 0 auto;
+  text-align: right;
 }
 
-.link-image {
-  width: 100px;
-  /* 슬라이더 내 이미지 폭을 전체로 설정 */
-  height: auto;
-  /* 이미지 높이는 비율에 맞춰 자동 조정 */
+.slick-slide {
+  display: inline-block;
+  text-align: center;
 }
-.DisplayImage {
-  width: 200px; /* 원하는 크기로 조절 */
-  height: auto; /* 이미지 비율 유지 */
+
+.slick-slide .slider-link {
+  display: inline-block;
+  margin: 10px;
+}
+
+.slick-slide .slider-image {
+  width: 300px;
+  height: auto;
 }

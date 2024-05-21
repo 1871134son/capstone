@@ -17,26 +17,26 @@ function HomePageWithLinksSlider() {
     };
 
     return (
-        <div className="links-wrapper" style={{ textAlign: 'center' }}>
+        <div className="slider-container">
             <Slider {...settings}>
                 <div>
-                    <a href="/linkA">
-                    <DisplayImage folderName ="promotions" fileName="promotions1.jpg"></DisplayImage>
+                    <a href="/linkA" className="slider-link">
+                        <DisplayImage folderName="promotions" fileName="promotions1.jpg" className="slider-image" />
                     </a>
                 </div>
                 <div>
-                    <a href="/linkB">
-                    <DisplayImage folderName ="promotions" fileName="promotions2.jpg"></DisplayImage>
+                    <a href="/linkB" className="slider-link">
+                        <DisplayImage folderName="promotions" fileName="promotions2.jpg" />
                     </a>
                 </div>
                 <div>
-                    <a href="/linkC">
-                    <DisplayImage folderName ="promotions" fileName="promotions.jpg"></DisplayImage>
+                    <a href="/linkC" className="slider-link">
+                        <DisplayImage folderName="promotions" fileName="promotions.jpg" />
                     </a>
                 </div>
                 <div>
-                    <a href="/linkD">
-                    <DisplayImage folderName ="promotions" fileName="promotions4.jpg"></DisplayImage>
+                    <a href="/linkD" className="slider-link">
+                        <DisplayImage folderName="promotions" fileName="promotions4.jpg" />
                     </a>
                 </div>
             </Slider>
