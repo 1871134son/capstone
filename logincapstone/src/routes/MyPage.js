@@ -11,8 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
 import { getStorage,ref,uploadBytes  } from "firebase/storage";
-import {SearchLicenseComponent, UserNameComponent, NotificationBell} from "../testStuff/stuff.js"
-
+import {SearchLicenseComponent, UserNameComponent, NotificationBell} from "../testStuff/stuff.js";
 
 function MyPage(){
 
@@ -34,6 +33,7 @@ function TestImageUpload(){
              <DisplayImage folderName ="testFolder" fileName="forTest"></DisplayImage>
           </Container>
           
+     
 
 
       </>

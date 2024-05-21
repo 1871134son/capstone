@@ -194,6 +194,14 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
         majorLicenses : majorLicenses
       });
 
+      const notificationsRef = collection(db, `user/${user.uid}/notifications`);
+      await setDoc(doc(notificationsRef), {
+        message: "에듀나비에 가입을 축하드립니다!!",
+        date: new Date(), // 알림에 날짜를 추가하여 생성 시점을 기록합니다.
+        seen: false // 알림이 읽혔는지 여부를 표시하는 필드를 추가합니다.
+      });
+        
+
       console.log('User created successfully with email:', user.email);
       alert("회원가입을 축하드립니다!");
     } catch (error) {

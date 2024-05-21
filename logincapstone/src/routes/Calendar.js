@@ -148,19 +148,19 @@ const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 �
                     let examName = examScheduleList[i][j].nameOfExam; //시험 이름 
                     let licenseName = examScheduleList[i][j].nameOfLicense; //자격증 이름
                     importantDates.push(
-                        {date: convertToDate(examScheduleList[i][j].docExamEndDt), text: examName+ ' 필기시험종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].docExamStartDt), text: examName+' 필기시험시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].docPassDt), text: examName+' 필기시험 합격자 발표일자'},
-                        {date: convertToDate(examScheduleList[i][j].docRegEndDt), text: examName+' 필기시험원서접수 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].docReStartDt), text: examName+' 필기시험원서접수 시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].docSubmitEndDt), text: examName+' 응시자격서류제출 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].docSubmitStartDt), text: examName+' 응시자격서류제출 시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracExamEndDt), text: examName+' 실기시험 종료 일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracExamStartDt), text: examName+' 실기시험 시작 일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracPassEndDt), text: examName+' 합격자발표 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracPassStartDt), text: examName+' 합격자발표 시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracCreEndDt), text: examName+' 실기시험원서접수 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracCreStartDt), text: examName+' 실기시험원서접수 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].docExamEndDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].docExamStartDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].docPassDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험 합격자 발표일자'},
+                        {date: convertToDate(examScheduleList[i][j].docRegEndDt),text: licenseName+'\n'+examName+ '\n' +' 필기시험원서접수 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].docReStartDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험원서접수 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].docSubmitEndDt), text: licenseName+'\n'+examName+ '\n' +' 응시자격서류제출 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].docSubmitStartDt), text: licenseName+'\n'+examName+ '\n' +' 응시자격서류제출 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracExamEndDt),text: licenseName+'\n'+examName+ '\n' +' 실기시험 종료 일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracExamStartDt), text: licenseName+'\n'+examName+ '\n' +' 실기시험 시작 일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracPassEndDt), text: licenseName+'\n'+examName+ '\n' +' 합격자발표 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracPassStartDt),text: licenseName+'\n'+examName+ '\n' +' 합격자발표 시작일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracCreEndDt),text: licenseName+'\n'+examName+ '\n' +' 실기시험원서접수 종료일자'},
+                        {date: convertToDate(examScheduleList[i][j].pracCreStartDt), text: licenseName+'\n'+examName+ '\n' +' 실기시험원서접수 시작일자'},
                     );
                 }
             }
