@@ -206,6 +206,7 @@ const PostView = () => {
                 <p>내 용 : {comment.content}</p>
                 <p>작성일 : {formatDate(comment.date)}</p>
                
+
                 {currentUser === comment.commenter && (
                   <>
                   <div class="button-container">
@@ -226,7 +227,7 @@ const PostView = () => {
             placeholder="댓글을 입력하세요"
             className="comment-input"
           />
-          <button onClick={handleAddComment} className="comment-button">등록</button>
+          <button onClick={handleAddComment} className="comment-button">등 록</button>
         </div>
       </div>
     </>
