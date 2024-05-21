@@ -195,8 +195,10 @@ const PostView = () => {
                   value={editedCommentContent}
                   onChange={(e) => setEditedCommentContent(e.target.value)}
                 />
+                <div class="button-container">
                 <button onClick={handleUpdateComment}>저장</button>
                 <button onClick={() => setEditingCommentId(null)}>취소</button>
+                </div>
               </>
             ) : (
               <>
