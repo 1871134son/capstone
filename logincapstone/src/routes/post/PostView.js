@@ -5,6 +5,8 @@ import dateFormat from 'dateformat';
 import Button from "react-bootstrap/Button";
 import './Post.css';
 import { getUserName } from '../../firebase/firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth"; //추가
+
 
 const PostView = () => {
   const [data, setData] = useState({});
@@ -42,18 +44,36 @@ const PostView = () => {
   }, [brdno]);
 
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const userName = await getUserName();
-        setCurrentUser(userName);
-      } catch (error) {
-        console.error('Error fetching current user:', error);
-      }
-    };
-    fetchCurrentUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCurrentUser = async () => {
+  //     try {
+  //       const userName = await getUserName();
+  //       setCurrentUser(userName);
+  //     } catch (error) {
+  //       console.error('Error fetching current user:', error);
+  //     }
+  //   };
+  //   fetchCurrentUser();
+  // }, []);
 
+//추가
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userName = await getUserName();
+          setCurrentUser(userName);
+        } catch (error) {
+          console.error('Error fetching current user:', error);
+        }
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
 
   const handleDelete = async () => {
