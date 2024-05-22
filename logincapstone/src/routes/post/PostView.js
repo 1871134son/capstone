@@ -58,6 +58,14 @@ const PostView = () => {
 
   const handleDelete = async () => {
     try {
+      // 1. 게시글 번호(brdno)에 해당하는 댓글들을 가져옴
+      const commentsData = await getCommentsByPostNo(brdno);
+
+      // 2. 댓글들을 하나씩 삭제
+      for (const comment of commentsData) {
+        await deleteCommentFromFirebase(comment.id);
+      }
+
       await deletePostFromFirebase(brdno);
       navigate('/postlist');
     } catch (error) {
