@@ -96,7 +96,8 @@ const PostMain = () => {
                   <CommonTableColumn>
                     <Link to={`/postView/${item.id}`}className="titlehover">{item.title}</Link>
                   </CommonTableColumn>
-                  <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn>
+                  <CommonTableColumn>{dateFormat(item.brddate, "yyyy-mm-dd")}</CommonTableColumn>
+
                   <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
                 </CommonTableRow>
               ))}
