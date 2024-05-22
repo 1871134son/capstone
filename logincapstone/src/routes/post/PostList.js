@@ -19,6 +19,8 @@ const PostMain = () => {
       try {
         const posts = await fetchPostsFromFirebase();
         setDataList(posts);
+        
+        
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -26,7 +28,7 @@ const PostMain = () => {
 
     fetchData();
   }, []);
-
+  
   const formatDate = date => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
     return formattedDate;
@@ -92,7 +94,7 @@ const PostMain = () => {
                 <CommonTableRow key={index}>
                   <CommonTableColumn className="num"><div className="post-number">{item.brdno}</div></CommonTableColumn>
                   <CommonTableColumn>
-                    <Link to={`/postView/${item.brdno}`}className="titlehover">{item.title}</Link>
+                    <Link to={`/postView/${item.id}`}className="titlehover">{item.title}</Link>
                   </CommonTableColumn>
                   <CommonTableColumn>{formatDate(item.brddate)}</CommonTableColumn>
                   <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
@@ -116,9 +118,6 @@ const PostMain = () => {
             <Button variant="info" className="custom-write-button">글쓰기</Button>
           </Link>
 
-
-
-          
           <div className="bt_wrap">
             <a href="#" className="on">목록</a>
           </div>

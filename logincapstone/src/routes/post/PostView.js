@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase } from '../../firebase/firebase.js';
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, fetchPostsFromFirebase } from '../../firebase/firebase.js';
 import dateFormat from 'dateformat';
 import Button from "react-bootstrap/Button";
 import './Post.css';
@@ -29,16 +29,18 @@ const PostView = () => {
       try {
         const postData = await getPostByNoFromFirebase(brdno);
         setData(postData);
-
+        console.log('포스트데이타:', postData);
         // 초기화
         setEditedTitle(postData.title);
         setEditedContent(postData.content);
+        
       } catch (error) {
         console.error('Error fetching post:', error);
       }
     };
     fetchData();
   }, [brdno]);
+
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -52,6 +54,8 @@ const PostView = () => {
     fetchCurrentUser();
   }, []);
 
+
+
   const handleDelete = async () => {
     try {
       await deletePostFromFirebase(brdno);
@@ -61,20 +65,31 @@ const PostView = () => {
     }
   };
 
+
+
   const handleUpdate = async () => {
     try {
       await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
+      // 상태를 업데이트하여 수정된 제목과 내용을 반영
+      setData(prevData => ({
+        ...prevData,
+        title: editedTitle,
+        content: editedContent
+      }));
       setEditing(false);
     } catch (error) {
       console.error('게시물 수정 오류:', error);
     }
   };
 
+
   const formatDate = date => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
     return formattedDate;
   };
 
+
+  //--------------------------------------------------------------------------댓글(시작)------------------------------------------------------------------------------
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -87,6 +102,8 @@ const PostView = () => {
     fetchComments();
   }, [brdno]);
 
+
+
   const handleAddComment = async () => {
     try {
       await addCommentToPost(brdno, newComment);
@@ -98,6 +115,7 @@ const PostView = () => {
     }
   };
 
+
   const handleDeleteComment = async (commentDocId) => {
     try {
       await deleteCommentFromFirebase(commentDocId);
@@ -108,10 +126,13 @@ const PostView = () => {
     }
   };
 
+
   const startEditingComment = (commentId, content) => {
     setEditingCommentId(commentId);
     setEditedCommentContent(content);
   };
+
+
 
   const handleUpdateComment = async () => {
     try {
@@ -126,6 +147,7 @@ const PostView = () => {
       console.error('댓글 수정 오류:', error);
     }
   };
+//--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
   return (
     <>

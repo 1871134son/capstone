@@ -9,8 +9,20 @@ function Write() {
     const [content, setContent] = useState('');
     const [brddate, setBrddate] = useState('');
 
+    //brdno +1
+    const [brdno, setBrdno] = useState(0); // 게시글 번호를 위한 상태 변수
+
     useEffect(() => {
         setBrddate(Date.now()); // Set current date
+
+        //brdno +1
+        // localStorage에서 현재 게시글 번호를 가져오거나 1로 시작
+        const currentBrdno = localStorage.getItem('brdno');
+        if (currentBrdno) {
+            setBrdno(parseInt(currentBrdno));
+        } else {
+            setBrdno(1);
+        }
     }, []);
 
     const navigate = useNavigate();
@@ -18,7 +30,11 @@ function Write() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const brdwriter = await getUserName(); // Get the writer's information
-        boardSave(null, title, content, brddate, brdwriter);
+
+        const newBrdno = brdno + 1; // 새로운 게시글 번호 계산
+        boardSave(newBrdno, title, content, brddate, brdwriter);
+        localStorage.setItem('brdno', newBrdno); // 새로운 게시글 번호를 localStorage에 저장
+
         navigate('/postlist');
     };
 
