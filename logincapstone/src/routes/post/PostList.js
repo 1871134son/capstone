@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import CommonTable from '../../routes/component/table/CommonTable';
 import CommonTableColumn from '../../routes/component/table/CommonTableColumn';
 import CommonTableRow from '../../routes/component/table/CommonTableRow';
-import Button from "react-bootstrap/Button";
 import dateFormat from 'dateformat';
 import { fetchPostsFromFirebase } from '../../firebase/firebase.js';
 import './PostList.css';
@@ -28,11 +27,6 @@ const PostMain = () => {
 
     fetchData();
   }, []);
-  
-  const formatDate = date => {
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-    return formattedDate;
-  };
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -116,7 +110,7 @@ const PostMain = () => {
           </div>
           {/* "글쓰기" 버튼을 감싸는 Link 컴포넌트, custom-write-button 클래스를 사용하여 스타일 적용 */}
           <Link to="/write">
-            <Button variant="info" className="custom-write-button">글쓰기</Button>
+            <button className="custom-write-button">글쓰기</button>
           </Link>
 
           <div className="bt_wrap">

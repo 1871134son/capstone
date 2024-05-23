@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, fetchPostsFromFirebase } from '../../firebase/firebase.js';
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost,
+         getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase } from '../../firebase/firebase.js';
 import dateFormat from 'dateformat';
-import Button from "react-bootstrap/Button";
 import './Post.css';
 import { getUserName } from '../../firebase/firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth"; //추가
@@ -44,19 +44,7 @@ const PostView = () => {
   }, [brdno]);
 
 
-  // useEffect(() => {
-  //   const fetchCurrentUser = async () => {
-  //     try {
-  //       const userName = await getUserName();
-  //       setCurrentUser(userName);
-  //     } catch (error) {
-  //       console.error('Error fetching current user:', error);
-  //     }
-  //   };
-  //   fetchCurrentUser();
-  // }, []);
 
-//추가
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -110,11 +98,6 @@ const PostView = () => {
     }
   };
 
-
-  const formatDate = date => {
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-    return formattedDate;
-  };
 
 
   //--------------------------------------------------------------------------댓글(시작)------------------------------------------------------------------------------
