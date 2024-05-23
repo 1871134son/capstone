@@ -1,0 +1,36 @@
+.slider-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: right;
+  background-color: rgb(255, 255, 255);
+}
+
+.slick-slide {
+  display: inline-block;
+  text-align: center;
+}
+
+.slick-slide .slider-link {
+  display: inline-block;
+  margin: 10px;
+}
+
+.slick-slide .slider-image {
+  width: 300px;
+  height: auto;
+}
+
+.color {
+  background-color: rgb(210, 255, 255);
+  background-size: cover;
+  background-position: center;
+  transition: background-color 0.5s ease;
+}
+
+.color.scrolled {
+  background-color: transparent;
+}
+
+.color.scrolled {
+  background-color: rgb(255, 255, 255);
+}

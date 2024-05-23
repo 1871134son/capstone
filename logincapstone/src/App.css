@@ -1,0 +1,465 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.logo-image {
+  top: 10px;
+  left: 100px;
+  width: 5000px;
+  /* 원하는 너비로 설정 */
+  height: 5000px;
+  /* 비율에 맞게 높이 자동 조절 */
+  object-fit: contain;
+  /* 이미지가 컨테이너에 맞게 조절됨 */
+  z-index: 1000;
+  /* 다른 요소들 위에 위치하도록\ 설정 */
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 348px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.image-container img {
+  width: 100%;
+  height: 200px;
+  /* 원하는 높이로 설정 */
+  object-fit: cover;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #ffffff;
+}
+
+.link {
+  margin-right: 100px;
+}
+
+.link-image {
+  width: 10px;
+  /* 원하는 너비로 설정 */
+  height: 10px;
+  /* 높이를 자동으로 설정하여 비율 유지 */
+  margin-right: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.link-image:hover {
+  transform: scale(1.1);
+}
+
+
+.link-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 30px;
+}
+
+.links-wrapper {
+  border: 3px solid skyblue;
+  border-radius: 5px;
+  padding: 30px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.links-container .link:not(:last-child) {
+  margin-right: 100px;
+}
+
+.header .nav {
+  padding: 0;
+  margin: 0;
+}
+
+.nav .main_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 세로 정렬 */
+  padding: 0;
+  margin: 0;
+}
+
+.nav .main_menu li {
+  margin-right: 2px;
+  list-style: none;
+  display: inline-block;
+}
+
+.nav .main_menu li:last-child {
+  margin-right: 0;
+}
+
+.nav .main_menu li a {
+  border-radius: 4px;
+}
+
+.nav .main_menu li a:hover {
+  background-color: #ffffff;
+}
+
+li {
+  list-style: none;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wrap {
+  width: 100%;
+}
+
+.header {
+  background-color: #ffb46d;
+  /* 네비게이션 바에만 배경색을 적용합니다 */
+}
+
+
+.inner {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.wrap .header .inner {
+  height: 100px;
+}
+
+.wrap .header .inner .logo {
+  width: 200px;
+  height: 100px;
+  float: left;
+}
+
+.wrap .header .inner .logo h1 {
+  width: 200px;
+  height: 100px;
+}
+
+.wrap .header .inner .logo h1 a {
+  display: block;
+  width: 200px;
+  height: 100px;
+}
+
+.wrap .header .inner .logo h1 img {
+  width: 200px;
+  height: 40px;
+  margin: 30px 0;
+}
+
+.wrap .header .inner .nav {
+  width: 720px;
+  height: 40px;
+  float: right;
+  margin-top: 30px;
+}
+
+.wrap .header .inner .nav .main_menu>li {
+  float: left;
+}
+
+.wrap .header .inner .nav .main_menu>li>a {
+  display: block;
+  width: 140px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 18px;
+  background-color: #ff8c3f;
+  color: #fff;
+}
+
+.wrap .header .inner .nav .main_menu>li>a:hover {
+  background-color: #ff8c3f;
+}
+
+.slide {
+  width: 1200px;
+  height: 300px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.slide ul {
+  width: 3600px;
+}
+
+.slide ul li {
+  width: 1200px;
+  height: 300px;
+  float: left;
+  position: relative;
+}
+
+.slide li a .txt_wrap {
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  transform: translate(-20%, -50%);
+}
+
+.slide li .main_title {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.slide li .sub_title {
+  font-size: 20px;
+  color: #666;
+}
+
+.wrap .contents {
+  width: 1200px;
+  height: 200px;
+  padding: 14px 10px;
+  box-sizing: border-box;
+}
+
+.wrap .contents div {
+  margin-right: 40px;
+}
+
+.wrap .contents div:last-child {
+  margin-right: 0;
+}
+
+.wrap .contents .notice {
+  width: 404px;
+  float: left;
+}
+
+.wrap .contents .notice h2 {
+  font-size: 22px;
+}
+
+.wrap .contents .notice ul li {
+  width: 404px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+
+.wrap .contents .notice ul li a {
+  display: block;
+  width: 404px;
+  height: 36px;
+}
+
+.wrap .contents .notice ul li a .notice_title {
+  float: left;
+  display: block;
+  width: 80%;
+  height: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wrap .contents .notice ul li a:hover .notice_title {
+  text-decoration: underline;
+}
+
+.wrap .contents .notice ul li a .notice_date {
+  float: right;
+  display: block;
+  width: 20%;
+  height: 100%;
+  text-align: right;
+}
+
+.wrap .contents .banner {
+  width: 348px;
+  float: left;
+}
+
+.wrap .contents .banner a {
+  display: block;
+}
+
+.wrap .contents .banner a .thumb {
+  overflow: hidden;
+  width: 348px;
+}
+
+.wrap .contents .banner img {
+  width: 348px;
+  height: 142px;
+  transition: all 0.5s;
+}
+
+.wrap .contents .banner a:hover img {
+  transform: scale(1.5);
+}
+
+.wrap .contents .banner p {
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+
+.wrap .contents .shortcut {
+  width: 348px;
+  float: left;
+}
+
+.wrap .contents .banner p .main_title {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.wrap .contents .banner+.banner {
+  margin-top: 20px;
+}
+
+.wrap .contents .banner:last-child {
+  margin-right: 0;
+}
+
+.wrap .contents .ad {
+  width: 348px;
+  height: 200px;
+  background-color: #ff8c3f;
+  float: left;
+  color: #fff;
+}
+
+.wrap .contents .ad .ad_txt {
+  font-size: 22px;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  text-align: center;
+  line-height: 200px;
+}
+
+
+.wrap .footer {
+  width: 100%;
+  height: 180px;
+  background-color: #ffb46d;
+}
+
+.wrap .footer .inner {
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+.wrap .footer .inner .logo {
+  float: left;
+  margin-top: 40px;
+  width: 200px;
+  height: 40px;
+}
+
+wrap .footer .inner .logo img {
+  width: 200px;
+  height: 40px;
+}
+
+.wrap .footer .inner .info {
+  width: 900px;
+  float: right;
+  margin-top: 20px;
+}
+
+.wrap .footer .inner .info li {
+  float: left;
+  width: 33.3333%;
+  font-size: 12px;
+  color: #666;
+  list-style: none;
+}
+
+.wrap .footer .inner .info li a {
+  display: block;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+
+.wrap .footer .inner .info li+.li {
+  border-left: 1px solid #666;
+}
+
+.wrap .footer .inner .bt_logo {
+  width: 200px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+
+.wrap .footer .inner .bt_menu {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wrap .footer .inner .bt_menu ul {
+  font-size: 16px;
+
+}
+
+.wrap .footer .inner .bt_menu ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.wrap .footer .inner .bt_menu ul li:last-child {
+  margin-right: 0;
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
