@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { Alert } from "bootstrap";
 import React, { useState, useEffect } from 'react';
 
+
 //import { db } from './firebase';
 
 
@@ -304,6 +305,27 @@ export const updatePostInFirebase = async (brdno, newData) => {
   }
 };
 
+
+
+
+// 게시글 번호를 관리하기 위한 메타데이터 문서 참조
+const metadataDoc = doc(db, 'metadata', 'doc');
+
+// 게시글 번호를 가져오는 함수
+export const getBrdno = async () => {
+    const docSnap = await getDoc(metadataDoc);
+    if (docSnap.exists()) {
+        return docSnap.data().brdno;
+    } else {
+        await setDoc(metadataDoc, { brdno: 0 });
+        return 0;
+    }
+};
+
+// 게시글 번호를 업데이트하는 함수
+export const updateBrdno = async (newBrdno) => {
+    await updateDoc(metadataDoc, { brdno: newBrdno });
+};
 
 
 //--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
