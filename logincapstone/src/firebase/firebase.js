@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { Alert } from "bootstrap";
 import React, { useState, useEffect } from 'react';
 
+
 //import { db } from './firebase';
 
 
@@ -304,6 +305,27 @@ export const updatePostInFirebase = async (brdno, newData) => {
   }
 };
 
+
+
+
+// 게시글 번호를 관리하기 위한 메타데이터 문서 참조
+const metadataDoc = doc(db, 'metadata', 'doc');
+
+// 게시글 번호를 가져오는 함수
+export const getBrdno = async () => {
+    const docSnap = await getDoc(metadataDoc);
+    if (docSnap.exists()) {
+        return docSnap.data().brdno;
+    } else {
+        await setDoc(metadataDoc, { brdno: 0 });
+        return 0;
+    }
+};
+
+// 게시글 번호를 업데이트하는 함수
+export const updateBrdno = async (newBrdno) => {
+    await updateDoc(metadataDoc, { brdno: newBrdno });
+};
 
 
 //--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
@@ -808,6 +830,32 @@ async function getLicenseInfoList(){//
   
   
 }//end getExamFeeList
+
+/** 사용자의 알람을 가져온다. */
+async function getNotificationsList(){ 
+
+  const notificationList =[
+    
+  ];
+
+  try{
+    const user = auth.currentUser;
+      if(user){
+      const querySnapShot = await getDocs(collection(db,`user/${user.uid}/notifications`));
+      querySnapShot.forEach((doc) => {
+        let docData = doc.data();//문서의 데이터 객체 가져옴.
+        notificationList.push(docData); //객체 배열에 저장 
+      });
+      console.log("getNotificationsList성공!:", notificationList);
+    }//if
+  }catch(error){
+    console.error("fetchLicenseList 에러: ",error);
+  }
+  return notificationList;//배열을 반환한다. 
+
+}
+
+
 //--------------------------------------------------------------------------자격증 관련(종료)------------------------------------------------------------------------------
 
 
@@ -816,4 +864,4 @@ async function getLicenseInfoList(){//
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage,getNotificationsList};

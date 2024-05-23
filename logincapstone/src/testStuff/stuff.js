@@ -1,5 +1,5 @@
 import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo,
-    signInEduNavi,storage,FileUpload,DisplayImage } from "../firebase/firebase";
+    signInEduNavi,storage,FileUpload,DisplayImage,getNotificationsList } from "../firebase/firebase";
   import { useState,useEffect } from 'react';
   import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
   import Col from 'react-bootstrap/Col';
@@ -133,12 +133,31 @@ function UserImage() {
   }//ShapeExample
 
   function NotificationBell(){
-    const [notifications, setNotifications] = useState([
-      { id: 1, message: '2024년 06월 07일 정보처리기사 2차 필기시험 신청일입니다.' },
-      { id: 2, message: '두 번째 알람입니다.' },
-      { id: 3, message: '세 번째 알람입니다.' },
-    ]);
+    const [user, setUser] = useState(null);  // Firebase 사용자 객체를 저장할 상태
+    const [notifications, setNotifications] = useState([]);
+    
+    //인증 상태 감지 
+    useEffect(() => {
+      const auth = getAuth();
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+          setUser(currentUser);  // 사용자 상태 업데이트
+      });
+      return () => unsubscribe();  // 컴포넌트 언마운트 시 구독 해제
+  }, []);
+
   
+      useEffect(() => {
+        if (user) {
+            async function getNotifications() {
+                const notiList = await getNotificationsList();
+                setNotifications(notiList);
+            }
+            getNotifications();
+        } else {
+            setNotifications([]);  // 로그아웃 상태에서는 알림을 비움
+        }
+    }, [user]);  // user 상태가 변경될 때마다 이 useEffect가 실행됨
+    
     const handleClearNotifications = () => {
       setNotifications([]);
     };
@@ -160,7 +179,7 @@ function UserImage() {
               <Dropdown.Item>알람이 없습니다.</Dropdown.Item>
             ) : (
               notifications.map((notification) => (
-                <Dropdown.Item key={notification.id}>
+                <Dropdown.Item  key={notification.date}>
                   {notification.message}
                 </Dropdown.Item>
               ))
