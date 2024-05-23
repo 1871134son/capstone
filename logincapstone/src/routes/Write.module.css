@@ -1,0 +1,75 @@
+/* 컨테이너 스타일링 */
+.container {
+  width: 70%; /* 필요에 따라 너비 조정 */
+  margin: 100px auto; /* 컨테이너 중앙 정렬 및 상단 여백 추가 */
+  padding: 50px 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Write.module.css */
+
+/* Center the "글쓰기" text */
+.writeTitle {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+/* 상단 여백 유틸리티 클래스 */
+.pt-1 {
+  padding-top: 10px;
+}
+
+/* 입력 필드와 텍스트 영역 스타일링 */
+.input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* 텍스트 영역 높이 증가 */
+.textarea {
+  height: 300px; /* 필요에 따라 높이 조정 */
+}
+
+/* 제출 및 취소 버튼 스타일링 */
+button[type="submit"],
+button[type="button"] {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  width: 150px; /* 필요에 따라 너비 조정 */
+}
+
+.submitButton {
+  background-color: #28a745;
+  margin-right: 10px; /* 버튼 간 간격 */
+}
+
+.submitButton:hover {
+  background-color: #218838;
+}
+
+.cancelButton {
+  background-color: #6c757d;
+}
+
+.cancelButton:hover {
+  background-color: #5a6268;
+}
+
+/* 오른쪽 정렬 유틸리티 클래스 */
+.textRight {
+  text-align: right;
+}
