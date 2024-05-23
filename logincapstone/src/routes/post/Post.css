@@ -201,7 +201,12 @@ button.post-view-delete-btn:focus {
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
+  
+  
+  width: 70%; /* 필요에 따라 조정합니다. */
+  margin: 0 auto 10px; 
+
 }
 
 .comment p {
@@ -223,6 +228,16 @@ button.post-view-delete-btn:focus {
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+.button-container {
+  text-align: right; /* 버튼 컨테이너를 오른쪽 정렬 */
+  margin-right: 15px;
+
+}
+
+
+
 
 .comment button:first-of-type {
   background-color: #28a745;
@@ -318,7 +333,7 @@ button.post-view-delete-btn:focus {
 /* 입력 상자 스타일을 설정합니다. */
 .comment-input {
   width: 70%; /* 필요에 따라 조정합니다. */
-  height: 140px; /* 상자 높이를 늘립니다. */
+  height: 140px; /*상자 높이를 늘립니다.*/
   padding: 10px;
   margin-bottom: 10px; /* 입력과 버튼 간의 간격을 조정합니다. */
   border: 1px solid #ddd;

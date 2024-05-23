@@ -223,37 +223,19 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
   try{
     const user = auth.currentUser;
 
-    if (!brdno) {
       /* 새로운 게시글 생성 */
       const postCollection = collection(db, "post");
-      
-      //const currentDate = new Date().toISOString();
       const docRef = await addDoc(postCollection, {
-         // brdno: docRef.id,
+          brdno: brdno,
           uid: user.uid,
           title: title,
           content: content,
           brddate: brddate,
           brdwriter: brdwriter,
       });
-      await setDoc(doc(db, 'post', docRef.id), { brdno: docRef.id }, { merge: true });
       console.log("New post added with ID: ", docRef.id);
-      
-  }else{
-    //update
-    const postRef = doc(db, "post", brdno);
-    await setDoc(postRef, {
-        title: title,
-        content: content,
-        brddate: brddate,
-        brdwriter: brdwriter,
-    });
-    console.log("Post updated with ID: ", brdno);
-  }
- 
   } catch (error) {
     console.error('Error saving user:', error);
-    
   }//catch 
 
 }
@@ -263,9 +245,10 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
 export const fetchPostsFromFirebase = async () => {
   try {
     const q = query(collection(db, 'post'), orderBy('brddate', 'desc')); // 'post' 컬렉션에서 brddate 필드를 기준으로 내림차순으로 정렬하여 데이터 가져오기
-    const postsSnapshot = await getDocs(q); // 쿼리 실행하여 데이터 가져오기
-    const postsData = postsSnapshot.docs.map(doc => doc.data());
+    const postsSnapshot = await getDocs(q); // 쿼리 실행하여 댓글 스냅샷 가져오기
+    const postsData = postsSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })); // 댓글 데이터 추출하여 배열로 변환, ID 포함
     console.log("게시글 정보:", postsData);
+
     return postsData;
   } catch (error) {
 
@@ -276,19 +259,17 @@ export const fetchPostsFromFirebase = async () => {
 };
 
 
-
+//brdno에 해당하는 게시물 가져오는 함수
 export const getPostByNoFromFirebase = async (brdno) => {
   try {
-    const postDocRef = doc(db, "post", brdno); // "posts" 컬렉션에서 해당 게시글 번호에 해당하는 문서 가져오기
+    console.log('ddd: ', brdno);
+    const postDocRef = doc(db, "post", brdno); // "post" 컬렉션에서 해당 게시글 번호에 해당하는 문서 가져오기
     const postDocSnapshot = await getDoc(postDocRef); // 문서 스냅샷 가져오기
 
-    
     if (postDocSnapshot.exists()) {
-      // 문서가 존재하는 경우 데이터 반환
-      return postDocSnapshot.data();
+      return postDocSnapshot.data(); // 문서가 존재하는 경우 데이터 반환
     } else {
-      // 문서가 존재하지 않는 경우 null 반환 
-      return null;
+      return null; // 문서가 존재하지 않는 경우 null 반환 
     }
   } catch (error) {
     console.error("Error getting post by number from Firebase:", error);
@@ -302,10 +283,7 @@ export const deletePostFromFirebase = async (brdno) => {
   try {
     // 삭제할 게시물의 문서 참조를 가져옵니다.
     const postRef = doc(db, 'post', brdno); // 'post' 컬렉션에서 brdno를 ID로 갖는 문서를 참조합니다.
-
-    // 문서를 삭제합니다.
-    await deleteDoc(postRef);
-
+    await deleteDoc(postRef); // 문서를 삭제합니다.
     console.log('게시물 삭제 성공');
   } catch (error) {
     console.error('게시물 삭제 오류:', error);
@@ -325,7 +303,8 @@ export const updatePostInFirebase = async (brdno, newData) => {
     throw error;
   }
 };
-  
+
+
 
 //--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
 
@@ -339,7 +318,6 @@ export const getCommentsByPostNo = async (brdno) => {
     const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
     const q = query(commentsCollectionRef, where('brdno', '==', brdno), orderBy('date', 'asc')); // 해당 게시물 번호(brdno)와 일치하는 댓글들을 쿼리
     const commentsSnapshot = await getDocs(q); // 쿼리 실행하여 댓글 스냅샷 가져오기
-    //const commentsData = commentsSnapshot.docs.map(doc => doc.data()); // 댓글 데이터 추출하여 배열로 변환
     const commentsData = commentsSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })); // 댓글 데이터 추출하여 배열로 변환, ID 포함
     console.log("댓글 정보:", commentsData);
     return commentsData;
@@ -369,10 +347,7 @@ export const deleteCommentFromFirebase = async (commentId) => {
   try {
     // 삭제할 게시물의 문서 참조를 가져옵니다.
     const postRef = doc(db, 'comments', commentId); // 'post' 컬렉션에서 brdno를 ID로 갖는 문서를 참조합니다.
-
-    // 문서를 삭제합니다.
-    await deleteDoc(postRef);
-
+    await deleteDoc(postRef); // 문서를 삭제합니다.
     console.log('댓글 삭제 성공');
   } catch (error) {
     console.error('댓글 삭제 오류:', error);

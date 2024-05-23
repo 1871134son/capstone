@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase } from '../../firebase/firebase.js';
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, fetchPostsFromFirebase } from '../../firebase/firebase.js';
 import dateFormat from 'dateformat';
 import Button from "react-bootstrap/Button";
 import './Post.css';
 import { getUserName } from '../../firebase/firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth"; //추가
+
 
 const PostView = () => {
   const [data, setData] = useState({});
@@ -29,10 +31,11 @@ const PostView = () => {
       try {
         const postData = await getPostByNoFromFirebase(brdno);
         setData(postData);
-
+        console.log('포스트데이타:', postData);
         // 초기화
         setEditedTitle(postData.title);
         setEditedContent(postData.content);
+        
       } catch (error) {
         console.error('Error fetching post:', error);
       }
@@ -40,20 +43,49 @@ const PostView = () => {
     fetchData();
   }, [brdno]);
 
+
+  // useEffect(() => {
+  //   const fetchCurrentUser = async () => {
+  //     try {
+  //       const userName = await getUserName();
+  //       setCurrentUser(userName);
+  //     } catch (error) {
+  //       console.error('Error fetching current user:', error);
+  //     }
+  //   };
+  //   fetchCurrentUser();
+  // }, []);
+
+//추가
   useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const userName = await getUserName();
-        setCurrentUser(userName);
-      } catch (error) {
-        console.error('Error fetching current user:', error);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userName = await getUserName();
+          setCurrentUser(userName);
+        } catch (error) {
+          console.error('Error fetching current user:', error);
+        }
+      } else {
+        setCurrentUser(null);
       }
-    };
-    fetchCurrentUser();
+    });
+
+    return () => unsubscribe();
   }, []);
+
 
   const handleDelete = async () => {
     try {
+      // 1. 게시글 번호(brdno)에 해당하는 댓글들을 가져옴
+      const commentsData = await getCommentsByPostNo(brdno);
+
+      // 2. 댓글들을 하나씩 삭제
+      for (const comment of commentsData) {
+        await deleteCommentFromFirebase(comment.id);
+      }
+
       await deletePostFromFirebase(brdno);
       navigate('/postlist');
     } catch (error) {
@@ -61,20 +93,31 @@ const PostView = () => {
     }
   };
 
+
+
   const handleUpdate = async () => {
     try {
       await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
+      // 상태를 업데이트하여 수정된 제목과 내용을 반영
+      setData(prevData => ({
+        ...prevData,
+        title: editedTitle,
+        content: editedContent
+      }));
       setEditing(false);
     } catch (error) {
       console.error('게시물 수정 오류:', error);
     }
   };
 
+
   const formatDate = date => {
     const formattedDate = new Date(date).toISOString().split('T')[0];
     return formattedDate;
   };
 
+
+  //--------------------------------------------------------------------------댓글(시작)------------------------------------------------------------------------------
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -87,6 +130,8 @@ const PostView = () => {
     fetchComments();
   }, [brdno]);
 
+
+
   const handleAddComment = async () => {
     try {
       await addCommentToPost(brdno, newComment);
@@ -98,6 +143,7 @@ const PostView = () => {
     }
   };
 
+
   const handleDeleteComment = async (commentDocId) => {
     try {
       await deleteCommentFromFirebase(commentDocId);
@@ -108,10 +154,13 @@ const PostView = () => {
     }
   };
 
+
   const startEditingComment = (commentId, content) => {
     setEditingCommentId(commentId);
     setEditedCommentContent(content);
   };
+
+
 
   const handleUpdateComment = async () => {
     try {
@@ -126,6 +175,7 @@ const PostView = () => {
       console.error('댓글 수정 오류:', error);
     }
   };
+//--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
   return (
     <>
@@ -195,19 +245,24 @@ const PostView = () => {
                   value={editedCommentContent}
                   onChange={(e) => setEditedCommentContent(e.target.value)}
                 />
+                <div class="button-container">
                 <button onClick={handleUpdateComment}>저장</button>
                 <button onClick={() => setEditingCommentId(null)}>취소</button>
+                </div>
               </>
             ) : (
               <>
                 <p>작성자 : {comment.commenter}</p>
                 <p>내 용 : {comment.content}</p>
-                <p>작성일 : {formatDate(comment.date)}</p>
-               
+                <p>작성일 : {dateFormat(comment.date, "yyyy-mm-dd")}</p>
+                
+
                 {currentUser === comment.commenter && (
                   <>
+                  <div class="button-container">
                     <button onClick={() => startEditingComment(comment.id, comment.content)}>수정</button>
                     <button onClick={() => handleDeleteComment(comment.id)}>삭제</button>
+                    </div>
                   </>
                 )}
               </>
@@ -222,7 +277,7 @@ const PostView = () => {
             placeholder="댓글을 입력하세요"
             className="comment-input"
           />
-          <button onClick={handleAddComment} className="comment-button">등록</button>
+          <button onClick={handleAddComment} className="comment-button">등 록</button>
         </div>
       </div>
     </>
