@@ -808,6 +808,32 @@ async function getLicenseInfoList(){//
   
   
 }//end getExamFeeList
+
+/** 사용자의 알람을 가져온다. */
+async function getNotificationsList(){ 
+
+  const notificationList =[
+    
+  ];
+
+  try{
+    const user = auth.currentUser;
+      if(user){
+      const querySnapShot = await getDocs(collection(db,`user/${user.uid}/notifications`));
+      querySnapShot.forEach((doc) => {
+        let docData = doc.data();//문서의 데이터 객체 가져옴.
+        notificationList.push(docData); //객체 배열에 저장 
+      });
+      console.log("getNotificationsList성공!:", notificationList);
+    }//if
+  }catch(error){
+    console.error("fetchLicenseList 에러: ",error);
+  }
+  return notificationList;//배열을 반환한다. 
+
+}
+
+
 //--------------------------------------------------------------------------자격증 관련(종료)------------------------------------------------------------------------------
 
 
@@ -816,4 +842,4 @@ async function getLicenseInfoList(){//
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage,getNotificationsList};
