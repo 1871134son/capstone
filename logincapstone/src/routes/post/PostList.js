@@ -3,30 +3,51 @@ import { Link } from 'react-router-dom';
 import CommonTable from '../../routes/component/table/CommonTable';
 import CommonTableColumn from '../../routes/component/table/CommonTableColumn';
 import CommonTableRow from '../../routes/component/table/CommonTableRow';
+import { fetchPostsFromFirebase, getUserName } from '../../firebase/firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import dateFormat from 'dateformat';
-import { fetchPostsFromFirebase } from '../../firebase/firebase.js';
 import './PostList.css';
+
 
 const PostMain = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const posts = await fetchPostsFromFirebase();
         setDataList(posts);
-        
-        
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
-
     fetchData();
   }, []);
+
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userName = await getUserName();
+          setCurrentUser(userName);
+        } catch (error) {
+          console.error('Error fetching current user:', error);
+        }
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -109,9 +130,16 @@ const PostMain = () => {
             <a href="#" className="bt last" onClick={goToLastPage}>{">>"}</a>
           </div>
           {/* "글쓰기" 버튼을 감싸는 Link 컴포넌트, custom-write-button 클래스를 사용하여 스타일 적용 */}
-          <Link to="/write">
-            <button className="custom-write-button">글쓰기</button>
-          </Link>
+          {/* 조건부 렌더링 */}
+          {currentUser ? (
+            <Link to="/write">
+              <button className="custom-write-button">글쓰기</button>
+            </Link>
+          ) : (
+            <Link to="/signin">
+              <button className="custom-write-button">글쓰기</button>
+            </Link>
+          )}
 
           <div className="bt_wrap">
             <a href="#" className="on">목록</a>

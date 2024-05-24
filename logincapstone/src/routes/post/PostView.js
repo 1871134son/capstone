@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost,
-         getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase } from '../../firebase/firebase.js';
+         getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, getUserName } from '../../firebase/firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth"; 
 import dateFormat from 'dateformat';
 import './Post.css';
-import { getUserName } from '../../firebase/firebase.js';
-import { getAuth, onAuthStateChanged } from "firebase/auth"; //추가
 
 
 const PostView = () => {
