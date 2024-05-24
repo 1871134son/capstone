@@ -28,7 +28,7 @@ function TestImageUpload(){
   return(
       <>
           <Container>
-             <Image src="holder.js/171x180" thumbnail />
+             {/* <Image src="holder.js/171x180" thumbnail /> */}
              <FileUpload folderName ="testFolder" fileName="forTest"></FileUpload>
              <DisplayImage folderName ="testFolder" fileName="forTest"></DisplayImage>
           </Container>

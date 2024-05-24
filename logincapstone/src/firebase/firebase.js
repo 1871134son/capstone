@@ -108,7 +108,13 @@ function DisplayImage({ folderName, fileName, style, className }) {
 }
 
 
-
+// 사진 업로드 함수
+export const uploadPhoto = async (file) => {
+  const storageRef = ref(storage, `photos/${file.name}`);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  return url;
+};
 
 //------------------------------------------------------------------------------Storage-------------------------------------------------------------------------
 
@@ -220,7 +226,7 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
 //--------------------------------------------------------------------------게시판(시작)------------------------------------------------------------------------------
 
   //글 작성 완료하면 firebase에 등록
- async function boardSave(brdno, title, content, brddate, brdwriter){
+ async function boardSave(brdno, title, content, brddate, brdwriter, photoURL = ''){
   try{
     const user = auth.currentUser;
 
@@ -233,6 +239,7 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
           content: content,
           brddate: brddate,
           brdwriter: brdwriter,
+          photoURL: photoURL, // 사진 URL 추가
       });
       console.log("New post added with ID: ", docRef.id);
   } catch (error) {

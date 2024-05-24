@@ -214,6 +214,16 @@ const PostView = () => {
                 <label>{dateFormat(data.brddate, "yyyy-mm-dd")}</label>
               </div>
             </div>
+
+            {data.photoURL && ( // 사진 URL이 존재하는 경우에만 이미지 표시
+              <div className="post-view-row">
+                <label>사 진</label>
+                <div className="post-view-photo-container"> {/* 이미지를 감싸는 부모 요소 */}
+                <img src={data.photoURL} alt="게시글 사진" className="post-view-photo" />
+                </div>
+              </div>
+            )}
+
             <div className="post-view-content">
               <div className="post-view-row">
                 <label>제 목</label>

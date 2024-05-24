@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { boardSave, getUserName, getBrdno, updateBrdno} from '../firebase/firebase.js';
+import { boardSave, getUserName, getBrdno, updateBrdno, uploadPhoto} from '../firebase/firebase.js';
 import styles from './Write.module.css';
 
 function Write() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [brddate, setBrddate] = useState('');
+
+    //사진test
+    const [photo, setPhoto] = useState(null); // 사진 파일을 위한 상태 변수
 
     //brdno +1
     const [brdno, setBrdno] = useState(0); // 게시글 번호를 위한 상태 변수
@@ -27,13 +30,29 @@ function Write() {
 
     const navigate = useNavigate();
 
-
+    //사진test
+    const handlePhotoChange = (event) => {
+        setPhoto(event.target.files[0]);
+    };
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         const brdwriter = await getUserName(); // Get the writer's information
 
+
+        
+
+        //사진test
+        let photoURL = '';
+        if (photo) {
+            photoURL = await uploadPhoto(photo); // 사진을 Firebase Storage에 업로드하고 URL을 가져옴
+        }
+
+
         const newBrdno = brdno + 1; // 새로운 게시글 번호 계산
-        await boardSave(newBrdno, title, content, brddate, brdwriter);
+        // await boardSave(newBrdno, title, content, brddate, brdwriter);
+        //사진test
+        await boardSave(newBrdno, title, content, brddate, brdwriter, photoURL); // 게시글 저장
         await updateBrdno(newBrdno); // Firestore에 새로운 게시글 번호 저장
 
         navigate('/postlist');
@@ -70,6 +89,20 @@ function Write() {
                         />
                     </Form.Group>
                 </div>
+
+                {/* 사진test */}
+                <div className={styles.pt1}>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlFile1">
+                        <Form.Label>사진 첨부</Form.Label>
+                        <Form.Control
+                            type="file"
+                            onChange={handlePhotoChange}
+                            className={styles.fileInput}
+                        />
+                    </Form.Group>
+                </div>
+
+
                 <div className={`${styles.pt1} ${styles.textRight}`}>
                     <Button type="submit" variant="success" className={styles.submitButton}>
                         작성완료
