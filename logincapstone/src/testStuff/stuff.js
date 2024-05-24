@@ -11,6 +11,23 @@ import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, ge
   import { getStorage,ref,uploadBytes  } from "firebase/storage";
   import { Navbar, Nav, Dropdown, Badge, Button, Container } from 'react-bootstrap';
   import { Bell } from 'react-bootstrap-icons';
+  import {
+    MDBCol,
+    MDBContainer,
+    MDBRow,
+    MDBCard,
+    MDBCardText,
+    MDBCardBody,
+    MDBCardImage,
+    MDBBtn,
+    MDBBreadcrumb,
+    MDBBreadcrumbItem,
+    MDBProgress,
+    MDBProgressBar,
+    MDBIcon,
+    MDBListGroup,
+    MDBListGroupItem
+  } from 'mdb-react-ui-kit';
 //개발에 필요한 테스트 하는 것들에 대한 컴포넌트를 모아놓은 js 파일입니다. 
 
 
@@ -166,7 +183,7 @@ function UserImage() {
         <div className="notification-bell">
         <Dropdown alignRight>
           <Dropdown.Toggle variant="light" id="dropdown-basic">
-            <Bell size={24} />
+            <Bell size={24} style={{color:"black"}} />
             {notifications.length > 0 && (
               <Badge pill bg="danger" className="ml-2">
                 {notifications.length}

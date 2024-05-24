@@ -19,7 +19,6 @@ function MyPage(){
         <>
                     <NotificationBell></NotificationBell>
             <UserNameComponent></UserNameComponent>
-            <TestImageUpload></TestImageUpload>
         </>
     )
 }
@@ -28,14 +27,9 @@ function TestImageUpload(){
   return(
       <>
           <Container>
-             <Image src="holder.js/171x180" thumbnail />
-             <FileUpload folderName ="testFolder" fileName="forTest"></FileUpload>
-             <DisplayImage folderName ="testFolder" fileName="forTest"></DisplayImage>
+             <FileUpload folderName ="borad" fileName="forTest"></FileUpload>
+             <DisplayImage folderName ="borad" fileName="forTest"></DisplayImage>
           </Container>
-          
-     
-
-
       </>
   );
 }
