@@ -10,7 +10,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth"; //추가
 
 const PostView = () => {
   const [data, setData] = useState({});
-  const { brdno } = useParams();
+  const { postId } = useParams();
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -29,7 +29,7 @@ const PostView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = await getPostByNoFromFirebase(brdno);
+        const postData = await getPostByNoFromFirebase(postId);
         setData(postData);
         console.log('포스트데이타:', postData);
         // 초기화
@@ -41,7 +41,7 @@ const PostView = () => {
       }
     };
     fetchData();
-  }, [brdno]);
+  }, [postId]);
 
 
 
@@ -66,15 +66,15 @@ const PostView = () => {
 
   const handleDelete = async () => {
     try {
-      // 1. 게시글 번호(brdno)에 해당하는 댓글들을 가져옴
-      const commentsData = await getCommentsByPostNo(brdno);
+      // 1. 게시글 id(postId)에 해당하는 댓글들을 가져옴
+      const commentsData = await getCommentsByPostNo(postId);
 
       // 2. 댓글들을 하나씩 삭제
       for (const comment of commentsData) {
         await deleteCommentFromFirebase(comment.id);
       }
 
-      await deletePostFromFirebase(brdno);
+      await deletePostFromFirebase(postId);
       navigate('/postlist');
     } catch (error) {
       console.error('게시물 삭제 오류:', error);
@@ -85,7 +85,7 @@ const PostView = () => {
 
   const handleUpdate = async () => {
     try {
-      await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
+      await updatePostInFirebase(postId, { title: editedTitle, content: editedContent });
       // 상태를 업데이트하여 수정된 제목과 내용을 반영
       setData(prevData => ({
         ...prevData,
@@ -104,22 +104,22 @@ const PostView = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await getCommentsByPostNo(brdno);
+        const commentsData = await getCommentsByPostNo(postId);
         setComments(commentsData);
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
     };
     fetchComments();
-  }, [brdno]);
+  }, [postId]);
 
 
 
   const handleAddComment = async () => {
     try {
-      await addCommentToPost(brdno, newComment);
+      await addCommentToPost(postId, newComment);
       setNewComment('');
-      const commentsData = await getCommentsByPostNo(brdno);
+      const commentsData = await getCommentsByPostNo(postId);
       setComments(commentsData);
     } catch (error) {
       console.error('Error adding comment:', error);

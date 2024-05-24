@@ -119,7 +119,7 @@ function App() {
 
       <Routes>
         <Route path="/licenseInfoPage/:id" element={<LicenseInfoPage />} />
-        <Route path="/postView/:brdno" element={<PostView />} />
+        <Route path="/postView/:postId" element={<PostView />} />
         <Route path="/postlist" element={<PostList />} />
         <Route path="/write" element={<Write />} />
         <Route path="/signin" element={<SignInPage />} />
