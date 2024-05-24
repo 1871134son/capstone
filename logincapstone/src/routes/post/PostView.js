@@ -99,6 +99,24 @@ const PostView = () => {
   };
 
 
+  //test
+  // const handleUpdate = async () => {
+  //   try {
+  //     const updatedDate = new Date.now(); // 현재 날짜 가져오기
+  //     await updatePostInFirebase(postId, { title: editedTitle, content: editedContent, brddate: dateFormat(updatedDate, "yyyy-mm-dd") });
+      
+  //     // 상태를 업데이트하여 수정된 제목, 내용, 날짜를 반영
+  //     setData(prevData => ({
+  //       ...prevData,
+  //       title: editedTitle,
+  //       content: editedContent,
+  //       date: updatedDate
+  //     }));
+  //     setEditing(false);
+  //   } catch (error) {
+  //     console.error('게시물 수정 오류:', error);
+  //   }
+  // };
 
   //--------------------------------------------------------------------------댓글(시작)------------------------------------------------------------------------------
   useEffect(() => {
@@ -158,6 +176,23 @@ const PostView = () => {
       console.error('댓글 수정 오류:', error);
     }
   };
+
+
+  //test
+  // const handleUpdateComment = async () => {
+  //   try {
+  //     const updatedDate = new Date();
+  //     await updateCommentInFirebase(editingCommentId, { content: editedCommentContent, date: updatedDate });
+  //     const updatedComments = comments.map(comment =>
+  //       comment.id === editingCommentId ? { ...comment, content: editedCommentContent, date: updatedDate } : comment
+  //     );
+  //     setComments(updatedComments);
+  //     setEditingCommentId(null);
+  //     setEditedCommentContent('');
+  //   } catch (error) {
+  //     console.error('댓글 수정 오류:', error);
+  //   }
+  // };
 //--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
   return (
