@@ -126,11 +126,11 @@ const PostView = () => {
     }
   };
 
-
-  const handleDeleteComment = async (commentDocId) => {
+//commentdocid를 commentid로
+  const handleDeleteComment = async (commentId) => {
     try {
-      await deleteCommentFromFirebase(commentDocId);
-      const updatedComments = comments.filter(comment => comment.id !== commentDocId);
+      await deleteCommentFromFirebase(commentId);
+      const updatedComments = comments.filter(comment => comment.id !== commentId);
       setComments(updatedComments);
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
