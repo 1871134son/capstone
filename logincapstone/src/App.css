@@ -17,7 +17,35 @@
   object-fit: contain;
   /* 이미지가 컨테이너에 맞게 조절됨 */
   z-index: 1000;
-  /* 다른 요소들 위에 위치하도록 설정 */
+  /* 다른 요소들 위에 위치하도록\ 설정 */
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 348px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.image-container img {
+  width: 100%;
+  height: 200px;
+  /* 원하는 높이로 설정 */
+  object-fit: cover;
+}
+
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -38,7 +66,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #ffffff;
 }
 
 .link {
@@ -94,7 +122,6 @@
 
 .nav .main_menu li {
   margin-right: 2px;
-  /* 요소 간 간격을 줄임 */
   list-style: none;
   display: inline-block;
 }
@@ -105,12 +132,10 @@
 
 .nav .main_menu li a {
   border-radius: 4px;
-
-  /* 둥근 모서리 */
 }
 
 .nav .main_menu li a:hover {
-  background-color: #ff9c5f;
+  background-color: #ffffff;
 }
 
 li {
@@ -121,13 +146,17 @@ a:link,
 a:visited {
   text-decoration: none;
   color: inherit;
-  color: inherit;
 }
 
 .wrap {
   width: 100%;
-  height: 700px;
 }
+
+.header {
+  background-color: #ffb46d;
+  /* 네비게이션 바에만 배경색을 적용합니다 */
+}
+
 
 .inner {
   width: 1200px;
@@ -311,9 +340,7 @@ a:visited {
 
 .wrap .contents .banner p {
   font-size: 14px;
-  margin-top: 4px;
   letter-spacing: -0.5px;
-  color: #666;
 }
 
 .wrap .contents .shortcut {
@@ -321,41 +348,84 @@ a:visited {
   float: left;
 }
 
-.wrap .contents .shortcut a {
+.wrap .contents .banner p .main_title {
   display: block;
+  margin-bottom: 5px;
 }
 
-.wrap .contents .shortcut a .thumb {
-  overflow: hidden;
+.wrap .contents .banner+.banner {
+  margin-top: 20px;
+}
+
+.wrap .contents .banner:last-child {
+  margin-right: 0;
+}
+
+.wrap .contents .ad {
   width: 348px;
+  height: 200px;
+  background-color: #ff8c3f;
+  float: left;
+  color: #fff;
 }
 
-.wrap .contents .shortcut img {
-  width: 348px;
-  height: 142px;
-  transition: all 0.5s;
+.wrap .contents .ad .ad_txt {
+  font-size: 22px;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  text-align: center;
+  line-height: 200px;
 }
 
-.wrap .contents .shortcut a:hover img {
-  transform: scale(1.5);
-}
-
-.wrap .contents .shortcut p {
-  font-size: 14px;
-  margin-top: 4px;
-  letter-spacing: -0.5px;
-  color: #666;
-}
 
 .wrap .footer {
   width: 100%;
-  background-color: #ff8c3f;
-  color: #fff;
+  height: 180px;
+  background-color: #ffb46d;
 }
 
 .wrap .footer .inner {
   padding-top: 50px;
   padding-bottom: 30px;
+}
+
+.wrap .footer .inner .logo {
+  float: left;
+  margin-top: 40px;
+  width: 200px;
+  height: 40px;
+}
+
+wrap .footer .inner .logo img {
+  width: 200px;
+  height: 40px;
+}
+
+.wrap .footer .inner .info {
+  width: 900px;
+  float: right;
+  margin-top: 20px;
+}
+
+.wrap .footer .inner .info li {
+  float: left;
+  width: 33.3333%;
+  font-size: 12px;
+  color: #666;
+  list-style: none;
+}
+
+.wrap .footer .inner .info li a {
+  display: block;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+}
+
+.wrap .footer .inner .info li+.li {
+  border-left: 1px solid #666;
 }
 
 .wrap .footer .inner .bt_logo {

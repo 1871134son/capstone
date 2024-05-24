@@ -17,10 +17,11 @@ function AdditionalLinksSlider({ links }) {
         <div className="additional-links-slider">
             <Slider {...settings}>
                 {links.map((link) => (
-                    <div key={link.id}>
-                        <a href={link.href}>
+                    <div key={link.id} className="image-container">
+                        <a href={link.href} target="_blank" rel="noopener noreferrer">
                             <img src={link.src} alt={link.alt} className="link-image" />
                         </a>
+                        <div className="image-text">{link.text}</div>
                     </div>
                 ))}
             </Slider>

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost, getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, fetchPostsFromFirebase } from '../../firebase/firebase.js';
+import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost,
+         getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, getUserName } from '../../firebase/firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth"; 
 import dateFormat from 'dateformat';
-import Button from "react-bootstrap/Button";
 import './Post.css';
-import { getUserName } from '../../firebase/firebase.js';
-import { getAuth, onAuthStateChanged } from "firebase/auth"; //추가
 
 
 const PostView = () => {
   const [data, setData] = useState({});
-  const { brdno } = useParams();
+  const { postId } = useParams();
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -29,7 +28,7 @@ const PostView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postData = await getPostByNoFromFirebase(brdno);
+        const postData = await getPostByNoFromFirebase(postId);
         setData(postData);
         console.log('포스트데이타:', postData);
         // 초기화
@@ -41,22 +40,10 @@ const PostView = () => {
       }
     };
     fetchData();
-  }, [brdno]);
+  }, [postId]);
 
 
-  // useEffect(() => {
-  //   const fetchCurrentUser = async () => {
-  //     try {
-  //       const userName = await getUserName();
-  //       setCurrentUser(userName);
-  //     } catch (error) {
-  //       console.error('Error fetching current user:', error);
-  //     }
-  //   };
-  //   fetchCurrentUser();
-  // }, []);
 
-//추가
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -78,15 +65,15 @@ const PostView = () => {
 
   const handleDelete = async () => {
     try {
-      // 1. 게시글 번호(brdno)에 해당하는 댓글들을 가져옴
-      const commentsData = await getCommentsByPostNo(brdno);
+      // 1. 게시글 id(postId)에 해당하는 댓글들을 가져옴
+      const commentsData = await getCommentsByPostNo(postId);
 
       // 2. 댓글들을 하나씩 삭제
       for (const comment of commentsData) {
         await deleteCommentFromFirebase(comment.id);
       }
 
-      await deletePostFromFirebase(brdno);
+      await deletePostFromFirebase(postId);
       navigate('/postlist');
     } catch (error) {
       console.error('게시물 삭제 오류:', error);
@@ -97,7 +84,7 @@ const PostView = () => {
 
   const handleUpdate = async () => {
     try {
-      await updatePostInFirebase(brdno, { title: editedTitle, content: editedContent });
+      await updatePostInFirebase(postId, { title: editedTitle, content: editedContent });
       // 상태를 업데이트하여 수정된 제목과 내용을 반영
       setData(prevData => ({
         ...prevData,
@@ -111,43 +98,56 @@ const PostView = () => {
   };
 
 
-  const formatDate = date => {
-    const formattedDate = new Date(date).toISOString().split('T')[0];
-    return formattedDate;
-  };
-
+  //test
+  // const handleUpdate = async () => {
+  //   try {
+  //     const updatedDate = new Date.now(); // 현재 날짜 가져오기
+  //     await updatePostInFirebase(postId, { title: editedTitle, content: editedContent, brddate: dateFormat(updatedDate, "yyyy-mm-dd") });
+      
+  //     // 상태를 업데이트하여 수정된 제목, 내용, 날짜를 반영
+  //     setData(prevData => ({
+  //       ...prevData,
+  //       title: editedTitle,
+  //       content: editedContent,
+  //       date: updatedDate
+  //     }));
+  //     setEditing(false);
+  //   } catch (error) {
+  //     console.error('게시물 수정 오류:', error);
+  //   }
+  // };
 
   //--------------------------------------------------------------------------댓글(시작)------------------------------------------------------------------------------
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await getCommentsByPostNo(brdno);
+        const commentsData = await getCommentsByPostNo(postId);
         setComments(commentsData);
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
     };
     fetchComments();
-  }, [brdno]);
+  }, [postId]);
 
 
 
   const handleAddComment = async () => {
     try {
-      await addCommentToPost(brdno, newComment);
+      await addCommentToPost(postId, newComment);
       setNewComment('');
-      const commentsData = await getCommentsByPostNo(brdno);
+      const commentsData = await getCommentsByPostNo(postId);
       setComments(commentsData);
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   };
 
-
-  const handleDeleteComment = async (commentDocId) => {
+//commentdocid를 commentid로
+  const handleDeleteComment = async (commentId) => {
     try {
-      await deleteCommentFromFirebase(commentDocId);
-      const updatedComments = comments.filter(comment => comment.id !== commentDocId);
+      await deleteCommentFromFirebase(commentId);
+      const updatedComments = comments.filter(comment => comment.id !== commentId);
       setComments(updatedComments);
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
@@ -175,6 +175,23 @@ const PostView = () => {
       console.error('댓글 수정 오류:', error);
     }
   };
+
+
+  //test
+  // const handleUpdateComment = async () => {
+  //   try {
+  //     const updatedDate = new Date();
+  //     await updateCommentInFirebase(editingCommentId, { content: editedCommentContent, date: updatedDate });
+  //     const updatedComments = comments.map(comment =>
+  //       comment.id === editingCommentId ? { ...comment, content: editedCommentContent, date: updatedDate } : comment
+  //     );
+  //     setComments(updatedComments);
+  //     setEditingCommentId(null);
+  //     setEditedCommentContent('');
+  //   } catch (error) {
+  //     console.error('댓글 수정 오류:', error);
+  //   }
+  // };
 //--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
   return (
@@ -197,6 +214,16 @@ const PostView = () => {
                 <label>{dateFormat(data.brddate, "yyyy-mm-dd")}</label>
               </div>
             </div>
+
+            {data.photoURL && ( // 사진 URL이 존재하는 경우에만 이미지 표시
+              <div className="post-view-row">
+                <label>사 진</label>
+                <div className="post-view-photo-container"> {/* 이미지를 감싸는 부모 요소 */}
+                <img src={data.photoURL} alt="게시글 사진" className="post-view-photo" />
+                </div>
+              </div>
+            )}
+
             <div className="post-view-content">
               <div className="post-view-row">
                 <label>제 목</label>

@@ -176,9 +176,15 @@ button.post-view-delete-btn:focus {
 
 
 
+.post-view-photo {
+  width: 20%; /* 이미지의 너비를 50%로 설정하여 축소 */
+  height: auto; /* 이미지의 높이를 자동으로 조절하여 가로 세로 비율 유지 */
+}
 
-
-
+.post-view-photo-container {
+  display: flex; /* 부모 요소를 플렉스 박스로 설정하여 자식 요소들을 가로로 정렬 */
+  justify-content: center; /* 자식 요소를 가운데 정렬 */
+}
 
 
 
