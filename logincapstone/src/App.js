@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SignInPage from './routes/SignIn.js';
-import SignUpPage from './routes/SignUp.js';
+import { SignInPage, SignUpPage, SignUpSecond } from './routes/login/SignUp.js';
 import HomePage from './routes/Home.js';
 import MyPage from './routes/MyPage.js';
 import Calendar from './routes/Calendar.js';
@@ -12,7 +11,6 @@ import PostList from './routes/post/PostList';
 import PostView from './routes/post/PostView';
 import HomePageWithLinksSlider from './routes/HomePageWithLinksSlider.js';
 import AdditionalLinksSlider from './routes/AdditionalLinksSlider.js';
-import './App.css';
 import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import CertificationInfoPage from './routes/CertificationInfoPage.js';
 import { DisplayImage } from './firebase/firebase.js';
@@ -60,6 +58,7 @@ function App() {
   const isAuthPage = [
     '/signin',
     '/signup',
+    '/signup/second',
     '/calendar',
     '/postlist',
     '/myPage',
@@ -107,10 +106,7 @@ function App() {
                 <Link to="/certificationInfo">자격증 정보</Link>
               </li>
               <li>
-                <Link to="/signin">로그인</Link>
-              </li>
-              <li>
-                <Link to="/signup">회원가입</Link>
+                <Link to="/signin">로그인/회원가입</Link>
               </li>
             </ul>
           </div>
@@ -124,6 +120,7 @@ function App() {
         <Route path="/write" element={<Write />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signup/second" element={<SignUpSecond />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/myPage" element={<MyPage />} />
         <Route path="/certificationInfo" element={<CertificationInfoPage />} />
