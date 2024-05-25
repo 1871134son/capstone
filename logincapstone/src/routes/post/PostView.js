@@ -215,14 +215,7 @@ const PostView = () => {
               </div>
             </div>
 
-            {data.photoURL && ( // 사진 URL이 존재하는 경우에만 이미지 표시
-              <div className="post-view-row">
-                <label>사 진</label>
-                <div className="post-view-photo-container"> {/* 이미지를 감싸는 부모 요소 */}
-                <img src={data.photoURL} alt="게시글 사진" className="post-view-photo" />
-                </div>
-              </div>
-            )}
+            
 
             <div className="post-view-content">
               <div className="post-view-row">
@@ -241,8 +234,15 @@ const PostView = () => {
                   <label>{data.content}</label>
                 )}
               </div>
-            </div>
+              </div>
 
+            {data.photoURL && ( // 사진 URL이 존재하는 경우에만 이미지 표시
+              <div className="post-view-row">
+                <label>이 미 지</label>
+                <img src={data.photoURL} alt="게시글 사진" className="post-view-photo" />
+              </div>
+            )}
+            
           </>
         ) : (
           '해당 게시글을 찾을 수 없습니다.'
