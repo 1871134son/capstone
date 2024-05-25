@@ -139,6 +139,7 @@ const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 �
               // 사용자가 로그아웃한 상태입니다.
             }
           });
+          
     },[dispatch])
    
     useEffect(()=>{
@@ -164,7 +165,7 @@ const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 �
                     );
                 }
             }
-          //  console.log(importantDates);
+           console.log(importantDates);
         }//if END
     },[examScheduleList]); 
 

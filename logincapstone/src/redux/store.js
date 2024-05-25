@@ -7,7 +7,7 @@ export const fetchingLicenseList = createAsyncThunk(
   "licenseList/getLicenseList",
   async()=>{
     const response = await fetchLicenseList();
-   // console.log("store.js ->", response);
+    //console.log("store.js ->", response);
     return response; //자격증 이름 목록 반환.
   }
 );
@@ -16,7 +16,7 @@ export const fetchingExamSchedule = createAsyncThunk(
   "examSchedule",
   async()=>{
     const response = await getExamScheduleList();
-    //console.log("store.js/fetchingExamSchedule -> ", response);
+    console.log("store.js/fetchingExamSchedule -> ", response);
     return response;
   }
 );

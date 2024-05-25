@@ -163,10 +163,24 @@ const fieldToMessageTemplate = {
   return null;
 });
 
+async function deleteDocumentRecursively(docRef) {
+  console.log(`Deleting document: ${docRef.path}`);
+  const collections = await docRef.listCollections();
+  for (const collection of collections) {
+      const docs = await collection.listDocuments();
+      for (const doc of docs) {
+          await deleteDocumentRecursively(doc); // 각 문서에 대해 재귀적 호출
+      }
+  }
+  await docRef.delete(); // 모든 하위 컬렉션의 문서가 삭제된 후, 원본 문서 삭제
+  console.log(`Document deleted: ${docRef.path}`);
+}
 
 /** 사용자가 관심있는 학과 업데이트 시, 시험일정을 다시 받아와서 저장하는함수. */
 exports.updatedUserInfo = onDocumentUpdated('user/{userId}', async(event) => {
-    const beforeData = event.data.before.data();
+  console.log("updatedUserInfo Called")
+  
+  const beforeData = event.data.before.data();
     const afterData = event.data.after.data();
     const context = event;
     const userId = context.params.userId;
@@ -184,9 +198,10 @@ exports.updatedUserInfo = onDocumentUpdated('user/{userId}', async(event) => {
      if (JSON.stringify(beforeJmcds) !== JSON.stringify(afterJmcds)) {
       const examScheduleRef = db.collection(`user/${userId}/examSchedule1`);
       const snapshot = await examScheduleRef.get();
-      snapshot.forEach(doc => {
-        doc.ref.delete(); // 각 자격증 문서 삭제
-      });
+      const deletePromises = snapshot.docs.map(doc => deleteDocumentRecursively(doc.ref)); // 재귀적 삭제
+      await Promise.all(deletePromises);
+
+      console.log('All schedules and subcollections deleted.');
 
       const updatePromises = afterJmcds.map(async jmcd => {
         console.log('이번에 해당하는건 -> ',jmcd);
@@ -206,6 +221,7 @@ exports.updatedUserInfo = onDocumentUpdated('user/{userId}', async(event) => {
              "=" + encodeURIComponent(jmcd);
               const response = await axios.get(url + queryParams, {
               responseType: "text"});
+              console.log("respone ->", response);
               const scheduleData = response.data; 
               const jsonData = JSON.parse(scheduleData);//JSON에서 자바스크립트 객체로 파싱.
     

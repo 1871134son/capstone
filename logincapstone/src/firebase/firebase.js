@@ -127,6 +127,7 @@ export const uploadPhoto = async (file) => {
 //---------------------------------------------------------------------------인증 관련(Authentication)-------------------------------------------------------------------------
 
 
+
 async function signIn(email, password) {
     const auth = getAuth();
     try {
@@ -181,10 +182,29 @@ async function signIn(email, password) {
           console.log("No user logged in");
           return null;
         }
-      
-    
   }//getUserName()
   
+async function getUserInfo(){
+  const user = auth.currentUser;
+  if (user) {
+    // 'users' 컬렉션에서 현재 사용자의 uid와 일치하는 문서를 조회합니다.
+    const userRef = doc(db, "user", user.uid);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) {
+      // 유저 doc을 통째로 리턴.
+      return docSnap.data();
+    } else {
+      // 문서가 존재하지 않는 경우
+      console.log("유저 정보가 존재하지 않습니다.");
+      return null;
+    }
+  } else {
+    // 사용자가 로그인하지 않은 경우
+    console.log("No user logged in");
+    return null;
+  }
+}
 
 async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses){
     try{
@@ -406,6 +426,34 @@ export const updateCommentInFirebase = async (commentId, newData) => {
 
 //--------------------------------------------------------------------------자격증 관련(시작)------------------------------------------------------------------------------
 
+/**유저의 정보를 수정한다. */
+async function updateUserProfile(profile){ //profile을 받아서, 유저의 정보를 수정한다. 
+  //-> 유저 정보 수정, 사용자 정보에 추천 자격증 여러개 띄워놓기 
+  const user = auth.currentUser;
+  const userDocRef = doc(db, "user", user.uid);
+ 
+  try{
+    const licenses = [];
+    licenses.push(profile.license1);
+    licenses.push(profile.license2);
+    const updateData = {
+      userName: profile.userName,
+      email: profile.email,
+      licenses: licenses,
+      major: profile.major,
+      jmcds: profile.jmcds,
+      majorLicenses: profile.majorLicenses
+    };
+
+    await updateDoc(userDocRef, updateData); // 업데이트를 수행. profileUpdates는 { fieldName: newValue, ... } 형태의 객체
+
+
+    console.log("Profile updated successfully!");
+  }catch(error){
+    console.error("Error updating profile:", error); // 에러 처리
+  }
+
+}//updateUserProfile
 
 /**국가기술자격 목록에서 자격증 목록만 가져와서 firebase DB에 저장. 이 함수는 DB에 이상이 생기지 않는 한 다시 호출하지 말아주세요*/
 async function getLicenseList(){
@@ -508,7 +556,7 @@ async function fetchMajorList(){
       let docData = doc.data();//문서의 데이터 객체 가져옴.
       majorList.push(docData); //객체 배열에 저장 
     });
-    console.log("fetchmajorList 성공!:", majorList);
+    //console.log("fetchmajorList 성공!:", majorList);
   }catch(error){
     console.error("fetchmajorList 에러: ",error);
   }
@@ -631,7 +679,7 @@ async function searchLicenseInfo(licenseName){
       licenseData.push({infoData,feeData,licenseName,jmcd});
     }//forEnd
   }//else
-  //console.log("자격증상세정보->",licenseData);
+  console.log("자격증상세정보->",licenseData);
   return licenseData;
  }//try
  catch(error){
@@ -856,7 +904,7 @@ async function getNotificationsList(){
       console.log("getNotificationsList성공!:", notificationList);
     }//if
   }catch(error){
-    console.error("fetchLicenseList 에러: ",error);
+    console.error("getNotificationsList 에러: ",error);
   }
   return notificationList;//배열을 반환한다. 
 
@@ -871,4 +919,4 @@ async function getNotificationsList(){
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage,getNotificationsList};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage,getNotificationsList,getUserInfo,updateUserProfile};
