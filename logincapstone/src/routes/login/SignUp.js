@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchingLicenseList, sortLicenseList } from '../../redux/store.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation  } from 'react-router-dom';
 import './SignIn.css';
 
 function SignInPage() {
@@ -116,6 +116,7 @@ function SignUpSecond() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const licenseList = useSelector((state) => state.licenseList.licenseList);
+    const location = useLocation(); // 현재 위치의 state 접근을 위해 useLocation 추가
 
     useEffect(() => {
         dispatch(fetchingLicenseList());
@@ -141,9 +142,13 @@ function SignUpSecond() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { email, password } = navigate.location.state;
-        signUp(email, password, userName, licenses, jmcds, major, majorLicenses);
-        navigate('/'); // 가입 성공 시 홈 페이지로 이동
+        if (location.state) { // location.state를 확인
+            const { email, password } = location.state; // email과 password 추출
+            signUp(email, password, userName, licenses, jmcds, major, majorLicenses);
+            navigate('/'); // 가입 성공 시 홈 페이지로 이동
+        } else {
+            console.error("Navigation state is missing.");
+        }
     };
 
     const handleSelectChange = (index, value) => {
