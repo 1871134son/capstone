@@ -42,6 +42,7 @@ function SignInPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await signIn(email, password); // 이메일과 비밀번호로 로그인을 시도함
+    navigate('/'); // 가입 성공 시 홈 페이지로 이동
   };
   
   return (
