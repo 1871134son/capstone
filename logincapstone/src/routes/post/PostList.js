@@ -18,8 +18,6 @@ const PostMain = () => {
 
 
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,6 +29,8 @@ const PostMain = () => {
     };
     fetchData();
   }, []);
+
+
 
 
   useEffect(() => {
