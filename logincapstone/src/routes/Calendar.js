@@ -130,7 +130,7 @@ const importantDates = [
 const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 날짜와 선택된 날짜를 기반으로, 12개월치 달력을 생성하고, 현재 달로 스크롤 할 수 있는 기능을 제공함. 
     let dispatch = useDispatch();
     const examScheduleList = useSelector((state)=>state.examScheduleList.examScheduleList);
-    
+
     useEffect(()=>{ //먼저 dispatch로 사용자가 로그인 한 상태인걸 확인, 시험 일정을 가져옴. 
         onAuthStateChanged(auth, (user) => {
             if (user) {

@@ -59,9 +59,14 @@ function SearchLicenseComponent() {
         try{
             const result = await searchLicenseInfo(searchText);
             setLicenseInfo(result);
+            console.log("stuff.js 62-> ",licenseInfo);
+            navigate(`./licenseInfoPage/${licenseInfo[0].jmcd}`, {state: {licenseInfo: licenseInfo[0]}}); //해당 페이지로 이동한다. 
+         /* 원래 코드 속도 테스트중 
             if(licenseInfo){//licenseInfo가 null이 아닐때만 
+              console.log("null검사완료 ",licenseInfo);
                 navigate(`./licenseInfoPage/${licenseInfo[0].jmcd}`, {state: {licenseInfo: licenseInfo[0]}}); //해당 페이지로 이동한다. 
-            }
+            } 
+            */
         }
         catch(error){
             console.error("자격증 정보 검색 중 오류 발생:", error);

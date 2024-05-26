@@ -35,6 +35,7 @@ function HomePageWithLinksSlider() {
 
     return (
         <div className={`color ${isScrolled ? 'scrolled' : ''}`}>
+            <hr></hr>
             <div className="slider-container">
                 <Slider {...settings}>
                     <div>
