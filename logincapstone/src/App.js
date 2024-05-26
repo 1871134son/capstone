@@ -111,7 +111,6 @@ function App() {
             </ul>
           </div>
         </div>
-        <hr style={{marginTop:"0px"}}></hr>
       </div>
 
       <Routes>

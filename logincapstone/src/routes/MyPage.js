@@ -19,6 +19,7 @@ function MyPage(){
 
     return(
         <div style={{backgroundColor:"#F5F5F5"}}>
+                  <hr style={{marginTop:"0px"}}></hr>
           <NotificationBell></NotificationBell>
 
        <UserProfile></UserProfile>
