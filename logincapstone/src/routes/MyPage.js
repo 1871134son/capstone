@@ -18,10 +18,12 @@ import {SearchLicenseComponent, UserNameComponent, NotificationBell} from "../te
 function MyPage(){
 
     return(
-        <>
+        <div style={{backgroundColor:"#F5F5F5"}}>
+          <NotificationBell></NotificationBell>
+
        <UserProfile></UserProfile>
         
-        </>
+        </div>
     )
 }
 
@@ -70,9 +72,8 @@ useEffect(() => {
     
     return(
         <>
-       <NotificationBell></NotificationBell>
         {/* 메인 컨텐츠 영역 */}
-        <Container style={{ marginTop: '60px' }}>
+        <Container style={{ marginTop: '60px',backgroundColor: '#F0F8FF' }}>
           <Row>
             {/* 사용자 정보 Card */}
               <Card>
