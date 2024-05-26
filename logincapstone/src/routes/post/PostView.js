@@ -51,6 +51,7 @@ const PostView = () => {
         try {
           const userName = await getUserName();
           setCurrentUser(userName);
+          console.log('유저네임이요', userName);
         } catch (error) {
           console.error('Error fetching current user:', error);
         }

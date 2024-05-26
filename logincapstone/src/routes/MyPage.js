@@ -77,7 +77,7 @@ useEffect(() => {
             {/* 사용자 정보 Card */}
               <Card>
                 <Card.Header>
-                  <h3>사용자 정보{<UserNameComponent style={{}}></UserNameComponent>}</h3>
+                <h3>사용자 정보{<UserNameComponent style={{}}></UserNameComponent>}</h3>
                 </Card.Header>
                 <Card.Body>
                   {/* 사용자 정보 관련 내용 추가 */}

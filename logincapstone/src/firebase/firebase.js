@@ -448,6 +448,7 @@ async function updateUserProfile(profile){ //profile을 받아서, 유저의 정
     await updateDoc(userDocRef, updateData); // 업데이트를 수행. profileUpdates는 { fieldName: newValue, ... } 형태의 객체
 
 
+
     console.log("Profile updated successfully!");
   }catch(error){
     console.error("Error updating profile:", error); // 에러 처리
