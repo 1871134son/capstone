@@ -1,13 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword   } from "firebase/auth"; //인증 기능 
+import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut    } from "firebase/auth"; //인증 기능 
 import {getFirestore,doc, setDoc,getDoc, collection, addDoc,getDocs, query, where, orderBy, deleteDoc, updateDoc} from "firebase/firestore"; //firebase cloud firestore 기능 
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { getStorage,ref,uploadBytes,getDownloadURL  } from "firebase/storage";
 import { format } from 'date-fns';
 import { Alert } from "bootstrap";
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 
 //import { db } from './firebase';
@@ -236,6 +238,46 @@ async function signUp(email,password,userName,licenses,jmcds,major,majorLicenses
       // 에러 처리 로직을 여기에 작성합니다.
     }//catch 
   }//Sign Up end 
+
+  function LogOutButton(){
+    const navigate = useNavigate();
+    const auth = getAuth();
+  
+    const handleLogout = () => {
+      signOut(auth)
+        .then(() => {
+          // 로그아웃 성공 시 처리
+          console.log("User signed out");
+          navigate('/signin'); // 로그아웃 후 로그인 페이지로 이동
+        })
+        .catch((error) => {
+          // 에러 발생 시 처리
+          console.error("Error signing out: ", error);
+        });
+    };
+  
+    return (
+      <>
+       <style>
+        {`
+          .logout-button {
+            margin-left: auto;
+            display: block;
+          }
+          .logout-container {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 10px; /* 우측 여백 추가 */
+          }
+        `}
+      </style>
+      <Button variant="danger" onClick={handleLogout}className="logout-button" >
+        로그아웃
+      </Button>
+      </>
+    );
+  }//LogOutButton
+
 
 //---------------------------------------------------------------------------인증 관련(Authentication)-------------------------------------------------------------------------
 
@@ -920,4 +962,4 @@ async function getNotificationsList(){
 
 //인증 객체 바깥에서도 사용 가능하게 export
 export {auth,signUp,signIn,getUserName,getLicenseList,fetchLicenseList,getExamScheduleList,getLicenseInfoList,getExamFeeList, boardSave,saveMajorToFireStore,
-  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage,getNotificationsList,getUserInfo,updateUserProfile};
+  fetchMajorList,getLicenseInfo,searchLicenseInfo,signInEduNavi,storage,FileUpload,DisplayImage,LogOutButton,getNotificationsList,getUserInfo,updateUserProfile};

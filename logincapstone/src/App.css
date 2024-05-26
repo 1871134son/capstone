@@ -26,6 +26,12 @@
   }
 }
 
+/*로그아웃 버튼 */
+.logout-button {
+  margin-left: auto;
+  display: block;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

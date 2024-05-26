@@ -1,5 +1,5 @@
 import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, getLicenseInfoList,getLicenseInfo,searchLicenseInfo,
-  signInEduNavi,storage,FileUpload,DisplayImage,getUserInfo,fetchMajorList,updateUserProfile } from "../firebase/firebase";
+  signInEduNavi,storage,FileUpload,DisplayImage,getUserInfo,fetchMajorList,updateUserProfile,LogOutButton } from "../firebase/firebase";
 import { useState,useEffect } from 'react';
 import { getAuth,onAuthStateChanged  } from "firebase/auth"; //인증 기능 
 import Image from 'react-bootstrap/Image';
@@ -28,7 +28,7 @@ function MyPage(){
 function MajorListDisplay({ majorList }) {
     return (
       <div>
-        <h3>추천 자격증 목록</h3>
+        <h3>추천 자격증/시험 목록</h3>
         <ul>
           {majorList&&
           majorList.map((major, index) => (
@@ -94,6 +94,7 @@ useEffect(() => {
               <EditProfile />
             </Col>
           </Row>
+          <LogOutButton ></LogOutButton>
         </Container>
       </>
     );
@@ -235,18 +236,23 @@ useEffect(() => {
       학과: ${profile.major}
     `;
   
-    // 확인 대화상자에 입력 데이터 표시
-    const confirmUpdate = window.confirm("입력한 정보로 프로필을 업데이트할까요?\n\n" + userDataSummary);
-  
-    if (confirmUpdate) {
-      // 사용자가 '확인'을 누른 경우, 프로필 업데이트 로직 실행
-      console.log('Profile Updated:', profile);
-      updateUserProfile(profile);
-      // API 호출 로직 추가 예정
-    } else {
-      // 사용자가 '취소'를 누른 경우, 아무 것도 하지 않음
-      console.log('Profile update cancelled.');
-    }
+        if(user){
+        // 확인 대화상자에 입력 데이터 표시
+        const confirmUpdate = window.confirm("입력한 정보로 프로필을 업데이트할까요?\n\n" + userDataSummary);
+      
+        if (confirmUpdate) {
+          // 사용자가 '확인'을 누른 경우, 프로필 업데이트 로직 실행
+          console.log('Profile Updated:', profile);
+          updateUserProfile(profile);
+          // API 호출 로직 추가 예정
+        } else {
+          // 사용자가 '취소'를 누른 경우, 아무 것도 하지 않음
+          console.log('Profile update cancelled.');
+        }
+      }//if 
+          else{
+            alert("로그인 후 이용 가능한 서비스입니다.");
+          }
   };
 
   return (
