@@ -70,23 +70,29 @@ function SearchLicenseComponent() {
 
     return (
       <div>
-        <input
+              <input
           type="text"
-          list = "license_id"
+          list="license_id"
           value={searchText}
-          onChange={(e) =>
-            setSearchText(e.target.value)
-            }
+          onChange={(e) => setSearchText(e.target.value)}
           placeholder="자격증 검색"
-          style={{ 
-            position: 'absolute',  // 추가된 속성
-            top: '35px', 
-            left: '300px', 
-            width: '300px', 
-            height: '40px', 
-            objectFit: 'contain', 
-            zIndex: 1000 
+          style={{
+            position: 'absolute',
+            top: '35px',
+            left: '300px',
+            width: '300px',
+            height: '40px',
+            objectFit: 'contain',
+            zIndex: 1000,
+            border: '2px solid #FF4500', // 진한 테두리 색상
+            borderRadius: '10px', // 모서리 둥글게
+            padding: '0 10px', // 내부 여백
+            fontSize: '16px', // 텍스트 크기
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 그림자 효과
+            transition: 'border-color 0.3s ease', // 테두리 색상 전환 효과
           }}
+          onFocus={(e) => e.target.style.borderColor = '#FF4500'} // 포커스 시 더 진한 테두리 색상
+          onBlur={(e) => e.target.style.borderColor = '#FF6347'} // 포커스 해제 시 원래 테두리 색상
         />
         <datalist id="license_id">
           {licenseList &&
@@ -95,19 +101,32 @@ function SearchLicenseComponent() {
             ))
           }
         </datalist>  
-        <button onClick={()=>{
+        <button
+          onClick={() => {
             handleSearch();
-        }}
-        style={{ 
-            position: 'absolute',  // 추가된 속성
-            top: '35px', 
-            left: '610px', 
-            width: '70px', 
-            height: '40px', 
-            objectFit: 'contain', 
-            zIndex: 1000 
           }}
-        >검색</button>
+          style={{
+            position: 'absolute',
+            top: '35px',
+            left: '610px',
+            width: '70px',
+            height: '40px',
+            objectFit: 'contain',
+            zIndex: 1000,
+            backgroundColor: '#FF6347', // 진한 주황과 빨강 사이의 색상
+            border: '2px solid #FF4500', // 더 진한 테두리 색상
+            borderRadius: '10px', // 모서리 둥글게
+            color: '#fff', // 텍스트 색상
+            fontSize: '16px', // 텍스트 크기
+            fontWeight: 'bold',
+            cursor: 'pointer', // 마우스 커서를 포인터로 변경
+            transition: 'background-color 0.3s ease', // 배경색 전환 효과
+          }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#FF4500'} // 마우스 오버 시 더 진한 색상
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#FF6347'} // 마우스 아웃 시 원래 배경색
+        >
+          🔍
+        </button>
       </div>
     );
   }//SearchLicenseComponent()
