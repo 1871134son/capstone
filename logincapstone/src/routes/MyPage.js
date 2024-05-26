@@ -81,7 +81,7 @@ useEffect(() => {
                 </Card.Header>
                 <Card.Body>
                   {/* 사용자 정보 관련 내용 추가 */}
-                  <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '150px' }}
+                  <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '250px' }}
                     className="rounded-circle"></DisplayImage>
                     
                     {majorList.length > 0 ? <MajorListDisplay majorList={majorList} /> : <p>No majors found</p>}
@@ -268,11 +268,11 @@ useEffect(() => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>Email address {"(수정불가)"}</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
-                name="email"
+                name="email2"
                 value={profile.email}
                 onChange={handleChange}
               />
