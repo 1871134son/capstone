@@ -287,7 +287,7 @@ useEffect(() => {
               <Form.Label>관심있는 자격증 1</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter first certification"
+                placeholder="Enter first license"
                 name="license1"
                 list = "license_id"
                 value={profile.license1}
@@ -305,7 +305,7 @@ useEffect(() => {
               <Form.Label>관심있는 자격증 2</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter second certification"
+                placeholder="Enter second license"
                 name="license2"
                 list = "license_id"
                 value={profile.license2}
