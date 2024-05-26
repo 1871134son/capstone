@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPostByNoFromFirebase, deletePostFromFirebase, updatePostInFirebase, addCommentToPost,
-         getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase, getUserName } from '../../firebase/firebase.js';
+         getCommentsByPostNo, deleteCommentFromFirebase, updateCommentInFirebase } from '../../firebase/firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
 import dateFormat from 'dateformat';
 import './Post.css';
@@ -11,7 +11,8 @@ const PostView = () => {
   const [data, setData] = useState({});
   const { postId } = useParams();
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(null);
+
+  const [currentUserUID, setCurrentUserUID] = useState(null);
 
   // 게시물 수정 상태
   const [editing, setEditing] = useState(false);
@@ -30,7 +31,7 @@ const PostView = () => {
       try {
         const postData = await getPostByNoFromFirebase(postId);
         setData(postData);
-        console.log('포스트데이타:', postData);
+        console.log('포스트데이터:', postData);
         // 초기화
         setEditedTitle(postData.title);
         setEditedContent(postData.content);
@@ -44,24 +45,22 @@ const PostView = () => {
 
 
 
+
+
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        try {
-          const userName = await getUserName();
-          setCurrentUser(userName);
-          console.log('유저네임이요', userName);
-        } catch (error) {
-          console.error('Error fetching current user:', error);
-        }
+        setCurrentUserUID(user.uid);
+        console.log("유저 UID:", user.uid);
       } else {
-        setCurrentUser(null);
+        setCurrentUserUID(null);
       }
     });
 
     return () => unsubscribe();
   }, []);
+
 
 
   const handleDelete = async () => {
@@ -193,6 +192,10 @@ const PostView = () => {
   //     console.error('댓글 수정 오류:', error);
   //   }
   // };
+
+  
+  
+  
 //--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
   return (
@@ -250,14 +253,15 @@ const PostView = () => {
         )}
         <div className="post-view-actions">
           <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록</button>
-          {currentUser === data.brdwriter && (
+          {currentUserUID === data.uid && (
+            
             editing ? (
               <button className="post-view-go-list-btn1" onClick={handleUpdate}>저장</button>
             ) : (
               <button className="post-view-go-list-btn1" onClick={() => setEditing(true)}>수정</button>
             )
           )}
-          {currentUser === data.brdwriter && (
+          {currentUserUID === data.uid && (
             <button className="post-view-go-list-btn1" onClick={handleDelete}>삭제</button>
           )}
         </div>
@@ -285,7 +289,7 @@ const PostView = () => {
                 <p>작성일 : {dateFormat(comment.date, "yyyy-mm-dd")}</p>
                 
 
-                {currentUser === comment.commenter && (
+                {currentUserUID === comment.uid && (
                   <>
                   <div class="button-container">
                     <button onClick={() => startEditingComment(comment.id, comment.content)}>수정</button>

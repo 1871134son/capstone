@@ -17,6 +17,7 @@ const PostMain = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,6 +29,8 @@ const PostMain = () => {
     };
     fetchData();
   }, []);
+
+
 
 
   useEffect(() => {

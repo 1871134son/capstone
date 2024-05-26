@@ -329,6 +329,8 @@ export const fetchPostsFromFirebase = async () => {
 };
 
 
+
+
 //postId에 해당하는 게시물 가져오는 함수
 export const getPostByNoFromFirebase = async (postId) => {
   try {
@@ -397,6 +399,7 @@ export const updateBrdno = async (newBrdno) => {
 };
 
 
+
 //--------------------------------------------------------------------------게시판(종료)------------------------------------------------------------------------------
 
 
@@ -423,7 +426,7 @@ export const addCommentToPost = async (postId, commentContent) => {
   try {
     const user = auth.currentUser;
     const commentsCollectionRef = collection(db, 'comments'); // 'comments' 컬렉션 참조
-    await addDoc(commentsCollectionRef, { postId, content: commentContent, commenter: await getUserName(), date: Date.now() }); // 댓글 데이터 추가
+    await addDoc(commentsCollectionRef, { postId, content: commentContent, commenter: await getUserName(), date: Date.now(), uid: user.uid }); // 댓글 데이터 추가
     console.log('댓글이 성공적으로 추가되었습니다!');
   } catch (error) {
     console.error('Error adding comment to post:', error);
