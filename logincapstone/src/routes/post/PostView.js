@@ -13,6 +13,8 @@ const PostView = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [currentUserUID, setCurrentUserUID] = useState(null);
+
   // 게시물 수정 상태
   const [editing, setEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState('');
@@ -44,24 +46,45 @@ const PostView = () => {
 
 
 
+
+
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        try {
-          const userName = await getUserName();
-          setCurrentUser(userName);
-          console.log('유저네임이요', userName);
-        } catch (error) {
-          console.error('Error fetching current user:', error);
-        }
+        setCurrentUserUID(user.uid);
+        console.log("유저 UID:", user.uid);
       } else {
-        setCurrentUser(null);
+        setCurrentUserUID(null);
       }
     });
 
     return () => unsubscribe();
   }, []);
+
+  // useEffect(() => {
+  //   const auth = getAuth();
+
+  //   //test
+  //   const user = auth.currentUser;
+  //   console.log("유저아뒤요", user.uid);
+
+  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //     if (user) {
+  //       try {
+  //         const userName = await getUserName();
+  //         setCurrentUser(userName);
+  //         console.log('유저네임이요', userName);
+  //       } catch (error) {
+  //         console.error('Error fetching current user:', error);
+  //       }
+  //     } else {
+  //       setCurrentUser(null);
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
 
 
   const handleDelete = async () => {
@@ -193,6 +216,10 @@ const PostView = () => {
   //     console.error('댓글 수정 오류:', error);
   //   }
   // };
+
+  
+  
+  
 //--------------------------------------------------------------------------댓글(종료)------------------------------------------------------------------------------
 
   return (
@@ -250,14 +277,15 @@ const PostView = () => {
         )}
         <div className="post-view-actions">
           <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록</button>
-          {currentUser === data.brdwriter && (
+          {currentUserUID === data.uid && (
+            
             editing ? (
               <button className="post-view-go-list-btn1" onClick={handleUpdate}>저장</button>
             ) : (
               <button className="post-view-go-list-btn1" onClick={() => setEditing(true)}>수정</button>
             )
           )}
-          {currentUser === data.brdwriter && (
+          {currentUserUID === data.uid && (
             <button className="post-view-go-list-btn1" onClick={handleDelete}>삭제</button>
           )}
         </div>
@@ -285,7 +313,7 @@ const PostView = () => {
                 <p>작성일 : {dateFormat(comment.date, "yyyy-mm-dd")}</p>
                 
 
-                {currentUser === comment.commenter && (
+                {currentUserUID === comment.uid && (
                   <>
                   <div class="button-container">
                     <button onClick={() => startEditingComment(comment.id, comment.content)}>수정</button>
