@@ -63,25 +63,6 @@ const PostView = () => {
 
 
 
-  // const handleDelete = async () => {
-  //   try {
-  //     // 1. 게시글 id(postId)에 해당하는 댓글들을 가져옴
-  //     const commentsData = await getCommentsByPostNo(postId);
-
-  //     // 2. 댓글들을 하나씩 삭제
-  //     for (const comment of commentsData) {
-  //       await deleteCommentFromFirebase(comment.id);
-  //     }
-
-  //     await deletePostFromFirebase(postId);
-  //     navigate('/postlist');
-  //   } catch (error) {
-  //     console.error('게시물 삭제 오류:', error);
-  //   }
-  // };
-
-
-
   const handleDelete = async () => {
     const confirmDelete = window.confirm('정말 이 게시물을 삭제하시겠습니까?');
     if (!confirmDelete) return;
@@ -160,8 +141,12 @@ const PostView = () => {
     }
   };
 
-//commentdocid를 commentid로
+
+
   const handleDeleteComment = async (commentId) => {
+    const confirmDelete = window.confirm('정말 이 댓글을 삭제하시겠습니까?');
+    if (!confirmDelete) return;
+
     try {
       await deleteCommentFromFirebase(commentId);
       const updatedComments = comments.filter(comment => comment.id !== commentId);
@@ -170,6 +155,7 @@ const PostView = () => {
       console.error('댓글 삭제 오류:', error);
     }
   };
+
 
 
   const startEditingComment = (commentId, content) => {
