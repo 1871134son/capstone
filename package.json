@@ -1,0 +1,22 @@
+{
+  "name": "capsonte-main",
+  "version": "1.0.0",
+  "description": "son",
+  "main": "App.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1871134son/capstone.git"
+  },
+  "keywords": [
+    "capstone"
+  ],
+  "author": "son",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/1871134son/capstone/issues"
+  },
+  "homepage": "https://github.com/1871134son/capstone#readme"
+}

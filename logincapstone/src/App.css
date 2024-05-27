@@ -53,13 +53,21 @@
 }
 
 .link-image {
-  width: 10px;
-  /* 원하는 너비로 설정 */
-  height: 10px;
-  /* 높이를 자동으로 설정하여 비율 유지 */
-  margin-right: 0;
-  transition: transform 0.3s ease-in-out;
+  width: 150px;
+  height: 150px;
 }
+
+.link-container:nth-child(1) .link-image {
+  width: 150px;
+  height: 150px;
+}
+
+.link-container:nth-child(2) .link-image,
+.link-container:nth-child(3) .link-image {
+  width: 300px;
+  height: 150px;
+}
+
 
 .link-image:hover {
   transform: scale(1.1);
@@ -71,6 +79,31 @@
   border-radius: 5px;
   padding: 10px;
   margin: 30px;
+  position: relative;
+  display: flex;
+}
+
+.link-image {
+  width: 100%;
+  height: auto;
+}
+
+.link-container {
+  position: relative;
+  display: flex;
+  /* 이미지와 텍스트를 수평으로 정렬 */
+  border: none;
+  /* 이미지의 border를 없앰 */
+}
+
+.link-text {
+  position: absolute;
+  bottom: 0; /* 이미지의 하단에 위치 */
+  left: -100%; /* 텍스트 박스를 왼쪽으로 이동 */
+  width: 80%; /* 텍스트 박스의 너비를 줄임 */  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .links-wrapper {
@@ -132,8 +165,8 @@ a:visited {
 }
 
 .wrap {
-  width: 100%;
-  height: 700px;
+  position: relative;
+  min-height: 100vh;
 }
 
 .inner {
@@ -355,30 +388,42 @@ a:visited {
 }
 
 .wrap .footer {
+  padding-top: 20px;
+  /* footer의 상단 패딩을 추가하여 sliderContents와 겹치지 않도록 조정 */
+  padding-bottom: 30px;
   width: 100%;
   background-color: #ff8c3f;
   color: #fff;
+  z-index: 1;
+  /* 다른 요소보다 낮은 값으로 설정 */
 }
 
 .wrap .footer .inner {
-  padding-top: 50px;
-  padding-bottom: 30px;
+  display: flex;
+  /* 요소들을 수평으로 배치하기 위해 Flexbox 사용 */
+  justify-content: flex-end;
+  /* 요소들을 오른쪽으로 정렬 */
+  align-items: center;
+  /* 요소들을 세로 중앙 정렬 */
 }
 
 .wrap .footer .inner .bt_logo {
   width: 200px;
-  margin: 0 auto;
-  padding-bottom: 20px;
+  margin-right: auto;
+  /* 로고를 왼쪽으로 정렬 */
 }
 
 .wrap .footer .inner .bt_menu {
-  text-align: center;
-  margin-bottom: 20px;
+  margin-left: auto;
+  /* 메뉴를 오른쪽으로 정렬 */
 }
 
 .wrap .footer .inner .bt_menu ul {
   font-size: 16px;
-
+  margin: 0;
+  /* 기본 마진 제거 */
+  padding: 0;
+  /* 기본 패딩 제거 */
 }
 
 .wrap .footer .inner .bt_menu ul li {
@@ -389,6 +434,43 @@ a:visited {
 .wrap .footer .inner .bt_menu ul li:last-child {
   margin-right: 0;
 }
+
+.wrap .footer .inner .bt_logo img {
+  width: 100px;
+  /* 기존에 있던 width 값을 줄임 */
+  height: auto;
+  /* 높이를 자동으로 조절하여 비율 유지 */
+}
+
+.main-content {
+  margin-bottom: 100px;
+  /* footer와 겹치지 않도록 여유 공간 추가 */
+}
+
+.link-container {
+  position: relative;
+  display: flex;
+  /* 이미지와 텍스트를 수평으로 정렬 */
+  border: none;
+  /* 이미지의 border를 없앰 */
+}
+
+.link-text {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  /* 수정된 부분 */
+  max-width: auto;
+  /* 텍스트 배경의 최대 너비 지정 */
+  max-height: 40px;
+
+}
+
+
 
 
 @keyframes App-logo-spin {

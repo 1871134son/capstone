@@ -34,3 +34,18 @@
 .color.scrolled {
   background-color: rgb(255, 255, 255);
 }
+
+.additional-links {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.link-container {
+  margin: 0 10px;
+}
+
+.link-image {
+  width: 100px;
+  height: auto;
+}
