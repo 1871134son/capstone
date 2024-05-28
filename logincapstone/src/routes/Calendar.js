@@ -3,18 +3,18 @@ import { format, addMonths, startOfWeek, addDays } from "date-fns";
 import { endOfWeek, isSameDay, isSameMonth, startOfMonth, endOfMonth } from "date-fns";
 import uuid from "react-uuid";
 import "./_style.css";
-import { getExamScheduleList,auth } from "../firebase/firebase.js";
+import { getExamScheduleList, auth } from "../firebase/firebase.js";
 import { fetchingExamSchedule } from "../redux/store.js";
 import { useDispatch, useSelector } from 'react-redux';
 import { onAuthStateChanged } from "firebase/auth";
 
 
-function convertToDate(dateNum){ //공공데이터에선 날짜를 20230509 이런 식으로 반환함. 이를 Date객체로 만들어 리턴해주는 함수. 
+function convertToDate(dateNum) { //공공데이터에선 날짜를 20230509 이런 식으로 반환함. 이를 Date객체로 만들어 리턴해주는 함수. 
     const dateString = dateNum.toString();// 숫자를 문자열로 변환 -- 데이터 타입 확인해보고 문자면 이건 주석처리
 
-    const year = parseInt(dateString.substring(0,4), 10); //0~3까지 10진수로 변환 
-    const month = parseInt(dateString.substring(4,6),10) -1 ; //4~5까지 10진수로 변환, -1 하는 이유는 JS에서 month는 0부터 시작
-    const day = parseInt(dateString.substring(6,8),10); // 6~7까지 10진수 변환. 
+    const year = parseInt(dateString.substring(0, 4), 10); //0~3까지 10진수로 변환 
+    const month = parseInt(dateString.substring(4, 6), 10) - 1; //4~5까지 10진수로 변환, -1 하는 이유는 JS에서 month는 0부터 시작
+    const day = parseInt(dateString.substring(6, 8), 10); // 6~7까지 10진수 변환. 
 
     return new Date(year, month, day);
 }
@@ -47,7 +47,7 @@ const RenderDays = () => { // 주의 요일을 표시해주는 컴포넌트
 const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날짜들을 표시해줌. 현재 달, 선택된 날짜를 입력받음. 해달 월의 시작과 끝을 계산 
     //각 날짜에 해당하는 셀을 생성함. 셀은 현재 달, 선택된 날짜 , 주말 여부에 따라 다른 스타일을 표시함. 
 
-    
+
 
     const monthStart = startOfMonth(currentMonth); //현재 달의 시작 일 
 
@@ -77,19 +77,17 @@ const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날
             ).text : '';
             days.push(
                 <div
-                    className={`col cell ${
-                        !isSameMonth(day, monthStart) //만약 같은 달이 아니면, ex. 4월 달력인데, 3월 31일 날짜면 
+                    className={`col cell ${!isSameMonth(day, monthStart) //만약 같은 달이 아니면, ex. 4월 달력인데, 3월 31일 날짜면 
                             ? "disabled gray-text" // 회색으로 텍스트 표시 
                             : isSameDay(day, selectedDate) // 현재 일과, 동일한 날짜면 굵은 검은색(selected 표시)
-                            ? "selected"
-                            : ""
-                    } ${
-                        format(day, "EEEE") === "Sunday"  //일요일은 빨강, 토요일은 파랑 표시 
+                                ? "selected"
+                                : ""
+                        } ${format(day, "EEEE") === "Sunday"  //일요일은 빨강, 토요일은 파랑 표시 
                             ? "red-text"
                             : format(day, "EEEE") === "Saturday"
-                            ? "blue-text"
-                            : ""
-                    }`}
+                                ? "blue-text"
+                                : ""
+                        }`}
                     key={uuid()}  //각 셀에 고유한 키 삽입 
                 >
                     <span
@@ -97,12 +95,12 @@ const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날
                             isSameDay(day, selectedDate) //선택된 날짜(오늘)에는 today 클래스 할당 
                                 ? "text today"
                                 : isSameMonth(day, monthStart) //현재 달의 날짜에는 기본텍스트 할당 
-                                ? ""
-                                : "text not-valid" //현재 달이 아닌 날짜에는 not-valid 스타일 적용
+                                    ? ""
+                                    : "text not-valid" //현재 달이 아닌 날짜에는 not-valid 스타일 적용
                         }
                     >
-                        {formattedDate}  
-                        {isImportant && <span style={{fontSize:"12px"}}><br></br>{importantText}</span>}
+                        {formattedDate}
+                        {isImportant && <span style={{ fontSize: "12px" }}><br></br>{importantText}</span>}
                     </span>
                 </div>,
             );
@@ -122,56 +120,56 @@ const RenderCells = ({ currentMonth, selectedDate }) => { //실제 달력의 날
 const isLastDayOfMonth = (date, monthEnd) => {
     return format(date, "yyyy-MM-dd") === format(monthEnd, "yyyy-MM-dd");
 };
-const importantDates = [ 
-     // 다른 중요 날짜들...
-  ];
+const importantDates = [
+    // 다른 중요 날짜들...
+];
 
-  
+
 const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 날짜와 선택된 날짜를 기반으로, 12개월치 달력을 생성하고, 현재 달로 스크롤 할 수 있는 기능을 제공함. 
     let dispatch = useDispatch();
-    const examScheduleList = useSelector((state)=>state.examScheduleList.examScheduleList);
+    const examScheduleList = useSelector((state) => state.examScheduleList.examScheduleList);
 
-    useEffect(()=>{ //먼저 dispatch로 사용자가 로그인 한 상태인걸 확인, 시험 일정을 가져옴. 
+    useEffect(() => { //먼저 dispatch로 사용자가 로그인 한 상태인걸 확인, 시험 일정을 가져옴. 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 dispatch(fetchingExamSchedule());
             } else {
-              // 사용자가 로그아웃한 상태입니다.
+                // 사용자가 로그아웃한 상태입니다.
             }
-          });
-          
-    },[dispatch])
-   
-    useEffect(()=>{
-        if(examScheduleList&&Array.isArray(examScheduleList)){ //리스트에 데이터가 있을 경우에만 실행
-            for(let i = 0; i<examScheduleList.length; i++){//사용자가 고른 자격증의 갯수만큼 반복함. examScheduleList[0] 은 첫번째, examScheduleList[1] 은 두번째 .. 2는 세번째
-                for(let j=0; j<examScheduleList[i].length; j++){//examScheduleList[i].length -> 자격증 시험의 횟수 == j+1, ex. 1회,2회,3회..   
+        });
+
+    }, [dispatch])
+
+    useEffect(() => {
+        if (examScheduleList && Array.isArray(examScheduleList)) { //리스트에 데이터가 있을 경우에만 실행
+            for (let i = 0; i < examScheduleList.length; i++) {//사용자가 고른 자격증의 갯수만큼 반복함. examScheduleList[0] 은 첫번째, examScheduleList[1] 은 두번째 .. 2는 세번째
+                for (let j = 0; j < examScheduleList[i].length; j++) {//examScheduleList[i].length -> 자격증 시험의 횟수 == j+1, ex. 1회,2회,3회..   
                     let examName = examScheduleList[i][j].nameOfExam; //시험 이름 
                     let licenseName = examScheduleList[i][j].nameOfLicense; //자격증 이름
                     importantDates.push(
-                        {date: convertToDate(examScheduleList[i][j].docExamEndDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].docExamStartDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].docPassDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험 합격자 발표일자'},
-                        {date: convertToDate(examScheduleList[i][j].docRegEndDt),text: licenseName+'\n'+examName+ '\n' +' 필기시험원서접수 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].docReStartDt), text: licenseName+'\n'+examName+ '\n' +' 필기시험원서접수 시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].docSubmitEndDt), text: licenseName+'\n'+examName+ '\n' +' 응시자격서류제출 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].docSubmitStartDt), text: licenseName+'\n'+examName+ '\n' +' 응시자격서류제출 시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracExamEndDt),text: licenseName+'\n'+examName+ '\n' +' 실기시험 종료 일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracExamStartDt), text: licenseName+'\n'+examName+ '\n' +' 실기시험 시작 일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracPassEndDt), text: licenseName+'\n'+examName+ '\n' +' 합격자발표 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracPassStartDt),text: licenseName+'\n'+examName+ '\n' +' 합격자발표 시작일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracCreEndDt),text: licenseName+'\n'+examName+ '\n' +' 실기시험원서접수 종료일자'},
-                        {date: convertToDate(examScheduleList[i][j].pracCreStartDt), text: licenseName+'\n'+examName+ '\n' +' 실기시험원서접수 시작일자'},
+                        { date: convertToDate(examScheduleList[i][j].docExamEndDt), text: licenseName + '\n' + examName + '\n' + ' 필기시험종료일자' },
+                        { date: convertToDate(examScheduleList[i][j].docExamStartDt), text: licenseName + '\n' + examName + '\n' + ' 필기시험시작일자' },
+                        { date: convertToDate(examScheduleList[i][j].docPassDt), text: licenseName + '\n' + examName + '\n' + ' 필기시험 합격자 발표일자' },
+                        { date: convertToDate(examScheduleList[i][j].docRegEndDt), text: licenseName + '\n' + examName + '\n' + ' 필기시험원서접수 종료일자' },
+                        { date: convertToDate(examScheduleList[i][j].docReStartDt), text: licenseName + '\n' + examName + '\n' + ' 필기시험원서접수 시작일자' },
+                        { date: convertToDate(examScheduleList[i][j].docSubmitEndDt), text: licenseName + '\n' + examName + '\n' + ' 응시자격서류제출 종료일자' },
+                        { date: convertToDate(examScheduleList[i][j].docSubmitStartDt), text: licenseName + '\n' + examName + '\n' + ' 응시자격서류제출 시작일자' },
+                        { date: convertToDate(examScheduleList[i][j].pracExamEndDt), text: licenseName + '\n' + examName + '\n' + ' 실기시험 종료 일자' },
+                        { date: convertToDate(examScheduleList[i][j].pracExamStartDt), text: licenseName + '\n' + examName + '\n' + ' 실기시험 시작 일자' },
+                        { date: convertToDate(examScheduleList[i][j].pracPassEndDt), text: licenseName + '\n' + examName + '\n' + ' 합격자발표 종료일자' },
+                        { date: convertToDate(examScheduleList[i][j].pracPassStartDt), text: licenseName + '\n' + examName + '\n' + ' 합격자발표 시작일자' },
+                        { date: convertToDate(examScheduleList[i][j].pracCreEndDt), text: licenseName + '\n' + examName + '\n' + ' 실기시험원서접수 종료일자' },
+                        { date: convertToDate(examScheduleList[i][j].pracCreStartDt), text: licenseName + '\n' + examName + '\n' + ' 실기시험원서접수 시작일자' },
                     );
                 }
             }
-           console.log(importantDates);
+            console.log(importantDates);
         }//if END
-    },[examScheduleList]); 
+    }, [examScheduleList]);
 
-   
-   
-    
+
+
+
     const currentDate = new Date();
     const selectedDate = new Date();
 
@@ -215,18 +213,18 @@ const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 �
 
     return (
         <>
-        <hr></hr>
-        <div className="schedule-calendar">
-            <div className="text-today">
-                <p className="text-current" onClick={scrollCurrentMonth}>
-                    {currentDate.toLocaleString("en-US", { month: "long" })}
-                    {format(currentDate, " dd")}
-                </p>
-                <p className="text-year">{format(currentDate, " yyyy")}</p>
+            <hr></hr>
+            <div className="schedule-calendar">
+                <div className="text-today">
+                    <p className="text-current" onClick={scrollCurrentMonth}>
+                        {currentDate.toLocaleString("en-US", { month: "long" })}
+                        {format(currentDate, " dd")}
+                    </p>
+                    <p className="text-year">{format(currentDate, " yyyy")}</p>
+                </div>
+                <RenderDays />
+                <div className="calendar-list">{months}</div>
             </div>
-            <RenderDays />
-            <div className="calendar-list">{months}</div>
-        </div>
         </>
     );
 };

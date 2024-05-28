@@ -1,37 +1,37 @@
 /* LicenseInfoPage.css */
 
 .LicenseInfoPage-container {
-    padding: 20px;
-    background-color: #c9e4ff;
-    border-radius: 8px;
-  }
-  
-  .LicenseInfoPage-title {
-    color: #343a40;
-    font-weight: bold;
-  }
-  
-  .LicenseInfoPage-category {
-    color: #6c757d;
-  }
-  
-  .LicenseInfoPage-content {
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 10px;
-  }
-  
-  .LicenseInfoPage-content-title {
-    font-weight: bold;
-    color: #495057;
-  }
-  
-  .LicenseInfoPage-content-text {
-    color: #212529;
-  }
-  
-  .LicenseInfoPage-fee {
-    color: #5b5b5b;
-    
-    font-weight: bold;
-    margin-top: 20px;
-  }
+  padding: 20px;
+  background-color: #c9e4ff;
+  border-radius: 8px;
+}
+
+.LicenseInfoPage-title {
+  color: #343a40;
+  font-weight: bold;
+}
+
+.LicenseInfoPage-category {
+  color: #6c757d;
+}
+
+.LicenseInfoPage-content {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.LicenseInfoPage-content-title {
+  font-weight: bold;
+  color: #495057;
+}
+
+.LicenseInfoPage-content-text {
+  color: #212529;
+}
+
+.LicenseInfoPage-fee {
+  color: #5b5b5b;
+
+  font-weight: bold;
+  margin-top: 20px;
+}
