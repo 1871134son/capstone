@@ -116,7 +116,7 @@ function App() {
       </div>
 
       <div className="nav-below-image">
-        {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && <img src="dummy.jpg" alt="Random" className="nav-below-image-element" />}
+        {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && <img src="edunavi.jpg" alt="Random" className="nav-below-image-element" />}
       </div>
 
       {!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/') && (
