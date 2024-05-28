@@ -1,105 +1,37 @@
-<<<<<<< HEAD
-/* 공통 스타일 */
-
-.container {
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-}
-
-.title {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.category {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.content {
-    margin-bottom: 20px;
-}
-
-.content-title {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.content-text {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-}
-
-.fee {
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-
-/* LicenseInfoPage 컴포넌트 스타일 */
-
-.LicenseInfoPage-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-}
-
-.LicenseInfoPage-container,
-.LicenseInfoPage-heading,
-.LicenseInfoPage-fee {
-    font-family: "신명조", serif;
-}
-
-/* LicenseInfo 컴포넌트 스타일 */
-
-.LicenseInfo-container {
-    background-color: #ee7979;
-}
-
-.LicenseInfo-container,
-.LicenseInfo-title,
-.LicenseInfo-fee {
-    font-family: "신명조", serif;
-}
-=======
 /* LicenseInfoPage.css */
 
 .LicenseInfoPage-container {
-    padding: 20px;
-    background-color: #c9e4ff;
-    border-radius: 8px;
-  }
-  
-  .LicenseInfoPage-title {
-    color: #343a40;
-    font-weight: bold;
-  }
-  
-  .LicenseInfoPage-category {
-    color: #6c757d;
-  }
-  
-  .LicenseInfoPage-content {
-    border-bottom: 1px solid #e9ecef;
-    padding-bottom: 10px;
-  }
-  
-  .LicenseInfoPage-content-title {
-    font-weight: bold;
-    color: #495057;
-  }
-  
-  .LicenseInfoPage-content-text {
-    color: #212529;
-  }
-  
-  .LicenseInfoPage-fee {
-    color: #5b5b5b;
-    
-    font-weight: bold;
-    margin-top: 20px;
-  }
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
+  padding: 20px;
+  background-color: #c9e4ff;
+  border-radius: 8px;
+}
+
+.LicenseInfoPage-title {
+  color: #343a40;
+  font-weight: bold;
+}
+
+.LicenseInfoPage-category {
+  color: #6c757d;
+}
+
+.LicenseInfoPage-content {
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.LicenseInfoPage-content-title {
+  font-weight: bold;
+  color: #495057;
+}
+
+.LicenseInfoPage-content-text {
+  color: #212529;
+}
+
+.LicenseInfoPage-fee {
+  color: #5b5b5b;
+
+  font-weight: bold;
+  margin-top: 20px;
+}

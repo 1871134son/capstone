@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-<<<<<<< HEAD
-import { Spinner } from 'react-bootstrap';
-=======
 import { Spinner, Card, Container, Row, Col } from 'react-bootstrap';
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
 import './LicenseInfoPage.css'; // LicenseInfoPage에 대한 CSS 파일 import
 
 /** 원 단위로 포멧팅 해주는 함수 */
@@ -60,12 +56,8 @@ function LicenseInfoPage(props) {
   }, [licenseInfo]);
 
   return (
-<<<<<<< HEAD
-    <div className="LicenseInfoPage-container"> {/* 클래스 이름 추가 */}
-=======
 
-  <Container> {/* 클래스 이름 추가 */}
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
+    <Container> {/* 클래스 이름 추가 */}
       {loading ? (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
           <Spinner animation="border" variant="primary" />
@@ -80,30 +72,14 @@ function LicenseInfoPage(props) {
           licenseCategory={licenseCategory}
         />
       )}
-<<<<<<< HEAD
-    </div>
-=======
     </Container>
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
   );
 }
 
 /**받아온 데이터를 전시해주는 컴포넌트  */
 function LicenseInfo({ licenseName, infoData, fee, licenseCategory }) {  //infoData의 수는 동적으로 존재해서, map사용
   return (
-<<<<<<< HEAD
-    <div>
-      <h2 className="LicenseInfoPage-title">{licenseName}</h2> {/* 클래스 이름 추가 */}
-      <h4 className="LicenseInfoPage-category">직무 분야: {licenseCategory}</h4> {/* 클래스 이름 추가 */}
-      {infoData[0].map((data, index) => (
-        <div key={index} className="LicenseInfoPage-content"> {/* 클래스 이름 추가 */}
-          <h4 className="LicenseInfoPage-content-title">{data.contentsName}</h4> {/* 클래스 이름 추가 */}
-          <p className="LicenseInfoPage-content-text">{data.contents}</p> {/* 클래스 이름 추가 */}
-        </div>
-      ))}
-      <h4 className="LicenseInfoPage-fee">시험 응시료: {fee}</h4> {/* 클래스 이름 추가 */}
-=======
-    <div style={{background:"#FFF5EE"}}>
+    <div style={{ background: "#FFF5EE" }}>
       <hr></hr>
       <Card.Header className="text-center" >
         <h2 className="LicenseInfoPage-title">{licenseName}</h2> {/* 클래스 이름 추가 */}
@@ -128,7 +104,6 @@ function LicenseInfo({ licenseName, infoData, fee, licenseCategory }) {  //infoD
           </Row>
         </Container>
       </Card.Body>
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
     </div>
   );
 }

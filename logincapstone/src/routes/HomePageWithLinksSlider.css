@@ -1,9 +1,5 @@
 .slider-container {
-<<<<<<< HEAD
-  max-width: 800px; /* 크기를 키움 */
-=======
   max-width: 600px;
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
   margin: 0 auto;
   text-align: right;
   background-color: rgb(255, 255, 255);
@@ -20,15 +16,8 @@
 }
 
 .slick-slide .slider-image {
-<<<<<<< HEAD
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 10; /* 비율을 3:7로 설정 */
-  object-fit: cover;
-=======
   width: 300px;
   height: auto;
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
 }
 
 .color {
@@ -57,13 +46,6 @@
 }
 
 .link-image {
-<<<<<<< HEAD
-  width: 300px; /* 크기를 키움 */
-  height: auto;
-  aspect-ratio: 16 / 10; /* 비율을 3:7로 설정 */
-  object-fit: cover;
-=======
   width: 100px;
   height: auto;
->>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
 }
