@@ -1,0 +1,55 @@
+.search-input {
+  /* 입력 상자 위치 */
+  position: absolute;
+  top: 40px;
+  left: 240px;
+
+  /* 입력 상자 크기 */
+  width: 550px;
+  height: 50px;
+
+  /* 이미지가 잘리지 않도록 설정 */
+  object-fit: contain;
+
+  /* 화면 위에 표시되는 우선 순위 */
+  z-index: 1000;
+
+  /* 테두리 모양 */
+  border-radius: 15px;
+
+  /* 내부 여백 */
+  padding: 0 10px;
+
+  /* 글꼴 크기 */
+  font-size: 16px;
+
+    /* 테두리 색상 */
+    border: 2px solid rgb(255, 194, 170);
+}
+
+
+
+.search-button {
+  /* 버튼 위치 및 크기 */
+  position: absolute;
+  top: 35px;
+  left: 725px;
+  width: 70px;
+  height: 60px;
+  color: rgb(255, 194, 170);
+  /* 기타 스타일 */
+  object-fit: contain;
+  z-index: 1000;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 0;
+
+  /* 주석 */
+  /* 버튼에 배경색 제거 */
+  background-color: transparent;
+  /* 버튼 테두리 제거 */
+  border: none;
+}

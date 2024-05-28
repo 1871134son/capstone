@@ -5,12 +5,15 @@ import { getUserName,auth,getLicenseList,getExamScheduleList, getExamFeeList, ge
   import Col from 'react-bootstrap/Col';
   import Image from 'react-bootstrap/Image';
   import Row from 'react-bootstrap/Row';
-  import { useNavigate } from 'react-router-dom';
+  import { Route, useNavigate } from 'react-router-dom';
   import { useDispatch, useSelector } from 'react-redux';
   import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
   import { getStorage,ref,uploadBytes  } from "firebase/storage";
   import { Navbar, Nav, Dropdown, Badge, Button, Container } from 'react-bootstrap';
   import { Bell } from 'react-bootstrap-icons';
+  import './stuff.css';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+ import { faSearch } from '@fortawesome/free-solid-svg-icons';
   import {
     MDBCol,
     MDBContainer,
@@ -75,65 +78,26 @@ function SearchLicenseComponent() {
 
     return (
       <div>
-              <input
+        <input
           type="text"
           list="license_id"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           placeholder="자격증 검색"
-          style={{
-            position: 'absolute',
-            top: '35px',
-            left: '300px',
-            width: '300px',
-            height: '40px',
-            objectFit: 'contain',
-            zIndex: 1000,
-            border: '2px solid #000080', // 진한 테두리 색상
-            borderRadius: '10px', // 모서리 둥글게
-            padding: '0 10px', // 내부 여백
-            fontSize: '16px', // 텍스트 크기
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 그림자 효과
-            transition: 'border-color 0.3s ease', // 테두리 색상 전환 효과
-          }}
-          onFocus={(e) => e.target.style.borderColor = '#000080'} // 포커스 시 더 진한 테두리 색상
-          onBlur={(e) => e.target.style.borderColor = '#000080'} // 포커스 해제 시 원래 테두리 색상
+          className="search-input" // 스타일 적용을 위해 클래스 추가
         />
         <datalist id="license_id">
-          {licenseList &&
-            licenseList.map((license, index) => ( //데이터 리스트에 자격증 정보를 삽입 
-              <option key={index} value={license.name}>{license.name}</option>
-            ))
-          }
-        </datalist>  
+          {/* 자격증 리스트 옵션 */}
+        </datalist>
         <button
-          onClick={() => {
-            handleSearch();
-          }}
-          style={{
-            position: 'absolute',
-            top: '35px',
-            left: '610px',
-            width: '70px',
-            height: '40px',
-            objectFit: 'contain',
-            zIndex: 1000,
-            backgroundColor: '#6A5ACD', // 진한 주황과 빨강 사이의 색상
-            border: '2px solid #6A5ACD', // 더 진한 테두리 색상
-            borderRadius: '10px', // 모서리 둥글게
-            color: '#fff', // 텍스트 색상
-            fontSize: '12px', // 텍스트 크기
-            fontWeight: 'bold',
-            cursor: 'pointer', // 마우스 커서를 포인터로 변경
-            transition: 'background-color 0.3s ease', // 배경색 전환 효과🔍🔍🔍
-          }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4169E1'} // 마우스 오버 시 더 진한 색상
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6A5ACD'} // 마우스 아웃 시 원래 배경색
+          onClick={handleSearch}
+          className="search-button" // 스타일 적용을 위해 클래스 추가
         >
-          검색
+         <FontAwesomeIcon icon={faSearch} />
         </button>
       </div>
     );
+    
   }//SearchLicenseComponent()
 
   /**현재 로그인 한 사용자의 이름을 디스플레이 하는 컴포넌트 */

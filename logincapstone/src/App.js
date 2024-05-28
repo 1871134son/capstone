@@ -15,6 +15,7 @@ import LicenseInfoPage from './routes/LicenseInfoPage.js';
 import CertificationInfoPage from './routes/CertificationInfoPage.js';
 import { DisplayImage } from './firebase/firebase.js';
 import { SearchLicenseComponent } from './testStuff/stuff.js';
+import { FaUser, FaBars } from 'react-icons/fa';
 
 function App() {
   const location = useLocation();
@@ -82,41 +83,47 @@ function App() {
                   style={{
                     position: 'absolute',
                     top: '-30px',
-                    left: '180px',
+                    left: '100px',
                     width: '100px',
-                    height: '100px',
+                    height: '120px',
                     objectFit: 'contain',
                     zIndex: 1000
                   }}
                 ></DisplayImage>
               </Link>
             </h1>
-            <SearchLicenseComponent></SearchLicenseComponent>
+            <SearchLicenseComponent></SearchLicenseComponent> 
           </div>
           <div className="nav">
             <ul className="main_menu">
               <li>
-                <Link to="/calendar">캘린더</Link>
+                <Link to="/certificationInfo">자격증 정보</Link>
               </li>
               <li>
                 <Link to="/postlist">게시판</Link>
               </li>
               <li>
-                <Link to="/myPage">내 정보</Link>
+              <Link to="/calendar">캘린더</Link>
               </li>
               <li>
-                <Link to="/certificationInfo">자격증 정보</Link>
+              <Link to="/signin">로그인/회원가입</Link>
               </li>
               <li>
-                <Link to="/signin">로그인/회원가입</Link>
+              <Link to="/myPage">
+                <FaUser className="user-icon"/>
+              </Link>
+              </li>
+              <li>
+              <FaBars className="menu-icon" />
               </li>
             </ul>
           </div>
         </div>
       </div>
-
+      
+      <hr className="hr"></hr>
       <div className="nav-below-image">
-        {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && <img src="dummy.jpg" alt="Random" className="nav-below-image-element" />}
+        {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && <img src="edunavi.jpg" alt="Random" className="nav-below-image-element" />}
       </div>
 
       {!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/') && (

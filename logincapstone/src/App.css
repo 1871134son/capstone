@@ -1,3 +1,5 @@
+
+
 .App {
   text-align: center;
 }
@@ -120,11 +122,37 @@
   align-items: center;
   /* 세로 정렬 */
   padding: 0;
-  margin: 0;
+  margin: 10px;
+  top: 5px;
+  position: relative; /* 상대적 위치 설정 */
 }
 
 li {
   list-style: none;
+  margin-left: 10px; /* 왼쪽 여백 추가 */
+
+}
+
+/* 링크 간 간격을 조절하는 부분 */
+.main_menu li:not(:last-child) a {
+  margin-right: -27px; /* 링크 간 오른쪽 마진 추가 */
+  font-family: '맑은 고딕'; /* 글꼴 지정 */
+}
+
+
+.user-icon {
+  font-size: 32px; /* 아이콘 크기 키우기 */
+  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 조정 */
+  vertical-align: middle; /* 아이콘과 텍스트의 세로 정렬 맞춤 */
+  margin-left: 100px; /* 왼쪽 여백 추가 */
+}
+
+.menu-icon {
+  font-size: 31px; /* 아이콘 크기 키우기 */
+  margin-left: 15px; /* 왼쪽 여백 추가 */
+  position: relative; /* 상대적 위치 설정 */
+  transform: translateY(3px); /* 원하는 만큼 아래로 이동 (값을 조정하여 위치 설정) */
+  color:#000000;
 }
 
 a:link,
@@ -141,6 +169,19 @@ a:visited {
 .inner {
   width: 1200px;
   margin: 0 auto;
+  margin-right: 100px; /* 필요한 만큼 조정 */
+}
+
+/* 네비게이션 스타일 */
+.main_menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.main_menu li {
+  margin-right: 20px; /* 각 메뉴 항목 사이의 간격 */
 }
 
 .wrap .header .inner {
@@ -191,9 +232,6 @@ a:visited {
   color: #000000;
 }
 
-.wrap .header .inner .nav .main_menu>li>a:hover {
-  background-color: #ff8c3f;
-}
 
 .slide {
   width: 1200px;
@@ -411,7 +449,7 @@ a:visited {
 .nav-below-image-element {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  max-height: 680px; /* 세로 크기를 650px로 제한 */
   object-fit: cover;
 }
 
@@ -493,3 +531,4 @@ a:visited {
     transform: rotate(360deg);
   }
 }
+

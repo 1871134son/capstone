@@ -26,7 +26,7 @@
   flex-direction: column;
   justify-content: center; 
   align-items: center;
-  margin: 0 auto;
+  margin: -70px auto 0; /* 위로 조금 올림 */
 }
 
 .schedule-calendar .important-text{

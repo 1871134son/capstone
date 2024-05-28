@@ -34,7 +34,7 @@ a {
 .board_title strong {
   font-size: 3rem;
   text-align: center; /* Align the text to the right */
-  margin-right: -250px; /* 오른쪽 여백을 추가합니다. */
+  margin-right: -160px; /* 오른쪽 여백을 추가합니다. */
 }
 
 /* 게시판 제목 내 문단의 스타일을 설정합니다. */

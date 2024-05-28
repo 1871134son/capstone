@@ -19,7 +19,6 @@ function MyPage(){
 
     return(
         <div style={{backgroundColor:"#F5F5F5"}}>
-                  <hr style={{marginTop:"0px"}}></hr>
           <NotificationBell></NotificationBell>
 
        <UserProfile></UserProfile>
@@ -83,7 +82,7 @@ useEffect(() => {
                 </Card.Header>
                 <Card.Body>
                   {/* 사용자 정보 관련 내용 추가 */}
-                  <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '250px' }}
+                  <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '250px', marginLeft: '55px' }}
                     className="rounded-circle"></DisplayImage>
                     
                     {majorList.length > 0 ? <MajorListDisplay majorList={majorList} /> : <p>No majors found</p>}
