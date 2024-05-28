@@ -1,0 +1,503 @@
+/* 폰트 정의 */
+@font-face {
+  font-family: 'TheBlackJackL';
+  src:
+    url('./fonts/THE블랙잭L.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.logo-image {
+  top: 10px;
+  left: 100px;
+  width: 5000px;
+  height: 5000px;
+  object-fit: contain;
+  z-index: 1000;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.logout-button {
+  margin-left: auto;
+  display: block;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+/* 네비게이션 바와 링크 텍스트 */
+.header,
+.header a {
+  background-color: rgb(255, 193, 77);
+  color: white;
+}
+
+
+/* 로그인/회원가입 링크 */
+.nav li:last-child a {
+  background-color:  rgb(255, 193, 77);
+}
+
+
+.link {
+  margin-right: 100px;
+}
+
+.link-container {
+  text-align: center;
+  margin: 30px;
+  position: relative;
+  display: flex;
+  border: none;
+}
+
+.link-container .link-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.link-image:hover {
+  transform: scale(1.1);
+}
+
+.link-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.link-text {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 17px;
+  position: absolute;
+  bottom: 15px;
+  left: 30px;
+  padding: 10px;
+  max-height: 40px;
+}
+
+.links-wrapper {
+  border: 3px solid skyblue;
+  border-radius: 5px;
+  padding: 30px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.links-container .link:not(:last-child) {
+  margin-right: 100px;
+}
+
+.header .nav {
+  padding: 0;
+  margin: 0;
+}
+
+.nav .main_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wrap {
+  position: relative;
+}
+
+.inner {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.wrap .header .inner {
+  height: 100px;
+  
+}
+
+.wrap .header .inner .logo {
+  width: 200px;
+  height: 100px;
+  float: left;
+}
+
+.wrap .header .inner .logo h1 {
+  width: 200px;
+  height: 100px;
+}
+
+.wrap .header .inner .logo h1 a {
+  display: block;
+  width: 200px;
+  height: 100px;
+}
+
+.wrap .header .inner .logo h1 img {
+  width: 200px;
+  height: 40px;
+  margin: 30px 0;
+}
+
+.wrap .header .inner .nav {
+  width: 720px;
+  height: 40px;
+  float: right;
+  margin-top: 30px;
+}
+
+.wrap .header .inner .nav .main_menu > li {
+  float: left;
+}
+
+/* 네비게이션 바 스타일링 */
+.wrap .header .inner .nav .main_menu > li > a {
+  display: block;
+  width: 140px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 18px;
+  color: rgb(0, 0, 0);
+  font-family: 'TheBlackJackL', serif;
+}
+
+/* 네비게이션 바의 hover 상태 스타일링 */
+.wrap .header .inner .nav .main_menu > li > a:hover {
+  background-color:  rgb(255, 223, 162);
+}
+
+.slide {
+  width: 1200px;
+  height: 300px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.slide ul {
+  width: 3600px;
+}
+
+.slide ul li {
+  width: 1200px;
+  height: 300px;
+  float: left;
+  position: relative;
+}
+
+.slide li a .txt_wrap {
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  transform: translate(-20%, -50%);
+}
+
+.slide li .main_title {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.slide li .sub_title {
+  font-size: 20px;
+  color: #666;
+}
+
+.wrap .contents {
+  width: 1200px;
+  height: 200px;
+  padding: 14px 10px;
+  box-sizing: border-box;
+}
+
+.wrap .contents div {
+  margin-right: 40px;
+}
+
+.wrap .contents div:last-child {
+  margin-right: 0;
+}
+
+.wrap .contents .notice {
+  width: 404px;
+  float: left;
+}
+
+.wrap .contents .notice h2 {
+  font-size: 22px;
+}
+
+.wrap .contents .notice ul li {
+  width: 404px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+
+.wrap .contents .notice ul li a {
+  display: block;
+  width: 404px;
+  height: 36px;
+}
+
+.wrap .contents .notice ul li a .notice_title {
+  float: left;
+  display: block;
+  width: 80%;
+  height: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wrap .contents .notice ul li a:hover .notice_title {
+  text-decoration: underline;
+}
+
+.wrap .contents .notice ul li a .notice_date {
+  float: right;
+  display: block;
+  width: 20%;
+  height: 100%;
+  text-align: right;
+}
+
+.wrap .contents .banner {
+  width: 348px;
+  float: left;
+}
+
+.wrap .contents .banner a {
+  display: block;
+}
+
+.wrap .contents .banner a .thumb {
+  overflow: hidden;
+  width: 348px;
+}
+
+.wrap .contents .banner img {
+  width: 348px;
+  height: 142px;
+  transition: all 0.5s;
+}
+
+.wrap .contents .banner a:hover img {
+  transform: scale(1.5);
+}
+
+.wrap .contents .banner p {
+  font-size: 14px;
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+  color: #666;
+}
+
+.wrap .contents .shortcut {
+  width: 348px;
+  float: left;
+}
+
+.wrap .contents .shortcut a {
+  display: block;
+}
+
+.wrap .contents .shortcut a .thumb {
+  overflow: hidden;
+  width: 348px;
+}
+
+.wrap .contents .shortcut img {
+  width: 348px;
+  height: 142px;
+  transition: all 0.5s;
+}
+
+.wrap .contents .shortcut a:hover img {
+  transform: scale(1.5);
+}
+
+.wrap .contents .shortcut p {
+  font-size: 14px;
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+  color: #666;
+}
+
+.wrap .footer {
+  width: 100%;
+  background-color: #ff8c3f;
+  color: #fff;
+  z-index: 1;
+}
+
+.wrap .footer .inner {
+  display: flex;
+  align-items: flex-end;
+}
+
+.wrap .footer .inner .bt_logo {
+  width: 200px;
+  margin-right: 500px;
+}
+
+.wrap .footer .inner .bt_menu {
+  margin-left: auto;
+}
+
+.wrap .footer .inner .bt_menu ul {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.wrap .footer .inner .bt_menu ul li {
+  display: flex;
+  margin-right: 10px;
+}
+
+.wrap .footer .inner .bt_menu ul li:last-child {
+  margin-right: 0;
+}
+
+.wrap .footer .inner .bt_logo img {
+  width: 100px;
+  height: auto;
+}
+
+.wrap {
+  position: relative;
+}
+
+.nav-below-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.nav-below-image-element {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.main-content {
+  margin: 40px 0;
+}
+
+.additional-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 40px 0;
+}
+
+.link-container {
+  margin: 20px;
+  text-align: center;
+}
+
+.spacing {
+  height: 400px;
+}
+
+.slider-spacing {
+  height: 400px;
+}
+
+.footer {
+  margin-top: 40px;
+}
+
+.footer .inner {
+  padding: 20px;
+}
+
+.footer .bt_logo {
+  margin-bottom: 20px;
+  margin-left: -200px;
+}
+
+.footer .site {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.footer .site a {
+  color: #007bff;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.footer .site a:hover {
+  text-decoration: underline dotted;
+}
+
+.footer .bt_menu {
+  margin-top: 20px;
+}
+
+.footer .bt_menu ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.footer .bt_menu ul li {
+  margin: 10px 10px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
