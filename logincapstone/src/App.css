@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+=======
+/* 폰트 정의 */
+@font-face {
+  font-family: 'TheBlackJackL';
+  src:
+    url('./fonts/BMHANNAPro.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+>>>>>>> 7ae2133dceb8bd15d8441d19cef2230069806258
 
 
 .App {
