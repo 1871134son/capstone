@@ -89,15 +89,15 @@ function SearchLicenseComponent() {
             height: '40px',
             objectFit: 'contain',
             zIndex: 1000,
-            border: '2px solid #FF4500', // 진한 테두리 색상
+            border: '2px solid #000080', // 진한 테두리 색상
             borderRadius: '10px', // 모서리 둥글게
             padding: '0 10px', // 내부 여백
             fontSize: '16px', // 텍스트 크기
             boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // 그림자 효과
             transition: 'border-color 0.3s ease', // 테두리 색상 전환 효과
           }}
-          onFocus={(e) => e.target.style.borderColor = '#FF4500'} // 포커스 시 더 진한 테두리 색상
-          onBlur={(e) => e.target.style.borderColor = '#FF6347'} // 포커스 해제 시 원래 테두리 색상
+          onFocus={(e) => e.target.style.borderColor = '#000080'} // 포커스 시 더 진한 테두리 색상
+          onBlur={(e) => e.target.style.borderColor = '#000080'} // 포커스 해제 시 원래 테두리 색상
         />
         <datalist id="license_id">
           {licenseList &&
@@ -118,19 +118,19 @@ function SearchLicenseComponent() {
             height: '40px',
             objectFit: 'contain',
             zIndex: 1000,
-            backgroundColor: '#FF6347', // 진한 주황과 빨강 사이의 색상
-            border: '2px solid #FF4500', // 더 진한 테두리 색상
+            backgroundColor: '#6A5ACD', // 진한 주황과 빨강 사이의 색상
+            border: '2px solid #6A5ACD', // 더 진한 테두리 색상
             borderRadius: '10px', // 모서리 둥글게
             color: '#fff', // 텍스트 색상
-            fontSize: '16px', // 텍스트 크기
+            fontSize: '12px', // 텍스트 크기
             fontWeight: 'bold',
             cursor: 'pointer', // 마우스 커서를 포인터로 변경
-            transition: 'background-color 0.3s ease', // 배경색 전환 효과
+            transition: 'background-color 0.3s ease', // 배경색 전환 효과🔍🔍🔍
           }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#FF4500'} // 마우스 오버 시 더 진한 색상
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#FF6347'} // 마우스 아웃 시 원래 배경색
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4169E1'} // 마우스 오버 시 더 진한 색상
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6A5ACD'} // 마우스 아웃 시 원래 배경색
         >
-          🔍
+          검색
         </button>
       </div>
     );
@@ -185,54 +185,61 @@ function UserImage() {
       });
       return () => unsubscribe();  // 컴포넌트 언마운트 시 구독 해제
   }, []);
-
   
-      useEffect(() => {
-        if (user) {
-            async function getNotifications() {
-                const notiList = await getNotificationsList();
-                setNotifications(notiList);
-            }
-            getNotifications();
-        } else {
-            setNotifications([]);  // 로그아웃 상태에서는 알림을 비움
-        }
-    }, [user]);  // user 상태가 변경될 때마다 이 useEffect가 실행됨
     
-    const handleClearNotifications = () => {
-      setNotifications([]);
-    };
+    useEffect(() => {
+      if (user) {
+          async function getNotifications() {
+              const notiList = await getNotificationsList();
+              setNotifications(notiList);
+          }
+          getNotifications();
+      } else {
+          setNotifications([]);  // 로그아웃 상태에서는 알림을 비움
+      }
+  }, [user]);  // user 상태가 변경될 때마다 이 useEffect가 실행됨
   
-    return (
-        <div className="notification-bell">
-        <Dropdown alignRight>
-          <Dropdown.Toggle variant="light" id="dropdown-basic">
-            <Bell size={24} style={{color:"black"}} />
-            {notifications.length > 0 && (
-              <Badge pill bg="danger" className="ml-2">
-                {notifications.length}
-              </Badge>
-            )}
-          </Dropdown.Toggle>
-    
-          <Dropdown.Menu>
-            {notifications.length === 0 ? (
-              <Dropdown.Item>알람이 없습니다.</Dropdown.Item>
-            ) : (
-              notifications.map((notification) => (
-                <Dropdown.Item  key={notification.date}>
-                  {notification.message}
-                </Dropdown.Item>
-              ))
-            )}
-            <Dropdown.Divider />
-            <Dropdown.Item as="button" onClick={handleClearNotifications}>
-              알람 지우기
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        </div>
-      );
+  const handleClearNotifications = () => {
+    setNotifications([]);
+  };
+  
+  const formatDate = (timestamp) => {
+    if (timestamp && timestamp.seconds) {
+      return new Date(timestamp.seconds * 1000).toLocaleString();
+    }
+    return '';
+  };
+  
+  return (
+      <div className="notification-bell">
+      <Dropdown alignRight>
+        <Dropdown.Toggle variant="light" id="dropdown-basic">
+          <Bell size={24} style={{color:"black"}} />
+          {notifications.length > 0 && (
+            <Badge pill bg="danger" className="ml-2">
+              {notifications.length}
+            </Badge>
+          )}
+        </Dropdown.Toggle>
+  
+        <Dropdown.Menu>
+          {notifications.length === 0 ? (
+            <Dropdown.Item>알람이 없습니다.</Dropdown.Item>
+          ) : (
+            notifications.map((notification, index) => (
+              <Dropdown.Item  key={index}>
+                {formatDate(notification.date)}::  {notification.message}
+              </Dropdown.Item>
+            ))
+          )}
+          <Dropdown.Divider />
+          <Dropdown.Item as="button" onClick={handleClearNotifications}>
+            알람 지우기
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      </div>
+    );
   };
   
 
