@@ -19,6 +19,7 @@ function SignInPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         await signIn(email, password);
+        navigate('/');
     };
 
     return (
