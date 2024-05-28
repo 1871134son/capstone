@@ -215,6 +215,7 @@ exports.updatedUserInfo = onDocumentUpdated('user/{userId}', async(event) => {
             const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
              "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
              const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getJMList";
+             console.log("종목별 자격증 시험일정 호출");
              let queryParams = "?" + encodeURIComponent("serviceKey") +
              "=" + encodeURIComponent(decode);
              queryParams += "&" + encodeURIComponent("jmCd") +
@@ -352,6 +353,8 @@ exports.updateExamSchedule = onDocumentCreated(`user/{userId}`,  async(event) =>
         const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
          "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
          const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getJMList";
+         console.log("종목별 자격증 시험일정 호출");
+
          let queryParams = "?" + encodeURIComponent("serviceKey") +
          "=" + encodeURIComponent(decode);
          queryParams += "&" + encodeURIComponent("jmCd") +
@@ -468,6 +471,7 @@ exports.getExamSchedule = onRequest((req, res)=>{
     const decode ="Pg7aPFuf7Do381nW4BcQYu7RHCbBL9h55UUWHX"+
     "wR7p7KkAMDct7GQMOPhzvqbblI+ITj2xF+en4Q6k6xxIzLOQ==";
     const url = "http://openapi.q-net.or.kr/api/service/rest/InquiryTestInformationNTQSVC/getJMList";
+    console.log("종목별 자격증 시험일정 호출");
     let queryParams = "?" + encodeURIComponent("serviceKey") +
      "=" + encodeURIComponent(decode);
     queryParams += "&" + encodeURIComponent("jmCd") +

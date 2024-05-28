@@ -50,7 +50,7 @@ function HomePageWithLinksSlider() {
                     </div>
                     <div>
                         <a href="/linkC" className="slider-link">
-                            <DisplayImage folderName="promotions" fileName="promotions.jpg" />
+                            <DisplayImage folderName="promotions" fileName="promotions3.jpg" />
                         </a>
                     </div>
                     <div>
