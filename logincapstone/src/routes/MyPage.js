@@ -83,9 +83,15 @@ useEffect(() => {
                 </Card.Header>
                 <Card.Body>
                   {/* 사용자 정보 관련 내용 추가 */}
-                  <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '250px' }}
+                  <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                  <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '250px'  }}
                     className="rounded-circle"></DisplayImage>
-                    
+                    </div>
+                    <hr></hr>
                     {majorList.length > 0 ? <MajorListDisplay majorList={majorList} /> : <p>No majors found</p>}
 
                 </Card.Body>
