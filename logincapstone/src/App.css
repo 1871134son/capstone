@@ -1,0 +1,455 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.logo-image {
+  top: 10px;
+  left: 100px;
+  width: 5000px;
+  /* 원하는 너비로 설정 */
+  height: 5000px;
+  /* 비율에 맞게 높이 자동 조절 */
+  object-fit: contain;
+  /* 이미지가 컨테이너에 맞게 조절됨 */
+  z-index: 1000;
+  /* 다른 요소들 위에 위치하도록 설정 */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/*로그아웃 버튼 */
+.logout-button {
+  margin-left: auto;
+  display: block;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.link {
+  margin-right: 100px;
+}
+
+.link-image {
+  width: 150px;
+  height: 150px;
+}
+
+.link-container .link-image {
+  width: 100%; /* 가로 길이를 부모 요소에 맞춤 */
+  aspect-ratio: 16 / 9; /* 비율 설정 */
+  object-fit: cover; /* 이미지가 비율을 유지하면서 컨테이너를 채우도록 설정 */
+}
+
+.link-image:hover {
+  transform: scale(1.1);
+}
+
+
+.link-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 30px;
+  position: relative;
+  display: flex;
+}
+
+.link-image {
+  width: 100%;
+  height: auto;
+}
+
+.link-container {
+  position: relative;
+  display: flex;
+  /* 이미지와 텍스트를 수평으로 정렬 */
+  border: none;
+  /* 이미지의 border를 없앰 */
+}
+
+.link-text {
+  position: absolute;
+  bottom: 0; /* 이미지의 하단에 위치 */
+  left: -100%; /* 텍스트 박스를 왼쪽으로 이동 */
+  width: 80%; /* 텍스트 박스의 너비를 줄임 */  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.links-wrapper {
+  border: 3px solid skyblue;
+  border-radius: 5px;
+  padding: 30px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.links-container .link:not(:last-child) {
+  margin-right: 100px;
+}
+
+.header .nav {
+  padding: 0;
+  margin: 0;
+}
+
+.nav .main_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 세로 정렬 */
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+  color: inherit;
+}
+
+.wrap {
+  position: relative;
+  min-height: 100vh;
+}
+
+.inner {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.wrap .header .inner {
+  height: 100px;
+}
+
+.wrap .header .inner .logo {
+  width: 200px;
+  height: 100px;
+  float: left;
+}
+
+.wrap .header .inner .logo h1 {
+  width: 200px;
+  height: 100px;
+}
+
+.wrap .header .inner .logo h1 a {
+  display: block;
+  width: 200px;
+  height: 100px;
+}
+
+.wrap .header .inner .logo h1 img {
+  width: 200px;
+  height: 40px;
+  margin: 30px 0;
+}
+
+.wrap .header .inner .nav {
+  width: 720px;
+  height: 40px;
+  float: right;
+  margin-top: 30px;
+}
+
+.wrap .header .inner .nav .main_menu>li {
+  float: left;
+}
+
+.wrap .header .inner .nav .main_menu>li>a {
+  display: block;
+  width: 140px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 18px;
+  color: #000000;
+}
+
+.wrap .header .inner .nav .main_menu>li>a:hover {
+  background-color: #ff8c3f;
+}
+
+.slide {
+  width: 1200px;
+  height: 300px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.slide ul {
+  width: 3600px;
+}
+
+.slide ul li {
+  width: 1200px;
+  height: 300px;
+  float: left;
+  position: relative;
+}
+
+.slide li a .txt_wrap {
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  transform: translate(-20%, -50%);
+}
+
+.slide li .main_title {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.slide li .sub_title {
+  font-size: 20px;
+  color: #666;
+}
+
+.wrap .contents {
+  width: 1200px;
+  height: 200px;
+  padding: 14px 10px;
+  box-sizing: border-box;
+}
+
+.wrap .contents div {
+  margin-right: 40px;
+}
+
+.wrap .contents div:last-child {
+  margin-right: 0;
+}
+
+.wrap .contents .notice {
+  width: 404px;
+  float: left;
+}
+
+.wrap .contents .notice h2 {
+  font-size: 22px;
+}
+
+.wrap .contents .notice ul li {
+  width: 404px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+
+.wrap .contents .notice ul li a {
+  display: block;
+  width: 404px;
+  height: 36px;
+}
+
+.wrap .contents .notice ul li a .notice_title {
+  float: left;
+  display: block;
+  width: 80%;
+  height: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.wrap .contents .notice ul li a:hover .notice_title {
+  text-decoration: underline;
+}
+
+.wrap .contents .notice ul li a .notice_date {
+  float: right;
+  display: block;
+  width: 20%;
+  height: 100%;
+  text-align: right;
+}
+
+.wrap .contents .banner {
+  width: 348px;
+  float: left;
+}
+
+.wrap .contents .banner a {
+  display: block;
+}
+
+.wrap .contents .banner a .thumb {
+  overflow: hidden;
+  width: 348px;
+}
+
+.wrap .contents .banner img {
+  width: 348px;
+  height: 142px;
+  transition: all 0.5s;
+}
+
+.wrap .contents .banner a:hover img {
+  transform: scale(1.5);
+}
+
+.wrap .contents .banner p {
+  font-size: 14px;
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+  color: #666;
+}
+
+.wrap .contents .shortcut {
+  width: 348px;
+  float: left;
+}
+
+.wrap .contents .shortcut a {
+  display: block;
+}
+
+.wrap .contents .shortcut a .thumb {
+  overflow: hidden;
+  width: 348px;
+}
+
+.wrap .contents .shortcut img {
+  width: 348px;
+  height: 142px;
+  transition: all 0.5s;
+}
+
+.wrap .contents .shortcut a:hover img {
+  transform: scale(1.5);
+}
+
+.wrap .contents .shortcut p {
+  font-size: 14px;
+  margin-top: 4px;
+  letter-spacing: -0.5px;
+  color: #666;
+}
+
+.wrap .footer {
+  padding-top: 20px;
+  /* footer의 상단 패딩을 추가하여 sliderContents와 겹치지 않도록 조정 */
+  padding-bottom: 30px;
+  width: 100%;
+  background-color: #ff8c3f;
+  color: #fff;
+  z-index: 1;
+  /* 다른 요소보다 낮은 값으로 설정 */
+}
+
+.wrap .footer .inner {
+  display: flex;
+  /* 요소들을 수평으로 배치하기 위해 Flexbox 사용 */
+  justify-content: flex-end;
+  /* 요소들을 오른쪽으로 정렬 */
+  align-items: center;
+  /* 요소들을 세로 중앙 정렬 */
+}
+
+.wrap .footer .inner .bt_logo {
+  width: 200px;
+  margin-right: auto;
+  /* 로고를 왼쪽으로 정렬 */
+}
+
+.wrap .footer .inner .bt_menu {
+  margin-left: auto;
+  /* 메뉴를 오른쪽으로 정렬 */
+}
+
+.wrap .footer .inner .bt_menu ul {
+  font-size: 16px;
+  margin: 0;
+  /* 기본 마진 제거 */
+  padding: 0;
+  /* 기본 패딩 제거 */
+}
+
+.wrap .footer .inner .bt_menu ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.wrap .footer .inner .bt_menu ul li:last-child {
+  margin-right: 0;
+}
+
+.wrap .footer .inner .bt_logo img {
+  width: 100px;
+  /* 기존에 있던 width 값을 줄임 */
+  height: auto;
+  /* 높이를 자동으로 조절하여 비율 유지 */
+}
+
+.main-content {
+  margin-bottom: 100px;
+  /* footer와 겹치지 않도록 여유 공간 추가 */
+}
+
+.link-container {
+  position: relative;
+  display: flex;
+  /* 이미지와 텍스트를 수평으로 정렬 */
+  border: none;
+  /* 이미지의 border를 없앰 */
+}
+
+.link-text {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  /* 수정된 부분 */
+  max-width: auto;
+  /* 텍스트 배경의 최대 너비 지정 */
+  max-height: 40px;
+
+}
+
+
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

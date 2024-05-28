@@ -1,0 +1,55 @@
+.slider-container {
+  max-width: 800px; /* 크기를 키움 */
+  margin: 0 auto;
+  text-align: right;
+  background-color: rgb(255, 255, 255);
+}
+
+.slick-slide {
+  display: inline-block;
+  text-align: center;
+}
+
+.slick-slide .slider-link {
+  display: inline-block;
+  margin: 10px;
+}
+
+.slick-slide .slider-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10; /* 비율을 3:7로 설정 */
+  object-fit: cover;
+}
+
+.color {
+  background-color: rgb(210, 255, 255);
+  background-size: cover;
+  background-position: center;
+  transition: background-color 0.5s ease;
+}
+
+.color.scrolled {
+  background-color: transparent;
+}
+
+.color.scrolled {
+  background-color: rgb(255, 255, 255);
+}
+
+.additional-links {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.link-container {
+  margin: 0 10px;
+}
+
+.link-image {
+  width: 300px; /* 크기를 키움 */
+  height: auto;
+  aspect-ratio: 16 / 10; /* 비율을 3:7로 설정 */
+  object-fit: cover;
+}
