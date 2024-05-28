@@ -167,7 +167,7 @@ a:visited {
 }
 
 .inner {
-  width: 1200px;
+  width: 1200px;  
   margin: 0 auto;
   margin-right: 100px; /* 필요한 만큼 조정 */
 }
@@ -449,7 +449,7 @@ a:visited {
 .nav-below-image-element {
   width: 100%;
   height: auto;
-  max-height: 680px; /* 세로 크기를 650px로 제한 */
+  max-height: 670px; /* 세로 크기를 650px로 제한 */
   object-fit: cover;
 }
 
