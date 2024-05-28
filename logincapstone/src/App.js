@@ -42,13 +42,20 @@ function App() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+<<<<<<< HEAD
 
+=======
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
   const topSliderContents = [
     { id: 101, href: "https://example.com/link1", src: "IT_certifi.jpg", alt: "Top Link 1", text: "AWS 자격증" },
     { id: 102, href: "https://example.com/link2", src: "certifi.jpg", alt: "Top Link 2", text: "프랜차이즈 전문자 자격증" },
     { id: 103, href: "https://example.com/link3", src: "baristar.jpg", alt: "Top Link 3", text: "바리스타 자격증 수강신청" },
   ];
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
   const sliderContents = [
     { id: 4, href: "https://www.edu2080.co.kr/content.php?co_id=s51", src: "leader.jpg", alt: "Extra Link 4", text: "청소년지도사란? 청소년기본법 제21조 제1항에 의거하여 청소년지도사 자격시험에 합격하고 청소년지도사 연수기관에서 실시하는 연수과정을 마친 후 국가(여성가족부장관)로부터 자격을 부여 받는 국가전문자격증입니다." },
     { id: 5, href: "https://product.kyobobook.co.kr/detail/S000061351864", src: "3dprint.jpg", alt: "Extra Link 5", text: "현재 글로벌 3D 프린팅 산업은 해마다 지속적인 성장률을 보이고 있으며 최근 S/W 대기업 및 제조업체의 3D 프린터 시장 진출로 항공우주, 자동차, 덴탈, 군사 등 다양한 분야에서 시장의 변화가 다원화되는 분야인 만큼 해당 기술이 가진 진출성이 앞으로도 커질 것입니다. 이 도서는 핵심이론 및 핵심예제, 실전 모의고사뿐만 아니라 과년도+최근 기출복원문제를 한 권으로 구성해 단기간에 학습할 수 있도록 하였습니다. 산업기사 시험은 만점을 목표로 하는 시험이 아니라 평균 60점 이상을 받아 합격하는 것에 의의가 있기 때문에, 핵심만 간추려 시험에 꼭 나오는 부분을 중점적으로 공부할 수 있도록 제시하는 것이 합리적이고 계획적인 수험서가 갖추어야 할 조건입니다. Win-Q 3D프린터개발산업기사는 그 조건에 부합합니다." },
@@ -129,6 +136,10 @@ function App() {
                   </a>
                 </div>
               ))}
+<<<<<<< HEAD
+=======
+
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
             </div>
             <AdditionalLinksSlider links={sliderContents} />
           </div>
@@ -157,12 +168,15 @@ function App() {
                 <img src="/icon.png" alt="깃허브 아이콘" className="github-icon" />
               </a>
             </div>
+<<<<<<< HEAD
             <div className="site">
               <a htef="https://www.q-net.or.kr/man001.do?gSite=Q" target="_blank">
               </a>
               <a htef="https://www.comcbt.com/" target="_blank">
               </a>
             </div>
+=======
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
             <div className="bt_menu">
               <ul>
                 <li><Link to="/postlist">게시판</Link></li>
@@ -177,4 +191,8 @@ function App() {
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1

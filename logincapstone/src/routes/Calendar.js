@@ -214,6 +214,11 @@ const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 �
     }
 
     return (
+<<<<<<< HEAD
+=======
+        <>
+        <hr></hr>
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
         <div className="schedule-calendar">
             <div className="text-today">
                 <p className="text-current" onClick={scrollCurrentMonth}>
@@ -225,6 +230,10 @@ const Calendar = () => { //전체 달력을 생성하는 컴포넌트, 현재 �
             <RenderDays />
             <div className="calendar-list">{months}</div>
         </div>
+<<<<<<< HEAD
+=======
+        </>
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
     );
 };
 

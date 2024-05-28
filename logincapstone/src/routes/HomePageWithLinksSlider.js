@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // HomePageWithLinksSlider.js
+=======
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { DisplayImage } from "../firebase/firebase";
@@ -46,17 +49,29 @@ function HomePageWithLinksSlider() {
                     </div>
                     <div>
                         <a href="/linkB" className="slider-link">
+<<<<<<< HEAD
                             <DisplayImage folderName="promotions" fileName="promotions2.jpg" className="slider-image" />
+=======
+                            <DisplayImage folderName="promotions" fileName="promotions2.jpg" />
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
                         </a>
                     </div>
                     <div>
                         <a href="/linkC" className="slider-link">
+<<<<<<< HEAD
                             <DisplayImage folderName="promotions" fileName="promotions.jpg" className="slider-image" />
+=======
+                            <DisplayImage folderName="promotions" fileName="promotions.jpg" />
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
                         </a>
                     </div>
                     <div>
                         <a href="/linkD" className="slider-link">
+<<<<<<< HEAD
                             <DisplayImage folderName="promotions" fileName="promotions4.jpg" className="slider-image" />
+=======
+                            <DisplayImage folderName="promotions" fileName="promotions4.jpg" />
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
                         </a>
                     </div>
                 </Slider>

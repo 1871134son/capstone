@@ -62,10 +62,17 @@ h2 {
   font-size: 22px;
   line-height: 1.5;
   word-break: break-word;
+<<<<<<< HEAD
 
   
 }
 
+=======
+}
+
+
+
+>>>>>>> b1d2c24c615711a9d943290e11fe0e38bb5259e1
 .post-view-row input[type="text"],
 .post-view-row textarea {
   flex: 2; /* Make the input/textarea take more space */
