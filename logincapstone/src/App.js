@@ -116,7 +116,7 @@ function App() {
       </div>
 
       <div className="nav-below-image">
-        <img src="dummy.jpg" alt="Random" className="nav-below-image-element" />
+        {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && <img src="dummy.jpg" alt="Random" className="nav-below-image-element" />}
       </div>
 
       {!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/') && (
@@ -135,11 +135,9 @@ function App() {
               ))}
             </div>
             <div className="spacing"></div> {/* Added spacing div */}
-
             <AdditionalLinksSlider links={sliderContents} />
           </div>
           <div className="spacing"></div> {/* Added spacing div */}
-
         </>
       )}
 
@@ -182,5 +180,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
