@@ -27,6 +27,6 @@
   /* 넘치는 내용 숨기기 */
   text-overflow: ellipsis;
   /* 20글자 이후 ... 표시 */
-  max-width: 300px;
+  max-width: 500px;
   /* 필요에 따라 조정 */
 }

@@ -51,15 +51,21 @@
   margin-right: 100px;
 }
 
-.link-image {
-  width: 150px;
-  height: 150px;
+.link-container {
+  text-align: center;
+  margin: 30px;
+  position: relative;
+  display: flex;
+  border: none;
 }
 
 .link-container .link-image {
-  width: 100%; /* 가로 길이를 부모 요소에 맞춤 */
-  aspect-ratio: 16 / 9; /* 비율 설정 */
-  object-fit: cover; /* 이미지가 비율을 유지하면서 컨테이너를 채우도록 설정 */
+  width: 100%;
+  /* 가로 길이를 부모 요소에 맞춤 */
+  aspect-ratio: 16 / 9;
+  /* 비율 설정 */
+  object-fit: cover;
+  /* 이미지가 비율을 유지하면서 컨테이너를 채우도록 설정 */
 }
 
 .link-image:hover {
@@ -67,36 +73,28 @@
 }
 
 
-.link-container {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 30px;
-  position: relative;
-  display: flex;
-}
-
 .link-image {
   width: 100%;
   height: auto;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 
-.link-container {
-  position: relative;
-  display: flex;
-  /* 이미지와 텍스트를 수평으로 정렬 */
-  border: none;
-  /* 이미지의 border를 없앰 */
-}
 
 .link-text {
   position: absolute;
-  bottom: 0; /* 이미지의 하단에 위치 */
-  left: -100%; /* 텍스트 박스를 왼쪽으로 이동 */
-  width: 80%; /* 텍스트 박스의 너비를 줄임 */  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   padding: 5px;
   box-sizing: border-box;
+  font-size: 17px;
+  position: absolute;
+  bottom: 15px;
+  left: 30px;
+  padding: 10px;
+  max-height: 40px;
 }
 
 .links-wrapper {
@@ -138,7 +136,6 @@ a:visited {
 
 .wrap {
   position: relative;
-  min-height: 100vh;
 }
 
 .inner {
@@ -359,46 +356,34 @@ a:visited {
 }
 
 .wrap .footer {
-  padding-top: 20px;
-  /* footer의 상단 패딩을 추가하여 sliderContents와 겹치지 않도록 조정 */
-  padding-bottom: 30px;
   width: 100%;
   background-color: #ff8c3f;
   color: #fff;
   z-index: 1;
-  /* 다른 요소보다 낮은 값으로 설정 */
 }
 
 .wrap .footer .inner {
   display: flex;
-  /* 요소들을 수평으로 배치하기 위해 Flexbox 사용 */
-  justify-content: flex-end;
-  /* 요소들을 오른쪽으로 정렬 */
-  align-items: center;
-  /* 요소들을 세로 중앙 정렬 */
+  align-items: flex-end;
 }
 
 .wrap .footer .inner .bt_logo {
   width: 200px;
-  margin-right: auto;
-  /* 로고를 왼쪽으로 정렬 */
+  margin-right: 500px;
 }
 
 .wrap .footer .inner .bt_menu {
   margin-left: auto;
-  /* 메뉴를 오른쪽으로 정렬 */
 }
 
 .wrap .footer .inner .bt_menu ul {
   font-size: 16px;
   margin: 0;
-  /* 기본 마진 제거 */
   padding: 0;
-  /* 기본 패딩 제거 */
 }
 
 .wrap .footer .inner .bt_menu ul li {
-  display: inline-block;
+  display: flex;
   margin-right: 10px;
 }
 
@@ -408,41 +393,96 @@ a:visited {
 
 .wrap .footer .inner .bt_logo img {
   width: 100px;
-  /* 기존에 있던 width 값을 줄임 */
   height: auto;
-  /* 높이를 자동으로 조절하여 비율 유지 */
+}
+
+.wrap {
+  position: relative;
+}
+
+.nav-below-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+  /* Adjusted margin for spacing */
+}
+
+.nav-below-image-element {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .main-content {
-  margin-bottom: 100px;
-  /* footer와 겹치지 않도록 여유 공간 추가 */
+  margin: 40px 0;
+  /* Adjusted margin for spacing */
+}
+
+.additional-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 40px 0;
 }
 
 .link-container {
-  position: relative;
+  margin: 20px;
+  text-align: center;
+}
+
+.spacing {
+  height: 400px;
+}
+
+.slider-spacing {
+  height: 400px;
+}
+
+.footer {
+  margin-top: 40px;
+}
+
+.footer .inner {
+  padding: 20px;
+}
+
+.footer .bt_logo {
+  margin-bottom: 20px;
+  margin-left: -200px;
+}
+
+.footer .site {
   display: flex;
-  /* 이미지와 텍스트를 수평으로 정렬 */
-  border: none;
-  /* 이미지의 border를 없앰 */
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
 }
 
-.link-text {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  color: white;
-  font-size: 16px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  /* 수정된 부분 */
-  max-width: auto;
-  /* 텍스트 배경의 최대 너비 지정 */
-  max-height: 40px;
-
+.footer .site a {
+  color: #007bff;
+  text-decoration: none;
+  margin-bottom: 10px;
 }
 
+.footer .site a:hover {
+  text-decoration: underline dotted;
+}
 
+.footer .bt_menu {
+  margin-top: 20px;
+}
 
+.footer .bt_menu ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.footer .bt_menu ul li {
+  margin: 10px 10px;
+}
 
 @keyframes App-logo-spin {
   from {
