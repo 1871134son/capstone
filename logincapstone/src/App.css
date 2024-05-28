@@ -2,11 +2,7 @@
 @font-face {
   font-family: 'TheBlackJackL';
   src:
-<<<<<<< HEAD
     url('./fonts/BMEuljiro10yearslater.ttf') format('truetype');
-=======
-    url('./fonts/THE블랙잭L.ttf') format('truetype');
->>>>>>> c250d381085de762cf8a8cc2beba0c8656c14470
   font-weight: normal;
   font-style: normal;
 }
