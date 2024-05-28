@@ -1,0 +1,125 @@
+.certification-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+}
+
+header img {
+  
+  width: 100%;
+  height: auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+aside {
+  width: 100%; /* 가로 전체 너비 */
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 상자 그림자 추가 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  font-family: 'Arial', sans-serif; /* 폰트 스타일 변경 */
+  transition: top 0.3s ease-in-out; /* 위치 변경 시 부드러운 애니메이션 */
+  position: static;
+  top: 0;
+  z-index: 1000; /* 콘텐츠 위에 표시되도록 z-index 조정 */
+  border: 1px solid #ddd; /* 테두리 추가 */
+}
+
+aside ul {
+  display: flex; /* 가로로 나열 */
+  justify-content: center; /* 가운데 정렬 */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+aside li {
+  margin: 0 20px; /* 리스트 아이템 간격 추가 */
+}
+
+aside li a {
+  display: block;
+  padding: 12px 20px; /* 패딩 조정 */
+  text-decoration: none;
+  color: #000000; /* 텍스트 색상 변경 */
+  font-weight: bold; /* 글자 굵게 */
+  font-size: 16px; /* 글자 크기 조정 */
+  letter-spacing: 1px; /* 글자 간격 조정 */
+  border-radius: 5px; /* 링크 모서리 둥글게 */
+  transition: background-color 0.3s; /* 배경색 변경 애니메이션 */
+}
+
+aside li a:hover {
+  background-color: rgb(224, 236, 239); /* 호버 시 배경색 변경 */
+  color: #000; /* 호버 시 텍스트 색상 변경 */
+}
+
+main {
+  flex-grow: 1;
+  padding: 20px;
+  margin-top: 20px; /* 상단 바와 간격 */
+}
+
+.certification-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* 카드 가운데 정렬 */
+}
+
+body {
+  background: #ffffff;
+  text-align: center;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(33.333% - 20px);
+  padding: 20px;
+  box-sizing: border-box;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 24px; /* 글자 크기 조정 */
+}
+
+.card p {
+  margin: 10px 0;
+  color: #666;
+  font-size: 16px; /* 글자 크기 조정 */
+}
+
+.card button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-end; /* Ensures button is aligned at the bottom right corner */
+}
+
+.card button:hover {
+  background-color: #0056b3;
+}
