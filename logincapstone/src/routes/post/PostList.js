@@ -8,15 +8,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import dateFormat from 'dateformat';
 import './PostList.css';
 
-
 const PostMain = () => {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,9 +26,6 @@ const PostMain = () => {
     };
     fetchData();
   }, []);
-
-
-
 
   useEffect(() => {
     const auth = getAuth();
@@ -50,7 +44,6 @@ const PostMain = () => {
 
     return () => unsubscribe();
   }, []);
-
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -110,12 +103,11 @@ const PostMain = () => {
             <CommonTable className="top" headersName={['글번호', '제목', '등록일', '작성자']}>
               {currentPosts.map((item, index) => (
                 <CommonTableRow key={index}>
-                  <CommonTableColumn className="num"><div className="post-number">{item.brdno}</div></CommonTableColumn>
+                  <CommonTableColumn className="num">{item.brdno}</CommonTableColumn>
                   <CommonTableColumn>
-                    <Link to={`/postView/${item.id}`}className="titlehover">{item.title}</Link>
+                    <Link to={`/postView/${item.id}`} className="titlehover">{item.title}</Link>
                   </CommonTableColumn>
                   <CommonTableColumn>{dateFormat(item.brddate, "yyyy-mm-dd")}</CommonTableColumn>
-
                   <CommonTableColumn>{item.brdwriter}</CommonTableColumn>
                 </CommonTableRow>
               ))}
@@ -132,8 +124,6 @@ const PostMain = () => {
             <a href="#" className="bt next" onClick={goToNextPage}>{">"}</a>
             <a href="#" className="bt last" onClick={goToLastPage}>{">>"}</a>
           </div>
-          {/* "글쓰기" 버튼을 감싸는 Link 컴포넌트, custom-write-button 클래스를 사용하여 스타일 적용 */}
-          {/* 조건부 렌더링 */}
           {currentUser ? (
             <Link to="/write">
               <button className="custom-write-button">글쓰기</button>
@@ -143,7 +133,6 @@ const PostMain = () => {
               <button className="custom-write-button">글쓰기</button>
             </Link>
           )}
-
           <div className="bt_wrap">
             <a href="#" className="on">목록</a>
           </div>

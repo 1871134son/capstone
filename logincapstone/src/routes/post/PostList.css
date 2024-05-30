@@ -1,207 +1,135 @@
-/* 모든 요소의 기본 여백과 패딩을 초기화합니다. */
+/* Reset basic styles */
 * {
   margin: 0;
   padding: 0;
-  
+  box-sizing: border-box;
 }
 
-/* 기본 목록 스타일을 제거합니다. */
-ul,
-li {
-  list-style: none;
+/* Basic font and background color */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-/* 앵커 링크 스타일을 설정합니다. */
-a {
-  text-decoration: none;
-  color: inherit; /* 부모 요소에서 상속된 색상을 사용합니다. */
-}
-
-/* 게시판을 감싸는 요소의 스타일을 설정합니다. */
+/* Container for the board */
 .board_wrap {
-  width: 1700px; /* 너비를 1000픽셀로 설정합니다. */
-  margin: 100px auto; /* 수평 가운데 정렬합니다. */
-  margin-top: 50px; /* 위 여백을 추가합니다. */
+  width: 80%;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-/* 게시판 제목의 스타일을 설정합니다. */
+/* Board title styling */
 .board_title {
-  margin-bottom: 10px; /* 아래 여백을 추가합니다. */
-  
-}
-
-/* 게시판 제목 내 강조 텍스트의 스타일을 설정합니다. */
-.board_title strong {
-  font-size: 3rem;
-  text-align: center; /* Align the text to the right */
-  margin-right: -160px; /* 오른쪽 여백을 추가합니다. */
-}
-
-/* 게시판 제목 내 문단의 스타일을 설정합니다. */
-.board_title p {
-  margin-top: 5px; /* 위 여백을 추가합니다. */
-  font-size: 10em; /* 글꼴 크기를 설정합니다. */
-  
-}
-
-/* 버튼을 감싸는 요소의 스타일을 설정합니다. */
-.bt_wrap {
-  margin-top: 0px; /* 위 여백을 추가합니다. */
-  text-align: center; /* 텍스트를 가운데 정렬합니다. */
-  font-size: 0; /* 공간을 제거하기 위해 글꼴 크기를 0으로 설정합니다. */
-  
-}
-
-
-/* 버튼의 스타일을 설정합니다. */
-.bt_wrap a {
-  display: inline-block; /* 요소를 인라인 블록으로 표시합니다. */
-  min-width: 80px; /* 최소 너비를 설정합니다. */
-  margin-left: 10px; /* 왼쪽 여백을 추가합니다. */
-  padding: 10px; /* 안쪽 여백을 추가합니다. */
-  border: 1px solid #ffffff; /* 테두리를 추가합니다. */
-  border-radius: 2px; /* 테두리 반경을 설정합니다. */
-  font-size: 1rem; /* 글꼴 크기를 설정합니다. */
-  
-}
-
-/* 첫 번째 자식 버튼의 스타일을 설정합니다. */
-.bt_wrap a:first-child {
-  margin-left: 0; /* 왼쪽 여백을 제거합니다. */
-}
-
-/* 활성화된 버튼의 스타일을 설정합니다. */
-.bt_wrap a.on {
-  background: #000; /* 배경색을 설정합니다. */
-  color: #fff; /* 텍스트 색상을 설정합니다. */
-}
-
-/* 게시판 목록의 스타일을 설정합니다. */
-.board_list {
-  width: 100%; /* 너비를 100%로 설정합니다. */
-  border-top: 2px solid #000000; /* 윗 테두리를 추가합니다. */
-  
-}
-
-/* 각 행의 스타일을 설정합니다. */
-.board_list > div {
-  border-bottom: 1px solid #ddd; /* 아래 테두리를 추가합니다. */
-  font-size: 0; /* 공간을 제거하기 위해 글꼴 크기를 0으로 설정합니다. */
-}
-
-/* 상단 행의 스타일을 설정합니다. */
-.board_list > div.top {
-  border-bottom: 1px solid #999; /* 아래 테두리 색상을 변경합니다. */
-}
-
-/* 마지막 행의 스타일을 설정합니다. */
-.board_list > div:last-child {
-  border-bottom: 2px solid #000; /* 아래 테두리 색상을 변경합니다. */
-}
-
-/* 각 행 내 열의 스타일을 설정합니다. */
-.board_list > div > div {
-  display: inline-block; /* 요소를 인라인 블록으로 표시합니다. */
-  padding: 15px 0; /* 안쪽 여백을 추가합니다. */
-  text-align: center; /* 텍스트를 가운데 정렬합니다. */
-  font-size: 1.4rem; /* 글꼴 크기를 설정합니다. */
-}
-
-/* 상단 행 내 열의 스타일을 설정합니다. */
-.board_list > div.top > div {
-  font-weight: 600; /* 글꼴 두께를 두껍게 설정합니다. */
-}
-
-/* 번호 열의 너비를 설정합니다. */
-.board_list .num {
-  width: 10%; /* 너비를 10%로 설정합니다. */
-}
-
-/* 제목 열의 너비를 설정합니다. */
-.board_list .title {
-  width: 60%; /* 너비를 60%로 설정합니다. */
-  text-align: left; /* 텍스트를 왼쪽 정렬합니다. */
-}
-
-/* 상단 제목 열의 스타일을 설정합니다. */
-.board_list .top .title {
-  text-align: center; /* 텍스트를 가운데 정렬합니다. */
-}
-
-/* 작성자 열의 너비를 설정합니다. */
-.board_list .writer {
-  width: 10%; /* 너비를 10%로 설정합니다. */
-}
-
-/* 날짜 열의 너비를 설정합니다. */
-.board_list .date {
-  width: 10%; /* 너비를 10%로 설정합니다. */
-}
-
-/* 페이지네이션의 스타일을 설정합니다. */
-.board_page {
-  margin-top: 30px; /* 위 여백을 추가합니다. */
-  text-align: center; /* 텍스트를 가운데 정렬합니다. */
-  font-size: 0; /* 공간을 제거하기 위해 글꼴 크기를 0으로 설정합니다. */
-}
-
-/* 페이지네이션 링크 버튼의 스타일을 설정합니다. */
-.board_page a {
-  display: inline-block; /* 요소를 인라인 블록으로 표시합니다. */
-  width: 32px; /* 너비를 32픽셀로 설정합니다. */
-  height: 32px; /* 높이를 32픽셀로 설정합니다. */
-  box-sizing: border-box; /* 테두리를 상자의 경계선으로 설정합니다. */
-  vertical-align: middle; /* 수직 정렬을 설정합니다. */
-  border: 1px solid #ddd; /* 테두리를 추가합니다. */
-  border-left: 0; /* 왼쪽 테두리를 제거합니다. */
-  line-height: 100%; /* 줄 높이를 설정합니다. */
-}
-
-/* 페이지네이션 버튼의 텍스트 스타일을 설정합니다. */
-.board_page a.bt {
-  padding-top: 10px; /* 위 여백을 추가합니다. */
-  font-size: 1.2rem; /* 글꼴 크기를 설정합니다. */
-  letter-spacing: -1px; /* 글자 간격을 조정합니다. */
-}
-
-/* 페이지 번호 버튼의 텍스트 스타일을 설정합니다. */
-.board_page a.num {
-  padding-top: 9px; /* 위 여백을 추가합니다. */
-  font-size: 1.4rem; /* 글꼴 크기를 설정합니다. */
-}
-
-/* 활성화된 페이지 번호 버튼의 스타일을 설정합니다. */
-.board_page a.num.on {
-  border-color: #000; /* 테두리 색상을 변경합니다. */
-  background: #000; /* 배경색을 설정합니다. */
-  color: #fff; /* 텍스트 색상을 설정합니다. */
-}
-
-/* 첫 번째 페이지 번호 버튼의 왼쪽 테두리를 설정합니다. */
-.board_page a:first-child {
-  border-left: 1px solid #ddd; /* 왼쪽 테두리를 추가합니다. */
-}
-
-.items-per-page {
-  text-align: center; /* Align the content to the right */
-  margin-right: 1160px; /* Add some right margin for spacing */
-}
-
-.board_title {
+  text-align: center;
   margin-bottom: 30px;
-  text-align: center; /* Align the content to the right */
-  margin-right: 160px; /* Add some right margin for spacing */
 }
 
+.board_title strong {
+  font-size: 2.5rem;
+  color: #28a745;
+}
 
 .board_title p {
-  margin-top: 5px;
-  font-size: 1.4rem;
-  margin-right: 20px; /* Add some right margin for spacing */
+  font-size: 1.2rem;
+  color: #666;
 }
 
-/* "글쓰기" 버튼의 커스텀 스타일 추가 */
+/* Buttons wrapper */
+.bt_wrap {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.bt_wrap a {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.bt_wrap a:hover {
+  background-color: #218838;
+}
+
+/* Board list styling */
+.board_list {
+  width: 100%;
+  border-top: 2px solid #28a745;
+}
+
+.board_list > div {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.board_list > div.top {
+  font-weight: bold;
+}
+
+.board_list .num,
+.board_list .title,
+.board_list .writer,
+.board_list .date {
+  flex: 1;
+  text-align: center;
+}
+
+.board_list .title {
+  flex: 2;
+  text-align: left;
+}
+
+/* Pagination styling */
+.board_page {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.board_page a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 2px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.board_page a:hover,
+.board_page a.num.on {
+  background-color: #28a745;
+  color: #fff;
+  border-color: #28a745;
+}
+
+/* Write button styling */
 .custom-write-button {
+  /* background-color: #28a745;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s, transform 0.3s;
+  margin: 20px 0;
+  display: block;
+  width: fit-content;
+  margin-left: auto; */
+
+
   background-color:  #28a745 !important; /* 배경색을 초록색으로 설정 */
   border: none !important; /* 테두리를 제거 */
   color: white !important; /* 텍스트 색상을 흰색으로 설정 */
@@ -219,42 +147,36 @@ a {
 }
 
 .custom-write-button:hover {
-  background-color: #28a745 !important; /* 호버 시 약간 더 밝은 초록색 */
-  transform: scale(1.05); /* 호버 시 약간 확대 */
+  background-color: #218838;
+  transform: scale(1.05);
 }
 
 .custom-write-button:active {
-  background-color: #218838 !important; /* 활성화 시 더 어두운 초록색 */
-  transform: scale(1); /* 활성화 시 원래 크기 */
+  background-color: #1e7e34;
+  transform: scale(1);
 }
 
-
-
-
 .custom-write-button:focus {
-  outline: none; /* Remove outline */
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5); /* Custom focus shadow */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5);
 }
 
 .commentInputTitle {
   text-align: center;
   font-weight: bold;
-  font-size: 1.8rem; /* Adjust font size as needed */
-  margin-bottom: 20px; /* Add some bottom margin for spacing */
+  font-size: 1.8rem;
+  margin-bottom: 20px;
 }
 
-/* Input field styling */
 .commentInput {
-  width: calc(100% - 80px); /* Adjust width to fit container */
+  width: calc(100% - 80px);
   padding: 10px;
-  margin-right: 10px; /* Add some right margin for spacing */
+  margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
-  box-sizing: border-box;
 }
 
-/* Button styling */
 .commentButton {
   padding: 10px 20px;
   border: none;
@@ -269,9 +191,6 @@ a {
   background-color: #218838;
 }
 
-
-
-/* 제목에 마우스를 올렸을 때 밑줄이 생기도록 설정합니다. */
 a.titlehover:hover {
   text-decoration: underline;
 }
