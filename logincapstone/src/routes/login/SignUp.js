@@ -187,7 +187,7 @@ function SignUpSecond() {
 
     return (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '95vh' }}>
-            <Card className="box" style={{ minWidth: '500px', maxWidth: '600px', borderWidth: '1px' }}>
+            <Card className="box" style={{ minWidth: '500px', maxWidth: '600px', borderWidth: '1px', top: '-450px' }}>
                 <Card.Header className="box" style={{ fontSize: "22px", fontWeight: "bold" }}>EduNavi에 오신 것을 환영합니다!</Card.Header>
                 <Card.Body>
                     <Form onSubmit={handleSubmit}>
