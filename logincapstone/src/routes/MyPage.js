@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
 import { getStorage,ref,uploadBytes  } from "firebase/storage";
 import {SearchLicenseComponent, UserNameComponent, NotificationBell} from "../testStuff/stuff.js";
-import './Mypage.css';
 import { Form, Button, Container, Row, Col, Card, Navbar } from 'react-bootstrap';
 
 function MyPage(){
@@ -70,7 +69,7 @@ useEffect(() => {
     return(
         <>
         {/* 메인 컨텐츠 영역 */}
-        <Container style={{ marginTop: '-81px',backgroundColor: '#F0F8FF' }}>
+        <Container style={{ marginTop: '-415px',backgroundColor: '#F0F8FF' }}>
           <Row>
             {/* 사용자 정보 Card */}
               <Card style={{ maxWidth: '450px', float: 'left', margin: '70px' }}>

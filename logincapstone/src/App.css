@@ -465,14 +465,14 @@ a:visited {
   width: 100vw;
   display: flex;
   justify-content: center;
-  margin-bottom: 200px; /* 위쪽 여백을 40px로 설정 */
-  /* Adjusted margin for spacing */
+  margin-bottom: 200px;
+  /* 위쪽 여백을 40px로 설정 */
 }
-.image-with-text1{
+
+.image-with-text1 {
   width: 100%;
   display: flex;
   justify-content: center;
-  /* Adjusted margin for spacing */
 }
 
 
@@ -508,15 +508,17 @@ a:visited {
   text-align: center;
   transition: all 0.3s ease-in-out;
   border: 2px solid #ffa03a;
+  background: linear-gradient(to right, #6190E8, #A7BFE8);
   border-style: inset;
   border-radius: 5px;
   width: calc(20% - 20px);
-    height: 200px;
-    padding: 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+  height: 200px;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
+
 .main-text {
   font-size: 18px;
   font-weight: bold;
@@ -531,30 +533,33 @@ a:visited {
 .info-box:hover .sub-text {
   display: none;
 }
+
 .sub-text {
   font-size: 14px;
   margin-top: 10px;
 }
+
 .info-box img {
   width: 100%;
   height: auto;
   margin-bottom: 10px;
   text-align: center;
-  margin-left:120px;
+  margin-left: 120px;
 }
+
 .info-box-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 20px;
 }
+
 .info-box:hover .overlay-text {
   opacity: 1;
 }
 
 .main-content {
   margin: 40px 0;
-  /* Adjusted margin for spacing */
 }
 
 .additional-links {
@@ -567,14 +572,6 @@ a:visited {
 .link-container {
   margin: 20px;
   text-align: center;
-}
-
-.spacing {
-  height: 200px;
-}
-
-.slider-spacing {
-  height: 400px;
 }
 
 .footer {
@@ -621,11 +618,13 @@ a:visited {
   margin: 10px 10px;
 }
 
-.hometext{
+.hometext {
   font-weight: bold;
-  font-size: 40px;
+  font-size: 24px;
   color: #2e2e2e;
+  margin-top: 100px;
 }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
