@@ -6,7 +6,6 @@
 }
 
 header img {
-  
   width: 100%;
   height: auto;
 }
@@ -21,16 +20,16 @@ header img {
 
 aside {
   width: 100%; /* 가로 전체 너비 */
-  background-color: #ffffff;
+  background: linear-gradient(to right, #D66D75, #E29587);
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 상자 그림자 추가 */
-  border-radius: 10px; /* 모서리 둥글게 */
+  border-radius: 20px; /* 모서리 둥글게 */
   font-family: 'Arial', sans-serif; /* 폰트 스타일 변경 */
   transition: top 0.3s ease-in-out; /* 위치 변경 시 부드러운 애니메이션 */
   position: static;
   top: 0;
   z-index: 1000; /* 콘텐츠 위에 표시되도록 z-index 조정 */
-  border: 1px solid #ddd; /* 테두리 추가 */
+  border: 1px solid #ffefd7; /* 테두리 추가 */
 }
 
 aside ul {
@@ -49,17 +48,12 @@ aside li a {
   display: block;
   padding: 12px 20px; /* 패딩 조정 */
   text-decoration: none;
-  color: #000000; /* 텍스트 색상 변경 */
+  color: #ffffff !important; /* 텍스트 색상 변경 */
   font-weight: bold; /* 글자 굵게 */
   font-size: 16px; /* 글자 크기 조정 */
   letter-spacing: 1px; /* 글자 간격 조정 */
   border-radius: 5px; /* 링크 모서리 둥글게 */
   transition: background-color 0.3s; /* 배경색 변경 애니메이션 */
-}
-
-aside li a:hover {
-  background-color: rgb(224, 236, 239); /* 호버 시 배경색 변경 */
-  color: #000; /* 호버 시 텍스트 색상 변경 */
 }
 
 main {
@@ -68,11 +62,11 @@ main {
   margin-top: 20px; /* 상단 바와 간격 */
 }
 
-.certification-cards {
+.certification-style {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center; /* 카드 가운데 정렬 */
+  justify-content: flex-start; /* 카드 왼쪽 정렬 */
 }
 
 body {
@@ -80,12 +74,13 @@ body {
   text-align: center;
 }
 
-.card {
-  background-color: #fff;
+.styles {
+  background: linear-gradient(to right, #6b0b71, #bb0c0c);
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: calc(33.333% - 20px);
+  width: 550px;
+  height: 240px; /* 높이를 너비와 동일하게 설정하여 정사각형으로 만듦 */
   padding: 20px;
   box-sizing: border-box;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -94,23 +89,26 @@ body {
   justify-content: space-between;
 }
 
-.card:hover {
+.styles:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.card h3 {
+.styles h3 {
   margin-top: 0;
   font-size: 24px; /* 글자 크기 조정 */
+  color: #ffffff;
+  font-weight: bold; /* 글자 굵게 */
 }
 
-.card p {
+.styles p {
   margin: 10px 0;
-  color: #666;
+  color: #ffffff;
   font-size: 16px; /* 글자 크기 조정 */
+
 }
 
-.card button {
-  background-color: #007bff;
+.styles button {
+  background-color: #8fec6b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -120,6 +118,32 @@ body {
   align-self: flex-end; /* Ensures button is aligned at the bottom right corner */
 }
 
-.card button:hover {
-  background-color: #0056b3;
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+/* Additional styles for modal content */
+.detail-info {
+  margin-top: 20px;
 }
