@@ -121,7 +121,6 @@ function App() {
         {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && (
           <div className="image-with-text1">
             <img src="edunavi.jpg" alt="Random" className="nav-below-image-element" />
-            <div className="spacing"></div> {/* Added spacing div */}
           </div>
         )}
       </div>
@@ -129,7 +128,6 @@ function App() {
         {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && (
           <div className="image-with-text">
             <img src="main.jpg" alt="Random" className="nav-below-image-element" />
-            <div className="spacing"></div> {/* Added spacing div */}
 
           </div>
         )}
