@@ -134,7 +134,7 @@ li {
 
 /* 링크 간 간격을 조절하는 부분 */
 .main_menu li:not(:last-child) a {
-  margin-right: -27px; /* 링크 간 오른쪽 마진 추가 */
+  margin-right: -25px; /* 링크 간 오른쪽 마진 추가 */
   font-family: '맑은 고딕'; /* 글꼴 지정 */
 }
 
@@ -230,8 +230,6 @@ a:visited {
   font-size: 18px;
   color: #000000;
 }
-
-
 .slide {
   width: 1200px;
   height: 300px;
@@ -435,6 +433,11 @@ a:visited {
 
 .wrap {
   position: relative;
+}
+
+.link-container .move-left {
+  margin-left: -100px; /* 필요한 만큼 조정하세요 */
+  display: inline-block; /* 인라인 요소이므로 블록으로 설정하여 margin이 적용되게 함 */
 }
 
 .nav-below-image {
