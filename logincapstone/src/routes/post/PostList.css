@@ -116,9 +116,9 @@ body {
 
 /* Write button styling */
 .custom-write-button {
-  /* background-color: #28a745;
-  border: none;
-  color: white;
+  background-color: #28a745 !important;
+  border: none !important;
+  color: white !important;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -127,23 +127,10 @@ body {
   margin: 20px 0;
   display: block;
   width: fit-content;
-  margin-left: auto; */
+  margin-left: auto; 
+  margin-left: 1170px !important;
+  
 
-
-  background-color:  #28a745 !important; /* 배경색을 초록색으로 설정 */
-  border: none !important; /* 테두리를 제거 */
-  color: white !important; /* 텍스트 색상을 흰색으로 설정 */
-  padding: 10px 20px; /* 패딩 추가 */
-  font-size: 16px; /* 폰트 크기 설정 */
-  cursor: pointer; /* 커서를 포인터로 설정 */
-  border-radius: 6px; /* 모서리를 둥글게 설정 */
-  transition: background-color 0.3s ease, transform 0.3s ease; /* 부드러운 전환 효과 */
-  display: block; /* 버튼을 블록 수준 요소로 설정 */
-  margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
-  width: fit-content; /* 버튼의 너비를 내용에 맞게 설정 */
-  position: relative; /* 상대적 위치 설정 */
-  top: -50px; /* 위로 10px 이동 */
-  left: -220px; /* 왼쪽으로 10px 이동 */
 }
 
 .custom-write-button:hover {
