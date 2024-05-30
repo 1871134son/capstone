@@ -91,7 +91,7 @@ function App() {
           <div className="nav">
             <ul className="main_menu">
               <li>
-                <Link to="/certificationInfo">자격증 정보</Link>
+                <Link to="/certificationInfo" className="move-left">자격증 정보</Link>
               </li>
               <li>
                 <Link to="/postlist">게시판</Link>
