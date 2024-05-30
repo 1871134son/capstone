@@ -86,9 +86,13 @@ function SearchLicenseComponent() {
           placeholder="자격증 검색"
           className="search-input" // 스타일 적용을 위해 클래스 추가
         />
-        <datalist id="license_id">
-          {/* 자격증 리스트 옵션 */}
-        </datalist>
+         <datalist id="license_id">
+                                    {licenseList &&
+                                        licenseList.map((license, index) => ( //데이터 리스트에 자격증 정보를 삽입 
+                                            <option key={index} value={license.name}>{license.name}</option>
+                                        ))
+                                    }
+                                </datalist>
         <button
           onClick={handleSearch}
           className="search-button" // 스타일 적용을 위해 클래스 추가
