@@ -86,7 +86,7 @@ const PostMain = () => {
     <>
       <div className="board_wrap">
         <div className="board_title">
-          <strong>게시판</strong>
+          <strong>게 시 판</strong>
         </div>
         <div className="items-per-page">
           <span>Show: </span>

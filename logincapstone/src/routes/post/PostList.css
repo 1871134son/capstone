@@ -181,3 +181,9 @@ body {
 a.titlehover:hover {
   text-decoration: underline;
 }
+
+
+.items-per-page {
+  text-align: center; /* Align the content to the right */
+  margin-right: 1080px; /* Add some right margin for spacing */
+}
