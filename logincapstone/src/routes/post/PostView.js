@@ -203,6 +203,7 @@ const PostView = () => {
 
   return (
     <>
+    <div className='post-main'>
       <h2 align="center">게시글 상세정보</h2>
       <div className="post-view-wrapper">
         {data ? (
@@ -315,6 +316,7 @@ const PostView = () => {
           />
           <button onClick={handleAddComment} className="comment-button">등 록</button>
         </div>
+      </div>
       </div>
     </>
   );
