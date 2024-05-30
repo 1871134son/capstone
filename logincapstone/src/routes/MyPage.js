@@ -9,12 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {fetchingLicenseList,sortLicenseList} from '../redux/store.js'; 
 import { getStorage,ref,uploadBytes  } from "firebase/storage";
 import {SearchLicenseComponent, UserNameComponent, NotificationBell} from "../testStuff/stuff.js";
+import './Mypage.css';
+import { Form, Button, Container, Row, Col, Card, Navbar } from 'react-bootstrap';
 
-
-  import { Form, Button, Container, Row, Col, Card, Navbar } from 'react-bootstrap';
-
-
- 
 function MyPage(){
 
     return(
@@ -73,10 +70,10 @@ useEffect(() => {
     return(
         <>
         {/* 메인 컨텐츠 영역 */}
-        <Container style={{ marginTop: '60px',backgroundColor: '#F0F8FF' }}>
+        <Container style={{ marginTop: '-81px',backgroundColor: '#F0F8FF' }}>
           <Row>
             {/* 사용자 정보 Card */}
-              <Card>
+              <Card style={{ maxWidth: '450px', float: 'left', margin: '70px' }}>
                 <Card.Header>
                 <h3>사용자 정보{<UserNameComponent style={{}}></UserNameComponent>}</h3>
                 </Card.Header>
@@ -85,7 +82,7 @@ useEffect(() => {
                   <div style={{
                       display: 'flex',
                       justifyContent: 'center',
-                      alignItems: 'center'
+                      alignItems: 'center',
                     }}>
                   <DisplayImage folderName="userImage" fileName = {`user.png`}  style={{ width: '250px'  }}
                     className="rounded-circle"></DisplayImage>
