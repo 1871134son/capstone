@@ -35,26 +35,20 @@ function HomePageWithLinksSlider() {
 
     return (
         <div className={`color ${isScrolled ? 'scrolled' : ''}`}>
-            <hr></hr>
             <div className="slider-container">
                 <Slider {...settings}>
                     <div>
-                        <a href="/linkA" className="slider-link">
-                            <DisplayImage folderName="promotions" fileName="promotions1.jpg" className="slider-image" />
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/linkB" className="slider-link">
+                        <a href="https://www.wevity.com/index_university.php?c=find&s=_university&gbn=viewok&gp=3&ix=85945" target="_blank" className="slider-link">
                             <DisplayImage folderName="promotions" fileName="promotions2.jpg" />
                         </a>
                     </div>
                     <div>
-                        <a href="/linkC" className="slider-link">
+                        <a href="https://www.wevity.com/index_university.php?c=find&s=_university&gbn=viewok&gp=7&ix=87256" target="_blank" className="slider-link">
                             <DisplayImage folderName="promotions" fileName="promotions3.jpg" />
                         </a>
                     </div>
                     <div>
-                        <a href="/linkD" className="slider-link">
+                        <a href="https://linkareer.com/activity/124196" target="_blank" className="slider-link">
                             <DisplayImage folderName="promotions" fileName="promotions4.jpg" />
                         </a>
                     </div>

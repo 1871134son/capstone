@@ -57,11 +57,15 @@ h2 {
 }
 
 .post-view-wrapper {
+  
+
+
   padding: 20px;
   max-width: 800px;
   margin: 30px auto;
-  /* Center the wrapper with auto margins */
   background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 .post-view-row {
@@ -105,8 +109,8 @@ h2 {
   display: flex;
   justify-content: flex-end;
   /* Align buttons to the end */
-  margin-top: 20px;
-  margin-right: -10px;
+  margin-top: -20px;
+  margin-right: 410px;
 }
 
 .post-view-actions button {

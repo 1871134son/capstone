@@ -254,6 +254,7 @@ const PostView = () => {
         ) : (
           '해당 게시글을 찾을 수 없습니다.'
         )}
+        </div>
         <div className="post-view-actions">
           <button className="post-view-go-list-btn" onClick={() => navigate(-1)}>목록</button>
           {currentUserUID === data.uid && (
@@ -268,7 +269,7 @@ const PostView = () => {
             <button className="post-view-go-list-btn1" onClick={handleDelete}>삭제</button>
           )}
         </div>
-      </div>
+      
 
       <div className="comments-section">
         {comments.map((comment, index) => (

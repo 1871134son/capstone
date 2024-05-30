@@ -1,4 +1,5 @@
 
+
 .App {
   text-align: center;
 }
@@ -123,35 +124,48 @@
   padding: 0;
   margin: 10px;
   top: 5px;
-  position: relative; /* 상대적 위치 설정 */
+  position: relative;
+  /* 상대적 위치 설정 */
 }
 
 li {
   list-style: none;
-  margin-left: 10px; /* 왼쪽 여백 추가 */
+  margin-left: 10px;
+  /* 왼쪽 여백 추가 */
 
 }
 
 /* 링크 간 간격을 조절하는 부분 */
 .main_menu li:not(:last-child) a {
-  margin-right: -27px; /* 링크 간 오른쪽 마진 추가 */
+  margin-right: -25px; /* 링크 간 오른쪽 마진 추가 */
   font-family: '맑은 고딕'; /* 글꼴 지정 */
+  margin-right: -27px;
+  /* 링크 간 오른쪽 마진 추가 */
+  font-family: '맑은 고딕';
 }
 
 
 .user-icon {
-  font-size: 32px; /* 아이콘 크기 키우기 */
-  margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 조정 */
-  vertical-align: middle; /* 아이콘과 텍스트의 세로 정렬 맞춤 */
-  margin-left: 100px; /* 왼쪽 여백 추가 */
+  font-size: 32px;
+  /* 아이콘 크기 키우기 */
+  margin-right: 10px;
+  /* 아이콘과 텍스트 사이의 간격 조정 */
+  vertical-align: middle;
+  /* 아이콘과 텍스트의 세로 정렬 맞춤 */
+  margin-left: 100px;
+  /* 왼쪽 여백 추가 */
 }
 
 .menu-icon {
-  font-size: 31px; /* 아이콘 크기 키우기 */
-  margin-left: 15px; /* 왼쪽 여백 추가 */
-  position: relative; /* 상대적 위치 설정 */
-  transform: translateY(3px); /* 원하는 만큼 아래로 이동 (값을 조정하여 위치 설정) */
-  color:#000000;
+  font-size: 31px;
+  /* 아이콘 크기 키우기 */
+  margin-left: 15px;
+  /* 왼쪽 여백 추가 */
+  position: relative;
+  /* 상대적 위치 설정 */
+  transform: translateY(3px);
+  /* 원하는 만큼 아래로 이동 (값을 조정하여 위치 설정) */
+  color: #000000;
 }
 
 a:link,
@@ -166,9 +180,10 @@ a:visited {
 }
 
 .inner {
-  width: 1200px;  
+  width: 1200px;
   margin: 0 auto;
-  margin-right: 100px; /* 필요한 만큼 조정 */
+  margin-right: 100px;
+  /* 필요한 만큼 조정 */
 }
 
 /* 네비게이션 스타일 */
@@ -180,7 +195,8 @@ a:visited {
 }
 
 .main_menu li {
-  margin-right: 20px; /* 각 메뉴 항목 사이의 간격 */
+  margin-right: 20px;
+  /* 각 메뉴 항목 사이의 간격 */
 }
 
 .wrap .header .inner {
@@ -230,8 +246,6 @@ a:visited {
   font-size: 18px;
   color: #000000;
 }
-
-
 .slide {
   width: 1200px;
   height: 300px;
@@ -433,23 +447,105 @@ a:visited {
   height: auto;
 }
 
+
 .wrap {
   position: relative;
 }
 
+.link-container .move-left {
+  margin-left: -100px; /* 필요한 만큼 조정하세요 */
+  display: inline-block; /* 인라인 요소이므로 블록으로 설정하여 margin이 적용되게 함 */
+}
+
 .nav-below-image {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 200px; /* 위쪽 여백을 40px로 설정 */
+  /* Adjusted margin for spacing */
+}
+.image-with-text1{
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 40px 0;
   /* Adjusted margin for spacing */
 }
+
 
 .nav-below-image-element {
   width: 100%;
   height: auto;
-  max-height: 670px; /* 세로 크기를 650px로 제한 */
+  max-height: 670px;
+  /* 세로 크기를 650px로 제한 */
   object-fit: cover;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.info-boxes-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+  /* 박스들 간의 하단 여백 */
+}
+
+.info-box {
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #ffa03a;
+  border-style: inset;
+  border-radius: 5px;
+  width: calc(20% - 20px);
+    height: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.main-text {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+.info-box:hover .main-text {
+  font-size: 28px;
+  margin-top: 36px;
+}
+
+.info-box:hover .sub-text {
+  display: none;
+}
+.sub-text {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.info-box img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  text-align: center;
+  margin-left:120px;
+}
+.info-box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.info-box:hover .overlay-text {
+  opacity: 1;
 }
 
 .main-content {
@@ -470,7 +566,7 @@ a:visited {
 }
 
 .spacing {
-  height: 400px;
+  height: 200px;
 }
 
 .slider-spacing {
@@ -521,6 +617,11 @@ a:visited {
   margin: 10px 10px;
 }
 
+.hometext{
+  font-weight: bold;
+  font-size: 40px;
+  color: #2e2e2e;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -530,4 +631,3 @@ a:visited {
     transform: rotate(360deg);
   }
 }
-

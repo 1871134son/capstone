@@ -48,7 +48,11 @@ function CertificationInfoPage() {
         <main>
           <div className="certification-style">
             {certificationsData[selectedCollege].map(cert => (
-              <div className="styles" key={cert.id} onClick={() => openModal(cert)}>
+              <div
+                className={`styles ${selectedCert && selectedCert.id === cert.id ? 'highlight' : ''}`}
+                key={cert.id}
+                onClick={() => openModal(cert)}
+              >
                 <h3>{cert.title}</h3>
                 <p>{cert.category}</p>
                 <p>{cert.price}</p>
@@ -67,11 +71,12 @@ function CertificationInfoPage() {
           className="Modal"
           overlayClassName="Overlay"
         >
-          <h4>{selectedCert.title} 상세정보</h4>
-          <div className="detail-info">
-            {selectedCert.detail}
+          <div className="detail-info" onClick={closeModal}>
+            <h4>{selectedCert.title}</h4>
+            <div>
+              {selectedCert.detail}
+            </div>
           </div>
-          <button onClick={closeModal}>닫기</button>
         </Modal>
       )}
     </div>
