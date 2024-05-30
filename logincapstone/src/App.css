@@ -462,10 +462,16 @@ a:visited {
 }
 
 .nav-below-image {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 200px; /* 위쪽 여백을 40px로 설정 */
+  /* Adjusted margin for spacing */
+}
+.image-with-text1{
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 40px 0;
   /* Adjusted margin for spacing */
 }
 
@@ -501,7 +507,9 @@ a:visited {
 .info-box {
   text-align: center;
   transition: all 0.3s ease-in-out;
-  border: 1px solid #ffa03a;
+  border: 2px solid #ffa03a;
+  border-style: inset;
+  border-radius: 5px;
   width: calc(20% - 20px);
     height: 200px;
     padding: 10px;
@@ -562,7 +570,7 @@ a:visited {
 }
 
 .spacing {
-  height: 400px;
+  height: 200px;
 }
 
 .slider-spacing {
@@ -615,8 +623,8 @@ a:visited {
 
 .hometext{
   font-weight: bold;
-  font-size: large;
-  color: #3a3a3a;
+  font-size: 50px;
+  color: #2e2e2e;
 }
 @keyframes App-logo-spin {
   from {

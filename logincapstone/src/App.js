@@ -119,11 +119,9 @@ function App() {
 
       <div className="nav-below-image">
         {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && (
-          <div className="image-with-text">
-
+          <div className="image-with-text1">
             <img src="edunavi.jpg" alt="Random" className="nav-below-image-element" />
             <div className="spacing"></div> {/* Added spacing div */}
-
           </div>
         )}
       </div>
@@ -140,32 +138,24 @@ function App() {
 
       {!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/') && (
         <>
+          <div className="hometext">사이트 주요 기능</div>
           <div className="main-content">
             <div className="info-boxes-container">
               <div className="info-box">
-                <img src="/public/commu.jpg" alt="Info Box Image" /> {/* Replace with your image path */}
-                <div className="main-text">교육 전액 무료 및 훈련 장려금 지급</div>
-                <div className="sub-text">월 출석률 80%이상 달성 시 최대 60만원 지원</div>
+                <div className="main-text">개인별 자격증 추천</div>
+                <div className="sub-text">내 정보에 들어가서 관심있는 자격증을 추가하고, 자신의 학과에 맞는 자격증을 사이트에서 추천해준다. </div>
               </div>
               <div className="info-box">
-                <img src="/public/commu.jpg" alt="Info Box Image" /> {/* Replace with your image path */}
                 <div className="main-text">게시판 기능 추가</div>
-                <div className="sub-text">월 출석률 80%이상 달성 시 최대 60만원 지원</div>
+                <div className="sub-text">게시판 기능을 추가하여 기존의 자격증사이트보다 유저간 소통을 보다 더 원할하게 하고 더 많은 정보를 얻을 수 있게 한다.</div>
               </div>
               <div className="info-box">
-                <img src="/public/commu.jpg" alt="Info Box Image" /> {/* Replace with your image path */}
-                <div className="main-text">캘린더</div>
-                <div className="sub-text">월 출석률 80%이상 달성 시 최대 60만원 지원</div>
+                <div className="main-text">캘린더 기능 추가</div>
+                <div className="sub-text">캘린더에 주요 일정 등을 넣어놓고, 로그인 후에는 개인 일정을 추가할 수 있도록 한다.</div>
               </div>
               <div className="info-box">
-                <img src="/public/commu.jpg" alt="Info Box Image" /> {/* Replace with your image path */}
-                <div className="main-text">교육 전액 무료 및 훈련 장려금 지급</div>
-                <div className="sub-text">월 출석률 80%이상 달성 시 최대 60만원 지원</div>
-              </div>
-              <div className="info-box">
-                <img src="/public/commu.jpg" alt="Info Box Image" /> {/* Replace with your image path */}
-                <div className="main-text">교육 전액 무료 및 훈련 장려금 지급</div>
-                <div className="sub-text">월 출석률 80%이상 달성 시 최대 60만원 지원</div>
+                <div className="main-text">알림 기능 추가</div>
+                <div className="sub-text">사용자가 관심있어 하는 자격증 시험일정들에 대해 각각 일정 기간 전 사용자에게 알림을 제공한다.</div>
               </div>
             </div>
             <div className="spacing"></div> {/* Added spacing div */}
