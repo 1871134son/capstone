@@ -79,7 +79,7 @@ function LicenseInfoPage(props) {
 /**받아온 데이터를 전시해주는 컴포넌트  */
 function LicenseInfo({ licenseName, infoData, fee, licenseCategory }) {  //infoData의 수는 동적으로 존재해서, map사용
   return (
-    <div style={{ background: "#FFF5EE" }}>
+    <div style={{ background: "#FFF5EE", marginTop:"-400px" }}>
       <hr></hr>
       <Card.Header className="text-center" >
         <h2 className="LicenseInfoPage-title">{licenseName}</h2> {/* 클래스 이름 추가 */}
