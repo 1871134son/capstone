@@ -248,7 +248,7 @@
 
 
 
-![ㅂㅈㄷㄱ](C:\Users\송지환\Desktop\ㅂㅈㄷㄱ.png)
+<img width="857" alt="ㅂㅈㄷㄱ" src="https://github.com/1871134son/capstone/assets/115880879/8c1a96f3-df46-45f2-8ad2-2dc98ee3b88a">
 
 
 
