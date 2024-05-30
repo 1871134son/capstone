@@ -76,7 +76,7 @@ useEffect(() => {
         <Container style={{ marginTop: '60px',backgroundColor: '#F0F8FF' }}>
           <Row>
             {/* 사용자 정보 Card */}
-              <Card>
+              <Card >
                 <Card.Header>
                 <h3>사용자 정보{<UserNameComponent style={{}}></UserNameComponent>}</h3>
                 </Card.Header>
