@@ -1,15 +1,4 @@
 
-/* 폰트 정의 */
-@font-face {
-  font-family: 'TheBlackJackL';
-  src:
-    url('./fonts/BMHANNAPro.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-
-
 .App {
   text-align: center;
 }
