@@ -99,7 +99,9 @@ h2 {
   box-sizing: border-box;
 }
 
-
+.post-main{
+  margin-top: -320px;
+}
 
 .post-view-row textarea {
   height: 150px;
