@@ -117,18 +117,26 @@ function App() {
 
       <hr className="hr"></hr>
 
-      <img src="edunavi.jpg" alt="Random" className="nav-below-image-element" />
-      <div className="spacing"></div> {/* Added spacing div */}
+      <div className="nav-below-image">
+        {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && (
+          <div className="image-with-text">
 
+            <img src="edunavi.jpg" alt="Random" className="nav-below-image-element" />
+            <div className="spacing"></div> {/* Added spacing div */}
+
+          </div>
+        )}
+      </div>
       <div className="nav-below-image">
         {(!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/')) && (
           <div className="image-with-text">
             <img src="main.jpg" alt="Random" className="nav-below-image-element" />
+            <div className="spacing"></div> {/* Added spacing div */}
+
           </div>
         )}
       </div>
 
-      <div className="spacing"></div> {/* Adjusted spacing div */}
 
       {!isAuthPage.includes(location.pathname) && !location.pathname.includes('/licenseInfoPage/') && (
         <>
